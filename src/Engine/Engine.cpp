@@ -7,16 +7,8 @@
 
 #include "Engine.hpp"
 #include <dirent.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stddef.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <dlfcn.h>
 #include <iostream>
 #include <filesystem>
-#include "../../library/IDisplayModule.hpp"
 
 int Engine::get_nb_files(std::string filepath)
 {
@@ -40,12 +32,11 @@ Engine::Engine(std::string filepath)
 
 void Engine::run()
 {
-    typedef IDisplayModule *(*entryPoint_t)(void);
     IDisplayModule *module;
 
     for (int i = 0; i != _file_count; i++) {
-        entryPoint_t entryPoint = (entryPoint_t) dlsym(_libraries[i], "entryPoint");
-        module = entryPoint();
+        _instances[i]->openInstance();
+        module = _instances[i]->getInstance();
         module->init();
         module->stop();
     }
@@ -53,24 +44,16 @@ void Engine::run()
 
 void Engine::openLibraries(const std::string &libraryName)
 {
-    void *handle;
-
     get_all_filepath(libraryName);
     for (int i = 0; i != _file_count; i++) {
-        handle = dlopen(_libraryFilesPath[i].c_str(), RTLD_LAZY);
-        if (!handle) {
-            fprintf(stderr, "%s\n", dlerror());
-            exit(84);
-        } else {
-            _libraries[i] = handle;
-        }
+        _instances[i] = new DLLoader<IDisplayModule>(_libraryFilesPath[i].c_str());
     }
 }
 
 void Engine::closeLibraries()
 {
     for (int i = 0; i != _file_count; i++) {
-        dlclose(_libraries[i]);
+        _instances[i]->closeLibrary();
     }
 }
 

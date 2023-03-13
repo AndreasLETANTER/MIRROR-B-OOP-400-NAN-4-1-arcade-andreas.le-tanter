@@ -9,7 +9,7 @@
 
 SRC			=	src/Engine/Engine.cpp \
 
-MAIN 		=	src/main.c \
+MAIN 		=	src/main.cpp \
 
 TESTS_SRC 	=	tests/test.c \
 

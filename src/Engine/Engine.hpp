@@ -7,6 +7,8 @@
 
 #pragma once
 #include "IEngine.hpp"
+#include "../../library/IDisplayModule.hpp"
+#include "../Loader/DLLoader.hpp"
 #include <array>
 
 class Engine : public IEngine {
@@ -19,7 +21,7 @@ class Engine : public IEngine {
 
     protected:
         int _file_count = 0;
-        std::array<void *, 4> _libraries;
+        std::array<DLLoader<IDisplayModule> *, 4> _instances;
         std::array<std::string, 4> _libraryFilesPath;
     private:
         void get_all_filepath(const std::string &path);
