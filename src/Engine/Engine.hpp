@@ -9,7 +9,7 @@
 #include "IEngine.hpp"
 #include "../../library/IDisplayModule.hpp"
 #include "../Loader/DLLoader.hpp"
-#include <array>
+#include <map>
 
 class Engine : public IEngine {
     public:
@@ -21,8 +21,8 @@ class Engine : public IEngine {
 
     protected:
         int _file_count = 0;
-        std::array<DLLoader<IDisplayModule> *, 4> _instances;
-        std::array<std::string, 4> _libraryFilesPath;
+        std::map<int, DLLoader<IDisplayModule> *> _instances;
+        std::map<int, std::string> _libraryFilesPath;
     private:
         void get_all_filepath(const std::string &path);
         int get_nb_files(std::string filepath);
