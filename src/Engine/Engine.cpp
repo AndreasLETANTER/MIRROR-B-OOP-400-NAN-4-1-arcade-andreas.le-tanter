@@ -16,9 +16,11 @@ int Engine::get_nb_files(std::string filepath)
 
     std::filesystem::path fp = filepath;
     for (auto p : std::filesystem::directory_iterator(fp)) {
-        p = p;
-        count++;
+        if (p.is_regular_file())
+            count++;
     }
+    std::cout << "<---------------------------------------------------------------->" << std::endl;
+    std::cout << "Number of library opened in " << filepath << "folder : " << count << ";" << std::endl;
     return count;
 }
 
@@ -64,12 +66,15 @@ void Engine::get_all_filepath(const std::string &path)
     struct dirent *entry;
 
     dirp = opendir(path.c_str());
+    std::cout << "Libraries opened in " << path << " folder :" << std::endl;
     while ((entry = readdir(dirp)) != NULL) {
         if (entry->d_type == DT_REG) {
+            std::cout << "\t" << entry->d_name << std::endl;
             _libraryFilesPath[file_count] = path + entry->d_name;
             file_count++;
         }
     }
+    std::cout << "<---------------------------------------------------------------->" << std::endl;
     _libraryFilesPath[file_count] = "";
     closedir(dirp);
 }
