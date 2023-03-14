@@ -37,3 +37,7 @@ add_custom_target(re
     COMMAND make
     COMMENT "Recompiling the project"
 )
+add_custom_target(tests_run
+    COMMAND echo ""
+    COMMENT "Running unit tests"
+)
