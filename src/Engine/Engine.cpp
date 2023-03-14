@@ -20,7 +20,7 @@ int Engine::get_nb_files(std::string filepath)
             count++;
     }
     std::cout << "<---------------------------------------------------------------->" << std::endl;
-    std::cout << "Number of library opened in " << filepath << "folder : " << count << ";" << std::endl;
+    std::cout << "Number of library opened in " << filepath << " folder : " << count << ";" << std::endl;
     return count;
 }
 
