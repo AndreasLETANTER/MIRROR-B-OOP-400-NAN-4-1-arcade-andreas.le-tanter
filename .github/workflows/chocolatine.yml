@@ -92,6 +92,24 @@ jobs:
         run: |
           echo "Creating release..."
 
+  create_doxygen:
+    runs-on: ubuntu-latest
+    needs: [run_functionals_tests]
+    steps:
+      - name : Fetch repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install Doxygen
+        run: |
+          echo "Installing Doxygen..."
+      - name: Generate Doxygen documentation
+        run: |
+          echo "Generating Doxygen documentation..."
+      - name: Deploy documentation
+        run: |
+          echo "Deploying documentation..."
+
   push_to_mirror:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
