@@ -1,6 +1,6 @@
 name: chocolatine
 env:
-  MIRROR_URL: git@github.com:AndreasLETANTER/MIRROR-B-OOP-400-NAN-4-1-arcade-andreas.le-tanter.git
+  MIRROR_URL: git@github.com:EpitechPromo2026/B-OOP-400-NAN-4-1-arcade-andreas.le-tanter.git
   EXECUTABLES: "bsArcade"
 on:
   push:
