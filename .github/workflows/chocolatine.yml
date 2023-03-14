@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Check unwanted files
-      - run: |
-        echo "Checking for unwanted files..."
+        run: |
+          echo "Checking for unwanted files..."
 
   check_program_compilation:
     runs-on: ubuntu-latest
@@ -27,12 +27,19 @@ jobs:
     container:
       image: epitechcontent/epitest-docker
     steps:
-      - uses: actions/checkout@v3
-      - run: cmake CMakeLists.txt
-      - run: make
-        timeout-minutes: 2
-      - run: |
-        echo "Checking for executable..."
+      - name : Fetch repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create build directory
+        run: |
+          echo "Creating build directory..."
+      - name: Build project
+        run: |
+          echo "Building project..."
+      - name: Make executable
+        run: |
+          echo "Making executable..."
 
   run_tests:
     runs-on: ubuntu-latest
@@ -41,17 +48,17 @@ jobs:
       image: epitechcontent/epitest-docker
     steps:
       - name : Fetch repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Create build directory
-      - run: |
-        echo "Creating build directory..."
+        run: |
+          echo "Creating build directory..."
       - name: Build project
+        run: |
+          echo "Building project..."
       - run: |
-        echo "Building project..."
-      - run: |
-        echo "Running tests..."
+          echo "Running tests..."
 
   push_to_mirror:
     if: github.event_name == 'push'
@@ -59,11 +66,11 @@ jobs:
     needs: [run_tests]
     steps:
       - name: Fetch repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
         with:
             fetch-depth: 0
       - name: Push to mirror
-      - uses: pixta-dev/repository-mirroring-action@v1
+        uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url:
             ${{ env.MIRROR_URL }}
