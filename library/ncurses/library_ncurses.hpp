@@ -11,11 +11,14 @@
 
 class LibraryNcurses : public IDisplayModule {
     public:
-        void init();
-        void stop();
+        LibraryNcurses();
+        ~LibraryNcurses();
+        void init() override;
+        void displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData) override;
+        void displayScore(int _Score) override;
         const std::string &getName() const;
 
     protected:
+        WINDOW *_CurrentWindow;
     private:
 };
-
