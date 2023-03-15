@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project("bsArcade" VERSION 0.1.0 LANGUAGES CXX)
+project("arcade" VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_FLAGS "-ldl -fno-gnu-unique -Wall -Wextra -Werror")
-add_executable(bsArcade src/main.cpp src/Engine/Engine.cpp)
+add_executable(arcade src/main.cpp src/InitClass/Init.cpp)
 add_custom_target(fclean
     COMMAND find . -name "*~" -delete
     COMMAND find . -name "*.gcno" -delete
@@ -12,6 +12,7 @@ add_custom_target(fclean
     COMMAND find . -name "CMakeCache.txt" -delete
     COMMAND find . -name "cmake_install.cmake" -delete
     COMMAND find . -name "Makefile" -delete
+    COMMAND find . -name "arcade" -delete
     COMMENT "Clean the project and the binary"
 )
 add_custom_target(libraries
@@ -21,7 +22,7 @@ add_custom_target(libraries
     COMMENT "Compile the libraries"
 )
 add_custom_target(ncurses_lib
-    COMMAND g++ -Wall -Werror -fpic library/ncurses/library_ncurses.cpp  --shared -o library_ncurses.so && mv library_ncurses.so lib/library_ncurses.so
+    COMMAND g++ -Wall -Werror -fpic library/ncurses/library_ncurses.cpp --shared -o library_ncurses.so -lncurses && mv library_ncurses.so lib/library_ncurses.so
     COMMENT "Compile the ncurses library"
 )
 add_custom_target(sfml_lib
