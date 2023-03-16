@@ -53,11 +53,11 @@ void Init::loadInstances(const std::string  &path)
         tempInstance = new DLLoader<IDisplayModule>(_libraryFilesPath[i].c_str());
         tempInstance->openInstance();
         module = tempInstance->getInstance();
-        if (module->getName() == "Graphic") {
+        if (module->GetLibType() == "Graphic") {
             _GraphicalInstances[i] = tempInstance;
             nb_graphical++;
         }
-        else if (module->getName() == "Game") {
+        else if (module->GetLibType() == "Game") {
             _GraphicalInstances[i] = tempInstance;
             nb_games++;
         }    
