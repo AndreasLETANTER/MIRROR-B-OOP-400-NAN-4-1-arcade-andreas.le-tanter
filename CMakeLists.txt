@@ -16,7 +16,7 @@ set(MAIN
     src/main.cpp
 )
 set(TESTS
-    tests/InitClassTests.cpp
+    tests/Unit_tests/InitClassTests.cpp
 )
 set(NCURSES
     library/ncurses/library_ncurses.cpp
