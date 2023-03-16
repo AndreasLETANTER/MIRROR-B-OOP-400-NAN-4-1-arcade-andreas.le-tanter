@@ -22,10 +22,10 @@ enum class ObjectType {
 class IDisplayModule {
     public:
         virtual ~IDisplayModule() = default;
-        virtual void init() = 0;
+        virtual void InitWindow() = 0;
         virtual void displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData) = 0;
         virtual void displayScore(int _Score) = 0;
-        virtual const std::string &getName() const = 0;
+        virtual const std::string &GetLibType() const = 0;
 
     protected:
     private:

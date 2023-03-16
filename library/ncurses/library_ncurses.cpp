@@ -21,7 +21,7 @@ LibraryNcurses::LibraryNcurses()
     
 }
 
-void LibraryNcurses::init()
+void LibraryNcurses::InitWindow()
 {
     initscr();
     _CurrentWindow = newwin(0, 0, 0, 0);
@@ -56,7 +56,7 @@ void LibraryNcurses::displayScore(int _Score)
     wrefresh(_CurrentWindow);
 }
 
-const std::string &LibraryNcurses::getName() const
+const std::string &LibraryNcurses::GetLibType() const
 {
     static std::string name = "Graphic";
     return name;
