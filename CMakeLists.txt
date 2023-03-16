@@ -10,7 +10,8 @@ set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
 
 ###############################DIRECTORIES SRC###################################
 set(SRC
-    src/InitClass/Init.cpp 
+    src/InitClass/Init.cpp
+    src/MenuClass/Menu.cpp
 )
 set(MAIN
     src/main.cpp
