@@ -33,6 +33,7 @@ void LibraryNcurses::InitWindow()
     _ColorDefinition[Color::YELLOW] = COLOR_YELLOW;
     _ColorDefinition[Color::WHITE] = COLOR_WHITE;
     _ColorDefinition[Color::BLACK] = COLOR_BLACK;
+
     start_color();
 }
 
@@ -65,10 +66,11 @@ void LibraryNcurses::displayScore(int _Score, int x, int y)
 
 void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, Color FrontFont, Color BackFont)
 {
-    init_pair(1, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
-    wattron(_CurrentWindow, COLOR_PAIR(1));
+    idx++;
+    init_pair(idx, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
+    wattron(_CurrentWindow, COLOR_PAIR(idx));
     mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
-    wattroff(_CurrentWindow, COLOR_PAIR(1));
+    wattroff(_CurrentWindow, COLOR_PAIR(idx));
 }
 
 const std::string &LibraryNcurses::GetLibType() const

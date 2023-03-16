@@ -21,6 +21,7 @@ class LibraryNcurses : public IDisplayModule {
         std::pair<int, int> GetWindowSize() override;
 
     protected:
+        int idx = 0;
         WINDOW *_CurrentWindow;
         std::map <Color, int> _ColorDefinition;
     private:
