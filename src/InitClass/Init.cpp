@@ -14,6 +14,10 @@ int Init::getNbFiles(const std::string &path)
     int count = 0;
 
     std::filesystem::path fp = path;
+    if (!std::filesystem::exists(fp)) {
+        std::cout << "Error: " << path << " folder doesn't exist." << std::endl;
+        exit(84);
+    }
     for (auto p : std::filesystem::directory_iterator(fp)) {
         if (p.is_regular_file())
             count++;
@@ -29,6 +33,10 @@ void Init::getAllFilePaths(const std::string &path)
 
     std::cout << "Libraries opened in " << path << " folder :" << std::endl;
     std::filesystem::path fp = path;
+    if (!std::filesystem::exists(fp)) {
+        std::cout << "Error: " << path << " folder doesn't exist." << std::endl;
+        exit(84);
+    }
     for (auto p : std::filesystem::directory_iterator(fp)) {
         if (p.is_regular_file()) {
             std::cout << p.path() << std::endl;
