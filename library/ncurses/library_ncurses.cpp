@@ -26,7 +26,14 @@ void LibraryNcurses::InitWindow()
     initscr();
     _CurrentWindow = newwin(0, 0, 0, 0);
     nodelay(_CurrentWindow, true);
-    curs_set(false);
+    curs_set(0);
+    _ColorDefinition[Color::RED] = COLOR_RED;
+    _ColorDefinition[Color::GREEN] = COLOR_GREEN;
+    _ColorDefinition[Color::BLUE] = COLOR_BLUE;
+    _ColorDefinition[Color::YELLOW] = COLOR_YELLOW;
+    _ColorDefinition[Color::WHITE] = COLOR_WHITE;
+    _ColorDefinition[Color::BLACK] = COLOR_BLACK;
+    start_color();
 }
 
 LibraryNcurses::~LibraryNcurses()
@@ -41,23 +48,36 @@ void LibraryNcurses::displayObjects(std::map<int, std::pair<ObjectType, std::pai
     _ObjectTypeDefinition[ObjectType::PLAYER] = "P";
     _ObjectTypeDefinition[ObjectType::ENEMY] = "E";
     _ObjectTypeDefinition[ObjectType::ITEM] = "I";
-    _ObjectTypeDefinition[ObjectType::BORDER] = "B";
+    _ObjectTypeDefinition[ObjectType::BORDER] = "#";
     _ObjectTypeDefinition[ObjectType::PLAYER_PART] = "X";
 
     wclear(_CurrentWindow);
     for (auto &it : _ObjectData) {
-        mvwprintw(_CurrentWindow, it.second.second.first, it.second.second.second, "%s", _ObjectTypeDefinition[it.second.first].c_str());
+        mvwprintw(_CurrentWindow, it.second.second.second, it.second.second.first, "%s", _ObjectTypeDefinition[it.second.first].c_str());
     }
 }
 
-void LibraryNcurses::displayScore(int _Score)
+void LibraryNcurses::displayScore(int _Score, int x, int y)
 {
-    mvwprintw(_CurrentWindow, 0, 0, "Score: %d", _Score);
+    mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
     wrefresh(_CurrentWindow);
+}
+
+void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, Color FrontFont, Color BackFont)
+{
+    init_pair(1, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
+    wattron(_CurrentWindow, COLOR_PAIR(1));
+    mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
+    wattroff(_CurrentWindow, COLOR_PAIR(1));
 }
 
 const std::string &LibraryNcurses::GetLibType() const
 {
     static std::string name = "Graphic";
     return name;
+}
+
+std::pair<int, int> LibraryNcurses::GetWindowSize()
+{
+    return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
 }
