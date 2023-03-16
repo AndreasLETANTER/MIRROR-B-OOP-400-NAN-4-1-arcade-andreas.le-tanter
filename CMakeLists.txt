@@ -1,8 +1,53 @@
+###############################BASE INFORMATION####################################
 cmake_minimum_required(VERSION 3.12)
-project("bsArcade" VERSION 0.1.0 LANGUAGES CXX)
-set(CMAKE_CXX_FLAGS "-ldl -fno-gnu-unique -Wall -Wextra -Werror")
-add_executable(bsArcade src/main.cpp src/Engine/Engine.cpp)
+project("arcade" VERSION 0.1.0 LANGUAGES CXX)
+
+###############################COMPILATION VARIABLES###############################
+set(NAME "arcade")
+set(TEST_NAME "unit_tests")
+set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror)
+set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
+
+###############################DIRECTORIES SRC###################################
+set(SRC
+    src/InitClass/Init.cpp 
+)
+set(MAIN
+    src/main.cpp
+)
+set(TESTS
+    tests/Unit_tests/InitClassTests.cpp
+)
+set(NCURSES
+    library/ncurses/library_ncurses.cpp
+)
+
+###############################COMPILATION MAIN PROGRAM##########################
+add_compile_options(${CXX_FLAGS})
+
+add_executable(${NAME} ${SRC} ${MAIN})
+
+###############################COMPILATION LIBRARIES#############################
+###############################NCURSES###########################################
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
+#find the ncurses library
+find_package(Curses REQUIRED)
+#set the include directories for the library
+include_directories(${CURSES_INCLUDE_DIR})
+#compile the library
+add_library(ncurses SHARED ${NCURSES})
+#link the library with the ncurses library
+target_link_libraries(ncurses ${CURSES_LIBRARIES})
+
+###############################COMPILATION TESTS#################################
+#create the tests executable
+add_executable(${TEST_NAME} ${SRC} ${TESTS})
+#link the tests with the criterion library
+target_link_libraries(${TEST_NAME} criterion)
+
+###############################COMPILATION TARGETS###############################
 add_custom_target(fclean
+    COMMAND make clean
     COMMAND find . -name "*~" -delete
     COMMAND find . -name "*.gcno" -delete
     COMMAND find . -name "*.gcda" -delete
@@ -12,32 +57,20 @@ add_custom_target(fclean
     COMMAND find . -name "CMakeCache.txt" -delete
     COMMAND find . -name "cmake_install.cmake" -delete
     COMMAND find . -name "Makefile" -delete
+    COMMAND find . -name ${NAME} -delete
+    COMMAND find . -name "*.a" -delete
+    COMMAND find . -name "lib" -delete
     COMMENT "Clean the project and the binary"
 )
-add_custom_target(libraries
-    COMMAND make ncurses_lib
-    COMMAND make sfml_lib
-    COMMAND make sdl_lib
-    COMMENT "Compile the libraries"
-)
-add_custom_target(ncurses_lib
-    COMMAND g++ -Wall -Werror -fpic library/ncurses/library_ncurses.cpp  --shared -o library_ncurses.so && mv library_ncurses.so lib/library_ncurses.so
-    COMMENT "Compile the ncurses library"
-)
-add_custom_target(sfml_lib
-    COMMAND g++ -Wall -Werror -fpic library/sfml/library_sfml.cpp  --shared -o library_sfml.so && mv library_sfml.so lib/library_sfml.so
-    COMMENT "Compile the sfml library"
-)
-add_custom_target(sdl_lib
-    COMMAND g++ -Wall -Werror -fpic library/sdl/library_sdl.cpp  --shared -o library_sdl.so && mv library_sdl.so lib/library_sdl.so
-    COMMENT "Compile the sdl library"
-)
+
+#set the target to recompile the project
 add_custom_target(re
     COMMAND make clean
     COMMAND make
     COMMENT "Recompiling the project"
 )
+
+#set the target to run the tests
 add_custom_target(tests_run
-    COMMAND echo ""
     COMMENT "Running unit tests"
 )
