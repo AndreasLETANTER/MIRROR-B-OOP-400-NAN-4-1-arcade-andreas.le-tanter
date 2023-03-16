@@ -28,13 +28,11 @@ set(NCURSES
     library/ncurses/library_ncurses.cpp
 )
 
-#create the executable
+#create the basic executable
 add_executable(${NAME} ${SRC} ${MAIN})
 
 #set the output of the library
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
-#set the compilation flags for the library
-add_compile_options(${NCURSES_FLAGS})
 #find the ncurses library
 find_package(Curses REQUIRED)
 #set the include directories for the library
@@ -43,6 +41,15 @@ include_directories(${CURSES_INCLUDE_DIR})
 add_library(ncurses SHARED ${NCURSES})
 #link the library with the ncurses library
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
+
+#find the criterion library
+find_package(Criterion REQUIRED)
+#set the include directories for the tests
+include_directories(${CRITERION_INCLUDE_DIR})
+#create the tests executable
+add_executable(${TEST_NAME} ${SRC} ${TESTS})
+#link the tests with the criterion library
+target_link_libraries(${TEST_NAME} ${CRITERION_LIBRARIES})
 
 #set the target to clean the project
 add_custom_target(fclean
