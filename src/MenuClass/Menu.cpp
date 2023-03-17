@@ -18,9 +18,8 @@ void Menu::displayMenu()
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_MenuObjectsData);
         displayMenuText();
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(0, _WindowMaxSize.first / 1.35, _WindowMaxSize.second / 1.10);
-        keypressed = getchar();
-    } while (keypressed != 'q');
-    _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->FiniWindow();
+        _ProgramEvents->handleEvents();
+    } while (1);
 }
 
 std::map<int, std::pair<ObjectType, std::pair<int, int>>> Menu::CreateMenuObjectsData(char keypressed)
