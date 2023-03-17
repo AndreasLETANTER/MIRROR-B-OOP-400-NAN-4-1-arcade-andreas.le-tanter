@@ -8,6 +8,7 @@
 #pragma once
 #include "IMenu.hpp"
 #include "../InitClass/Init.hpp"
+#include "../ProgramEventsClass/ProgramEvents.hpp"
 
 class Menu : public IMenu {
     public:
@@ -16,10 +17,6 @@ class Menu : public IMenu {
         void displayMenu();
 
     protected:
-        IInit *_Init;
-        DLLoader<IDisplayModule> *currentGraphicLibrary;
-        DLLoader<IDisplayModule> *currentGameLibrary;
-        std::string _currentUserName;
     private:
         std::map<int, std::pair<ObjectType, std::pair<int, int>>> CreateMenuObjectsData(char key);
         void displayGamesMenu();
