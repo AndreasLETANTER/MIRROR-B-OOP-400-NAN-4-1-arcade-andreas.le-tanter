@@ -47,7 +47,9 @@ void ProgramEvents::SwapGameLib()
 
 void ProgramEvents::ChangeUserName()
 {
-    _currentUserName = "UserName: Updated";
+    std::string buffer;
+    std::cin >> buffer;
+    _currentUserName = "UserName: " + buffer;
 }
 
 void ProgramEvents::GoToMenu()
