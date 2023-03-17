@@ -4,6 +4,11 @@
 
 Menu::Menu()
 {
+    _Init = new Init("lib/");
+    currentGraphicLibrary = _Init->getGraphicalInstances()[0];
+    if (_Init->getGamesInstances().size() > 0)
+        currentGameLibrary = _Init->getGamesInstances()[0];
+    _currentUserName = "UserName: ";
 }
 
 void Menu::displayMenu()
@@ -17,8 +22,9 @@ void Menu::displayMenu()
         currentGraphicLibrary->getInstance()->displayObjects(_MenuObjectsData);
         displayMenuText();
         currentGraphicLibrary->getInstance()->displayScore(0, _WindowMaxSize.first / 1.35, _WindowMaxSize.second / 1.10);
-        keypressed = handleEvent(getchar());
-    } while (1);
+        keypressed = getchar();
+    } while (keypressed != 'q');
+    currentGraphicLibrary->getInstance()->FiniWindow();
 }
 
 std::map<int, std::pair<ObjectType, std::pair<int, int>>> Menu::CreateMenuObjectsData(char keypressed)

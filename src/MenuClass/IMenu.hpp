@@ -6,9 +6,8 @@
 */
 
 #pragma once
-#include "../ProgramEventsClass/ProgramEvents.hpp"
 
-class IMenu : public ProgramEvents {
+class IMenu {
     public:
         virtual ~IMenu() = default;
         virtual void displayMenu() = 0;

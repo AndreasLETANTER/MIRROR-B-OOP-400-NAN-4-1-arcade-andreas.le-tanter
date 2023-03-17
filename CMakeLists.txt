@@ -12,7 +12,6 @@ set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
 set(SRC
     src/InitClass/Init.cpp
     src/MenuClass/Menu.cpp
-    src/ProgramEventsClass/ProgramEvents.cpp
 )
 set(MAIN
     src/main.cpp
