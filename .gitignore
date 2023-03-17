@@ -3,3 +3,4 @@ bsArcade
 cmake_install.cmake
 CMakeFiles
 .vscode
+cmake-build-debug
