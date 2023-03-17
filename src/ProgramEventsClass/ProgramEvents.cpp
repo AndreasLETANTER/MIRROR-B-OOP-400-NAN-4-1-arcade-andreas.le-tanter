@@ -37,7 +37,31 @@ void ProgramEvents::handleEvents()
 
 void ProgramEvents::SwapGraphicLib()
 {
+    std::string graphic_name;
+    std::string current_graphic_name;
+    bool found = false;
 
+    if (currentGraphicLibrary == nullptr) {
+        return;
+    }
+    current_graphic_name = typeid(*currentGraphicLibrary->getInstance()).name();
+    for (auto &g : _Init->getGraphicalInstances()) {
+        graphic_name = typeid(*g.second->getInstance()).name();
+        if (found == true) {
+            currentGraphicLibrary->getInstance()->FiniWindow();
+            currentGraphicLibrary = g.second;
+            currentGraphicLibrary->getInstance()->InitWindow();
+            return;
+        }
+        if (graphic_name == current_graphic_name) {
+            found = true;
+        }
+    }
+    if (found == true) {
+        currentGraphicLibrary->getInstance()->FiniWindow();
+        currentGraphicLibrary = _Init->getGraphicalInstances()[0];
+        currentGraphicLibrary->getInstance()->InitWindow();
+    }
 }
 
 void ProgramEvents::SwapGameLib()
