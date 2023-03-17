@@ -23,6 +23,9 @@ set(TESTS
 set(NCURSES
     library/ncurses/library_ncurses.cpp
 )
+set(SFML
+    library/sfml/library_sfml.cpp
+)
 
 ###############################COMPILATION MAIN PROGRAM##########################
 add_compile_options(${CXX_FLAGS})
@@ -40,6 +43,16 @@ include_directories(${CURSES_INCLUDE_DIR})
 add_library(ncurses SHARED ${NCURSES})
 #link the library with the ncurses library
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
+###############################SFML##############################################
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
+#find the ncurses library
+find_package(Curses REQUIRED)
+#set the include directories for the library
+include_directories(${CURSES_INCLUDE_DIR})
+#compile the library
+add_library(sfml SHARED ${SFML})
+#link the library with the ncurses library
+target_link_libraries(sfml ${CURSES_LIBRARIES})
 
 ###############################COMPILATION TESTS#################################
 #create the tests executable
