@@ -24,6 +24,7 @@ void Menu::displayMenu()
         currentGraphicLibrary->getInstance()->displayScore(0, _WindowMaxSize.first / 1.35, _WindowMaxSize.second / 1.10);
         keypressed = getchar();
     } while (keypressed != 'q');
+    currentGraphicLibrary->getInstance()->FiniWindow();
 }
 
 std::map<int, std::pair<ObjectType, std::pair<int, int>>> Menu::CreateMenuObjectsData(char keypressed)

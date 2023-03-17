@@ -32,6 +32,7 @@ class IDisplayModule {
     public:
         virtual ~IDisplayModule() = default;
         virtual void InitWindow() = 0;
+        virtual void FiniWindow() = 0;
         virtual void displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData) = 0;
         virtual void displayText(std::string _String, std::pair<int, int> _Pos, Color FrontFont, Color BackFont) = 0;
         virtual void displayScore(int _Score, int x, int y) = 0;

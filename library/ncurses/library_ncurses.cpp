@@ -21,6 +21,11 @@ LibraryNcurses::LibraryNcurses()
     
 }
 
+LibraryNcurses::~LibraryNcurses()
+{
+    
+}
+
 void LibraryNcurses::InitWindow()
 {
     initscr();
@@ -37,7 +42,7 @@ void LibraryNcurses::InitWindow()
     start_color();
 }
 
-LibraryNcurses::~LibraryNcurses()
+void LibraryNcurses::FiniWindow()
 {
     delwin(_CurrentWindow);
     endwin();
