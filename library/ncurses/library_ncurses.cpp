@@ -46,13 +46,13 @@ void LibraryNcurses::displayObjects(std::map<int, std::pair<ObjectType, std::pai
 
     wclear(_CurrentWindow);
     for (auto &it : _ObjectData) {
-        mvwprintw(_CurrentWindow, it.second.second.first, it.second.second.second, "%s", _ObjectTypeDefinition[it.second.first].c_str());
+        mvwprintw(_CurrentWindow, it.second.second.second, it.second.second.first, "%s", _ObjectTypeDefinition[it.second.first].c_str());
     }
 }
 
-void LibraryNcurses::displayScore(int _Score)
+void LibraryNcurses::displayScore(int _Score, int x, int y)
 {
-    mvwprintw(_CurrentWindow, 0, 0, "Score: %d", _Score);
+    mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
     wrefresh(_CurrentWindow);
 }
 
