@@ -13,6 +13,7 @@ set(SRC
     src/InitClass/Init.cpp
     src/MenuClass/Menu.cpp
     src/ProgramEventsClass/ProgramEvents.cpp
+    src/CoreClass/Core.cpp
 )
 set(MAIN
     src/main.cpp

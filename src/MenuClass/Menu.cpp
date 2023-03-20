@@ -11,9 +11,9 @@ void Menu::displayMenu()
 {
     char keypressed = 0;
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->InitWindow();
-    _WindowMaxSize = _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->GetWindowSize();
 
     do {
+        _WindowMaxSize = _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->GetWindowSize();
         _MenuObjectsData = CreateMenuObjectsData(keypressed);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_MenuObjectsData);
         displayMenuText();
