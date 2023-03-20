@@ -17,5 +17,8 @@ Game::~Game()
 
 void Game::DisplayGame()
 {
-
+    while (_ProgramEvents->getCurrentState() == State::GAME) {
+        std::cout << "Game" << std::endl;
+        _ProgramEvents->handleEvents();
+    }
 }

@@ -79,12 +79,14 @@ void ProgramEvents::ChangeUserName()
 
 void ProgramEvents::GoToMenu()
 {
-
+    currentGraphicLibrary->getInstance()->InitWindow();
+    _currentState = MENU;
 }
 
 void ProgramEvents::GoToGame()
 {
-
+    currentGraphicLibrary->getInstance()->FiniWindow();
+    _currentState = GAME;
 }
 
 void ProgramEvents::Exit()
