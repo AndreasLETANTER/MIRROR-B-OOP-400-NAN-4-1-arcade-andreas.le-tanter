@@ -5,8 +5,6 @@
 Menu::Menu()
 {
     _ProgramEvents = std::make_shared<ProgramEvents>();
-    _Core = std::make_shared<Core>();
-    _Core->setProgramEvents(_ProgramEvents);
 }
 
 void Menu::displayMenu()

@@ -21,7 +21,6 @@ class Menu : public IMenu {
     protected:
     private:
         std::shared_ptr<IProgramEvents> _ProgramEvents;
-        std::shared_ptr<Core> _Core;
         std::map<int, std::pair<ObjectType, std::pair<int, int>>> CreateMenuObjectsData(char key);
         void displayGamesMenu();
         void displayGraphicalMenu();
