@@ -21,6 +21,7 @@ ProgramEvents::ProgramEvents()
     _keyMap['m'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToMenu(); };
     _keyMap['g'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToGame(); };
     _keyMap['e'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->Exit(); };
+    _currentState = MENU;
 }
 
 ProgramEvents::~ProgramEvents()

@@ -4,7 +4,9 @@
 
 Menu::Menu()
 {
-    _ProgramEvents = new ProgramEvents();
+    _ProgramEvents = std::make_shared<ProgramEvents>();
+    _Core = std::make_shared<Core>();
+    _Core->setProgramEvents(_ProgramEvents);
 }
 
 void Menu::displayMenu()
@@ -19,7 +21,7 @@ void Menu::displayMenu()
         displayMenuText();
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(0, _WindowMaxSize.first / 1.35, _WindowMaxSize.second / 1.10);
         _ProgramEvents->handleEvents();
-    } while (1);
+    } while (_ProgramEvents->getCurrentState() == State::MENU);
 }
 
 std::map<int, std::pair<ObjectType, std::pair<int, int>>> Menu::CreateMenuObjectsData(char keypressed)
