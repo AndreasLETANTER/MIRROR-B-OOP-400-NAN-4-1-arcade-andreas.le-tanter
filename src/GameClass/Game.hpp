@@ -2,18 +2,18 @@
 ** EPITECH PROJECT, 2023
 ** MIRROR-B-OOP-400-NAN-4-1-arcade-andreas.le-tanter [WSL : Ubuntu]
 ** File description:
-** Core
+** Game
 */
 
 #pragma once
-#include "ICore.hpp"
+#include "IGame.hpp"
 #include "../ProgramEventsClass/ProgramEvents.hpp"
 #include <memory>
 
-class Core : public ICore {
+class Game : public IGame {
     public:
-        Core();
-        ~Core();
+        Game();
+        ~Game();
         void DisplayGame();
         inline void setProgramEvents(std::shared_ptr<IProgramEvents> ProgramEvents) {_ProgramEvents = ProgramEvents;};
 
