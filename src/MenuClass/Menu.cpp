@@ -4,10 +4,9 @@
 
 Menu::Menu()
 {
-    _ProgramEvents = std::make_shared<ProgramEvents>();
 }
 
-void Menu::displayMenu()
+void Menu::DisplayMenu()
 {
     char keypressed = 0;
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->InitWindow();
@@ -16,7 +15,7 @@ void Menu::displayMenu()
         _WindowMaxSize = _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->GetWindowSize();
         _MenuObjectsData = CreateMenuObjectsData(keypressed);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_MenuObjectsData);
-        displayMenuText();
+        DisplayMenuText();
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(0, _WindowMaxSize.first / 1.35, _WindowMaxSize.second / 1.10);
         _ProgramEvents->handleEvents();
     } while (_ProgramEvents->getCurrentState() == State::MENU);
@@ -50,7 +49,7 @@ std::map<int, std::pair<ObjectType, std::pair<int, int>>> Menu::CreateMenuObject
     return _ObjectData;
 }
 
-void Menu::displayMenuText()
+void Menu::DisplayMenuText()
 {
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Games Libraries", std::pair<int, int>(_WindowMaxSize.first / 4.5, 3), Color::WHITE, Color::BLACK);
     if (_ProgramEvents->getCurrentGameLibrary() != nullptr) {

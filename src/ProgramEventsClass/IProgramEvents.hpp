@@ -6,6 +6,8 @@
 */
 
 #pragma once
+#include "../Loader/DLLoader.hpp"
+#include "../InitClass/IInit.hpp"
 
 enum State {
     MENU,

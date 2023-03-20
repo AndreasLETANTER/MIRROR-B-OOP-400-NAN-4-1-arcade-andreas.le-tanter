@@ -6,11 +6,14 @@
 */
 
 #pragma once
+#include <memory>
+#include "../ProgramEventsClass/IProgramEvents.hpp"
 
 class IMenu {
     public:
         virtual ~IMenu() = default;
-        virtual void displayMenu() = 0;
+        virtual void DisplayMenu() = 0;
+        virtual void setProgramEvents(std::shared_ptr<IProgramEvents> ProgramEvents) = 0;
 
     protected:
     private:
