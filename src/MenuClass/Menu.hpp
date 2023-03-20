@@ -8,7 +8,6 @@
 #pragma once
 #include "IMenu.hpp"
 #include "../InitClass/Init.hpp"
-#include "../CoreClass/Core.hpp"
 #include "../ProgramEventsClass/ProgramEvents.hpp"
 #include <memory>
 

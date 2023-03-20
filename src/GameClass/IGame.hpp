@@ -7,12 +7,6 @@
 
 #pragma once
 
-enum State {
-    MENU,
-    GAME,
-    STOP
-};
-
 class IGame {
     public:
         virtual ~IGame() = default;
