@@ -55,6 +55,6 @@ void Game::DisplayGame()
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(getObjectsData(keypressed));
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(_ProgramEvents->getCurrentUserName(), std::pair<int, int>(1, 1), Color::WHITE, Color::BLACK);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(getScore(), 1, 3);
-       keypressed = _ProgramEvents->handleEvents();
+        keypressed = _ProgramEvents->handleEvents();
     }
 }
