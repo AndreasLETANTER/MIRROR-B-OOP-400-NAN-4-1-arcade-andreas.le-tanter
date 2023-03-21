@@ -15,7 +15,7 @@ class ProgramEvents : public IProgramEvents {
     public:
         ProgramEvents();
         ~ProgramEvents();
-        void handleEvents();
+        char handleEvents();
         inline DLLoader<IDisplayModule> *getCurrentGraphicLibrary() { return currentGraphicLibrary; };
         inline DLLoader<IDisplayModule> *getCurrentGameLibrary() { return currentGameLibrary; };
         inline std::string getCurrentUserName() { return _currentUserName; };

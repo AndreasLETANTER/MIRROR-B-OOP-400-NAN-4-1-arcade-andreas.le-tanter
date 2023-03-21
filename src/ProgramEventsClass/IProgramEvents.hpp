@@ -22,7 +22,7 @@ class IProgramEvents {
         virtual DLLoader<IDisplayModule> *getCurrentGameLibrary() = 0;
         virtual std::string getCurrentUserName() = 0;
         virtual IInit *getInit() = 0;
-        virtual void handleEvents() = 0;
+        virtual char handleEvents() = 0;
         virtual State getCurrentState() = 0;
 
     protected:
