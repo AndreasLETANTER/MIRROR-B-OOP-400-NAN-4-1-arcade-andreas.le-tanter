@@ -52,7 +52,7 @@ std::map<int, std::pair<ObjectType, std::pair<int, int>>> Menu::CreateMenuObject
 void Menu::DisplayMenuText()
 {
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Games Libraries", std::pair<int, int>(_WindowMaxSize.first / 4.5, 3), Color::WHITE, Color::BLACK);
-    if (_ProgramEvents->getInit()->getGamesInstances().size() > 0)  {
+    if (_ProgramEvents->getInit()->getGamesInstances().size() > 0) {
         displayGamesMenu();
     }
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Graphics Libraries", std::pair<int, int>(_WindowMaxSize.first / 1.37, 3), Color::WHITE, Color::BLACK);

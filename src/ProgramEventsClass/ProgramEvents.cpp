@@ -29,12 +29,16 @@ ProgramEvents::~ProgramEvents()
 {
 }
 
-void ProgramEvents::handleEvents()
+char ProgramEvents::handleEvents()
 {
     int keypressed = currentGraphicLibrary->getInstance()->getUserInput();
 
-    if (_keyMap.find(keypressed) != _keyMap.end())
+    if (_keyMap.find(keypressed) != _keyMap.end()) {
         _keyMap[keypressed](this);
+    } else {
+        return keypressed;
+    }
+    return 0;
 }
 
 void ProgramEvents::SwapGraphicLib()
@@ -87,6 +91,7 @@ void ProgramEvents::GoToMenu()
 void ProgramEvents::GoToGame()
 {
     currentGraphicLibrary->getInstance()->FiniWindow();
+    currentGraphicLibrary->getInstance()->InitWindow();
     _currentState = GAME;
 }
 
