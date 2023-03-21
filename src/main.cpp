@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <memory>
-#include "MenuClass/Menu.hpp"
+#include "CoreClass/Core.hpp"
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-    std::shared_ptr<IMenu> _Menu = std::make_shared<Menu>();
+    std::shared_ptr<ICore> _Core = std::make_shared<Core>();
 
-    _Menu->displayMenu();
+    _Core->Run();
 }

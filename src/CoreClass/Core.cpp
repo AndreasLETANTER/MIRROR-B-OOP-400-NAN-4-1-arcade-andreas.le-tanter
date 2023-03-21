@@ -9,13 +9,21 @@
 
 Core::Core()
 {
+    _Menu = std::make_shared<Menu>();
+    _Game = std::make_shared<Game>();
+    _ProgramEvents = std::make_shared<ProgramEvents>();
 }
 
 Core::~Core()
 {
 }
 
-void Core::DisplayGame()
+void Core::Run()
 {
-
+    while (1) {
+        _Menu->setProgramEvents(_ProgramEvents);
+        _Menu->DisplayMenu();
+        _Game->setProgramEvents(_ProgramEvents);
+        _Game->DisplayGame();
+    }
 }

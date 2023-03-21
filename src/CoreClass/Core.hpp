@@ -7,13 +7,18 @@
 
 #pragma once
 #include "ICore.hpp"
+#include "../MenuClass/Menu.hpp"
+#include "../GameClass/Game.hpp"
 
 class Core : public ICore {
     public:
         Core();
         ~Core();
-        void DisplayGame();
+        void Run();
 
     protected:
+        std::shared_ptr<IMenu> _Menu;
+        std::shared_ptr<IGame> _Game;
+        std::shared_ptr<IProgramEvents> _ProgramEvents;
     private:
 };

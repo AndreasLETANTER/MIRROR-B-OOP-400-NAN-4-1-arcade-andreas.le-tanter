@@ -10,7 +10,7 @@
 class ICore {
     public:
         virtual ~ICore() = default;
-        virtual void DisplayGame() = 0;
+        virtual void Run() = 0;
 
     protected:
     private:

@@ -6,6 +6,14 @@
 */
 
 #pragma once
+#include "../Loader/DLLoader.hpp"
+#include "../InitClass/IInit.hpp"
+
+enum State {
+    MENU,
+    GAME,
+    STOP
+};
 
 class IProgramEvents {
     public:
@@ -15,6 +23,7 @@ class IProgramEvents {
         virtual std::string getCurrentUserName() = 0;
         virtual IInit *getInit() = 0;
         virtual void handleEvents() = 0;
+        virtual State getCurrentState() = 0;
 
     protected:
     private:
