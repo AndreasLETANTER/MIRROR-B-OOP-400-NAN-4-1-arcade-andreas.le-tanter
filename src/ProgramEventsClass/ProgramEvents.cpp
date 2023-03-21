@@ -10,7 +10,8 @@
 ProgramEvents::ProgramEvents()
 {
     _Init = new Init("lib/");
-    currentGraphicLibrary = _Init->getGraphicalInstances()[0];
+    if (_Init->getGraphicalInstances().size() > 0)
+        currentGraphicLibrary = _Init->getGraphicalInstances()[0];
     if (_Init->getGamesInstances().size() > 0)
         currentGameLibrary = _Init->getGamesInstances()[0];
     _currentUserName = "UserName: ";
