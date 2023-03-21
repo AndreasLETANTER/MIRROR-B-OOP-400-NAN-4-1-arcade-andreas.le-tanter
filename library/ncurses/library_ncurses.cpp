@@ -30,7 +30,7 @@ void LibraryNcurses::InitWindow()
 {
     initscr();
     _CurrentWindow = newwin(0, 0, 0, 0);
-    nodelay(_CurrentWindow, true);
+    keypad(stdscr, TRUE);
     curs_set(0);
     _ColorDefinition[Color::RED] = COLOR_RED;
     _ColorDefinition[Color::GREEN] = COLOR_GREEN;
@@ -91,5 +91,5 @@ std::pair<int, int> LibraryNcurses::GetWindowSize()
 
 char LibraryNcurses::getUserInput()
 {
-    return getch();
+    return wgetch(_CurrentWindow);
 }

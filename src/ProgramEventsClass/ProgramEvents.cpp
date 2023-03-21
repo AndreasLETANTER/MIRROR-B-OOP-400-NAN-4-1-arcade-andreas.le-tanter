@@ -30,7 +30,7 @@ ProgramEvents::~ProgramEvents()
 
 void ProgramEvents::handleEvents()
 {
-    int keypressed = getchar();
+    int keypressed = currentGraphicLibrary->getInstance()->getUserInput();
 
     if (_keyMap.find(keypressed) != _keyMap.end())
         _keyMap[keypressed](this);
