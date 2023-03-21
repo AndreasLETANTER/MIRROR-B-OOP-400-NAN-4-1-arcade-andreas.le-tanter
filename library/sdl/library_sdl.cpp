@@ -88,3 +88,8 @@ std::pair<int, int> LibrarySDL::GetWindowSize()
 {
     return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
 }
+
+char LibrarySDL::getUserInput()
+{
+    return wgetch(_CurrentWindow);
+}

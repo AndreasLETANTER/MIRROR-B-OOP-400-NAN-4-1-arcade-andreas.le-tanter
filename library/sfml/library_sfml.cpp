@@ -88,3 +88,8 @@ std::pair<int, int> LibrarySFML::GetWindowSize()
 {
     return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
 }
+
+char LibrarySFML::getUserInput()
+{
+    return wgetch(_CurrentWindow);
+}

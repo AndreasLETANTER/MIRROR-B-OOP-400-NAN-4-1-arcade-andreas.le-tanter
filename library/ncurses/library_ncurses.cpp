@@ -88,3 +88,8 @@ std::pair<int, int> LibraryNcurses::GetWindowSize()
 {
     return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
 }
+
+char LibraryNcurses::getUserInput()
+{
+    return wgetch(_CurrentWindow);
+}

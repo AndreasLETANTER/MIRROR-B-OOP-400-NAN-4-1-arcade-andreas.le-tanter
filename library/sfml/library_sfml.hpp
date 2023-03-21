@@ -20,6 +20,7 @@ class LibrarySFML : public IDisplayModule {
         void displayText(std::string _String, std::pair<int, int> _Pos, Color FrontFont, Color BackFont) override;
         const std::string &GetLibType() const;
         std::pair<int, int> GetWindowSize() override;
+        char getUserInput() override;
 
     protected:
         int idx = 0;
