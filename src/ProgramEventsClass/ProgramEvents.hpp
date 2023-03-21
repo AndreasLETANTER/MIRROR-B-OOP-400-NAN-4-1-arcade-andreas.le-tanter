@@ -20,6 +20,7 @@ class ProgramEvents : public IProgramEvents {
         inline DLLoader<IDisplayModule> *getCurrentGameLibrary() { return currentGameLibrary; };
         inline std::string getCurrentUserName() { return _currentUserName; };
         inline IInit *getInit() { return _Init; };
+        State getCurrentState() { return _currentState; };
 
     protected:  
         IInit *_Init;
@@ -28,6 +29,7 @@ class ProgramEvents : public IProgramEvents {
         DLLoader<IDisplayModule> *currentGameLibrary;
         std::string _currentUserName;
     private:
+        State _currentState;
         void SwapGraphicLib();
         void SwapGameLib();
         void ChangeUserName();

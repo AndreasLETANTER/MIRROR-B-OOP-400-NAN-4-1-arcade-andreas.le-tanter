@@ -7,22 +7,23 @@
 
 #pragma once
 #include "IMenu.hpp"
-#include "../InitClass/Init.hpp"
-#include "../ProgramEventsClass/ProgramEvents.hpp"
+#include <map>
+#include <memory>
 
 class Menu : public IMenu {
     public:
         Menu();
         ~Menu() {};
-        void displayMenu();
+        void DisplayMenu();
+        void setProgramEvents(std::shared_ptr<IProgramEvents> ProgramEvents) {_ProgramEvents = ProgramEvents;};
 
     protected:
     private:
-        ProgramEvents *_ProgramEvents;
+        std::shared_ptr<IProgramEvents> _ProgramEvents;
         std::map<int, std::pair<ObjectType, std::pair<int, int>>> CreateMenuObjectsData(char key);
         void displayGamesMenu();
         void displayGraphicalMenu();
-        void displayMenuText();
+        void DisplayMenuText();
         std::map<int, std::pair<ObjectType, std::pair<int, int>>> _MenuObjectsData;
         std::pair<int, int> _WindowMaxSize;
 };

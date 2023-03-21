@@ -38,6 +38,7 @@ class IDisplayModule {
         virtual void displayScore(int _Score, int x, int y) = 0;
         virtual const std::string &GetLibType() const = 0;
         virtual std::pair<int, int> GetWindowSize() = 0;
+        virtual char getUserInput() = 0;
 
     protected:
     private:

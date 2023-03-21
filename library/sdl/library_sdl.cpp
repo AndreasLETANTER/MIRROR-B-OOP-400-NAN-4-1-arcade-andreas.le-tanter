@@ -30,7 +30,7 @@ void LibrarySDL::InitWindow()
 {
     initscr();
     _CurrentWindow = newwin(0, 0, 0, 0);
-    nodelay(_CurrentWindow, true);
+    keypad(stdscr, TRUE);
     curs_set(0);
     _ColorDefinition[Color::RED] = COLOR_RED;
     _ColorDefinition[Color::GREEN] = COLOR_GREEN;
@@ -87,4 +87,9 @@ const std::string &LibrarySDL::GetLibType() const
 std::pair<int, int> LibrarySDL::GetWindowSize()
 {
     return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
+}
+
+char LibrarySDL::getUserInput()
+{
+    return wgetch(_CurrentWindow);
 }

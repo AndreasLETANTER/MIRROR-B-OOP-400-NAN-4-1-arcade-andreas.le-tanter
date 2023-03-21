@@ -21,6 +21,7 @@ ProgramEvents::ProgramEvents()
     _keyMap['m'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToMenu(); };
     _keyMap['g'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToGame(); };
     _keyMap['e'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->Exit(); };
+    _currentState = MENU;
 }
 
 ProgramEvents::~ProgramEvents()
@@ -29,7 +30,7 @@ ProgramEvents::~ProgramEvents()
 
 void ProgramEvents::handleEvents()
 {
-    int keypressed = getchar();
+    int keypressed = currentGraphicLibrary->getInstance()->getUserInput();
 
     if (_keyMap.find(keypressed) != _keyMap.end())
         _keyMap[keypressed](this);
@@ -78,12 +79,14 @@ void ProgramEvents::ChangeUserName()
 
 void ProgramEvents::GoToMenu()
 {
-
+    currentGraphicLibrary->getInstance()->InitWindow();
+    _currentState = MENU;
 }
 
 void ProgramEvents::GoToGame()
 {
-
+    currentGraphicLibrary->getInstance()->FiniWindow();
+    _currentState = GAME;
 }
 
 void ProgramEvents::Exit()
