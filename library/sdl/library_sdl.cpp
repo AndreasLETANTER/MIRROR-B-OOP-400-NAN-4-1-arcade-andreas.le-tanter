@@ -91,5 +91,5 @@ std::pair<int, int> LibrarySDL::GetWindowSize()
 
 char LibrarySDL::getUserInput()
 {
-    return wgetch(_CurrentWindow);
+    return getch();
 }

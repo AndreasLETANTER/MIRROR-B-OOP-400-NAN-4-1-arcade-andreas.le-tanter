@@ -91,5 +91,5 @@ std::pair<int, int> LibrarySFML::GetWindowSize()
 
 char LibrarySFML::getUserInput()
 {
-    return wgetch(_CurrentWindow);
+    return getch();
 }

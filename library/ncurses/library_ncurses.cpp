@@ -91,5 +91,5 @@ std::pair<int, int> LibraryNcurses::GetWindowSize()
 
 char LibraryNcurses::getUserInput()
 {
-    return wgetch(_CurrentWindow);
+    return getch();
 }
