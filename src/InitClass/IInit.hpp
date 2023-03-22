@@ -6,7 +6,7 @@
 */
 
 #pragma once
-#include "../../library/IDisplayModule.hpp"
+#include "../../library/graphic_libraries/IDisplayModule.hpp"
 #include "../Loader/DLLoader.hpp"
 #include <memory>
 #include <map>

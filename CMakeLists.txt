@@ -23,13 +23,13 @@ set(TESTS
     tests/Unit_tests/InitClassTests.cpp
 )
 set(NCURSES
-    library/ncurses/library_ncurses.cpp
+    library/graphic_libraries/ncurses/library_ncurses.cpp
 )
 set(SFML
-    library/sfml/library_sfml.cpp
+    library/graphic_libraries/sfml/library_sfml.cpp
 )
 set(SDL
-    library/sdl/library_sdl.cpp
+    library/graphic_libraries/sdl/library_sdl.cpp
 )
 
 ###############################COMPILATION MAIN PROGRAM##########################
