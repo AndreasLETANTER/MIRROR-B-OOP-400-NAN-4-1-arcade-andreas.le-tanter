@@ -68,8 +68,8 @@ jobs:
       - name: Check if executable exists
         run: |
           if [ ! -f $EXECUTABLE ]; then
-            echo "::error title=Executable not found::The executable $EXECUTABLE was not found."
             echo "Error :x: |" >> $GITHUB_STEP_SUMMARY
+            echo "::error title=Executable not found::The executable $EXECUTABLE was not found."
             exit 1
           fi
           echo "Passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY
