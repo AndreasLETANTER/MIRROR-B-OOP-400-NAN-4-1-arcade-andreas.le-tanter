@@ -68,10 +68,9 @@ void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enu
     wattroff(_CurrentWindow, COLOR_PAIR(idx));
 }
 
-const std::string &LibrarySFML::GetLibType() const
+Enum::libType LibrarySFML::GetLibType()
 {
-    static std::string name = "Game";
-    return name;
+    return Enum::libType::GRAPHIC;
 }
 
 std::pair<int, int> LibrarySFML::GetWindowSize()

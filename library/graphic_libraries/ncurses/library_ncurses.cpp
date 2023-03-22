@@ -68,10 +68,9 @@ void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, 
     wattroff(_CurrentWindow, COLOR_PAIR(idx));
 }
 
-const std::string &LibraryNcurses::GetLibType() const
+Enum::libType LibraryNcurses::GetLibType() 
 {
-    static std::string name = "Graphic";
-    return name;
+    return Enum::libType::GRAPHIC;
 }
 
 std::pair<int, int> LibraryNcurses::GetWindowSize()

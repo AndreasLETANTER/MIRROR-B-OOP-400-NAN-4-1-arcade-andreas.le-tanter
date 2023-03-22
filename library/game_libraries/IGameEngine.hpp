@@ -16,5 +16,5 @@ class IGameEngine {
         virtual int getScore() const = 0;
         virtual bool getStatus() const = 0;
         virtual std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() const = 0;
-        virtual const std::string &GetLibType() const = 0;
+        virtual Enum::libType GetLibType() const = 0;
 };

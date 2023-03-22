@@ -23,11 +23,11 @@ void LibrarySDL::InitWindow()
     keypad(stdscr, TRUE);
     curs_set(0);
     _ColorDefinition[Enum::Color::RED] = COLOR_RED;
-    _ColorDefinition[Enum::Color::GREEN] = COLOR_RED;
-    _ColorDefinition[Enum::Color::BLUE] = COLOR_RED;
-    _ColorDefinition[Enum::Color::YELLOW] = COLOR_RED;
-    _ColorDefinition[Enum::Color::WHITE] = COLOR_RED;
-    _ColorDefinition[Enum::Color::BLACK] = COLOR_RED;
+    _ColorDefinition[Enum::Color::GREEN] = COLOR_GREEN;
+    _ColorDefinition[Enum::Color::BLUE] = COLOR_BLUE;
+    _ColorDefinition[Enum::Color::YELLOW] = COLOR_YELLOW;
+    _ColorDefinition[Enum::Color::WHITE] = COLOR_WHITE;
+    _ColorDefinition[Enum::Color::BLACK] = COLOR_BLACK;
 
     start_color();
 }
@@ -68,10 +68,9 @@ void LibrarySDL::displayText(std::string _String, std::pair<int, int> _Pos, Enum
     wattroff(_CurrentWindow, COLOR_PAIR(idx));
 }
 
-const std::string &LibrarySDL::GetLibType() const
+Enum::libType LibrarySDL::GetLibType()
 {
-    static std::string name = "Graphic";
-    return name;
+    return Enum::GRAPHIC;
 }
 
 std::pair<int, int> LibrarySDL::GetWindowSize()

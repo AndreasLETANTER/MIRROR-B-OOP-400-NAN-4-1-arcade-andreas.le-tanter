@@ -18,7 +18,7 @@ class LibraryNcurses : public IDisplayModule {
         void displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData) override;
         void displayScore(int _Score, int x, int y) override;
         void displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont) override;
-        const std::string &GetLibType() const;
+        Enum::libType GetLibType();
         std::pair<int, int> GetWindowSize() override;
         char getUserInput() override;
 

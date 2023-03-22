@@ -64,11 +64,11 @@ void Init::loadInstances(const std::string  &path)
         tempInstanceGraphic->openInstance();
         tempInstanceGame->openInstance();
         module = tempInstanceGraphic->getInstance();
-        if (module->GetLibType() == "Graphic") {
+        if (module->GetLibType() == Enum::GRAPHIC) {
             _GraphicalInstances[i] = tempInstanceGraphic;
             nb_graphical++;
         }
-        else if (module->GetLibType() == "Game") {
+        else if (module->GetLibType() == Enum::GAME) {
             _GamesInstances[i] = tempInstanceGame;
             nb_games++;
         }    
