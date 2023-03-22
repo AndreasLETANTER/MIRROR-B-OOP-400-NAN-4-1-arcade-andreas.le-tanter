@@ -7,7 +7,7 @@
 
 #pragma once
 #include <map>
-#include "IGameEngine.hpp"
+#include "../graphic_libraries/IDisplayModule.hpp"
 
 class IGameEngine {
     public:
