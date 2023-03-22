@@ -22,8 +22,8 @@ jobs:
         run: |
           echo "## Summary report : :chart_with_upwards_trend:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Jobs | Status | Start | End |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ | ----- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Jobs | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
           echo -n "| Check unwanted files | " >> $GITHUB_STEP_SUMMARY
           error=0
           for file in $(git ls-files); do
@@ -50,8 +50,8 @@ jobs:
           fetch-depth: 0
       - name: Print summary
         run: |
-          echo "| Jobs | Status | Start | End |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ | ----- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Jobs | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
           echo -n "| Program compilation | " >> $GITHUB_STEP_SUMMARY
       - name: Create build directory
         run: |
@@ -86,8 +86,8 @@ jobs:
           fetch-depth: 0
       - name: Print summary
         run: |
-          echo "| Jobs | Status | Start | End |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ | ----- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Jobs | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
           echo -n "| Unit tests | " >> $GITHUB_STEP_SUMMARY
       - name: Create build directory
         run: |
