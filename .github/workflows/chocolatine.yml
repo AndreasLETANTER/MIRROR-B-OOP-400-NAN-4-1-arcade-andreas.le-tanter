@@ -167,15 +167,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install Doxygen
+      - name: Install doxygen
         run: |
-          echo "Installing Doxygen..."
-      - name: Generate Doxygen documentation
+          sudo apt-get install -y doxygen
+      - name: Create doxygen
         run: |
-          echo "Generating Doxygen documentation..."
-      - name: Deploy documentation
-        run: |
-          echo "Deploying documentation..."
+          doxygen Doxyfile
+      - name: Deploy to GitHub Pages
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.SSH_KEY }}
+            publish_dir: ./doc
+
 
   push_to_mirror:
     if: github.event_name == 'push'
