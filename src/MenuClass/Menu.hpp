@@ -20,10 +20,10 @@ class Menu : public IMenu {
     protected:
     private:
         std::shared_ptr<IProgramEvents> _ProgramEvents;
-        std::map<int, std::pair<ObjectType, std::pair<int, int>>> CreateMenuObjectsData(char key);
+        std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> CreateMenuObjectsData(char key);
         void displayGamesMenu();
         void displayGraphicalMenu();
         void DisplayMenuText();
-        std::map<int, std::pair<ObjectType, std::pair<int, int>>> _MenuObjectsData;
+        std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _MenuObjectsData;
         std::pair<int, int> _WindowMaxSize;
 };
