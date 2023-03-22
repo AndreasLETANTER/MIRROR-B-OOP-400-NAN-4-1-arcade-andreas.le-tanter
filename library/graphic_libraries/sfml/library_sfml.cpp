@@ -70,7 +70,7 @@ void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Col
 
 const std::string &LibrarySFML::GetLibType() const
 {
-    static std::string name = "Graphic";
+    static std::string name = "Game";
     return name;
 }
 
