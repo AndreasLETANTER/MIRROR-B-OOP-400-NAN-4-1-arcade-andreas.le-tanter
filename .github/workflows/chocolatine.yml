@@ -174,10 +174,10 @@ jobs:
         run: |
           doxygen Doxyfile
       - name: Deploy to GitHub Pages
-          uses: peaceiris/actions-gh-pages@v3
-          with:
-            github_token: ${{ secrets.SSH_KEY }}
-            publish_dir: ./doc
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.SSH_KEY }}
+          publish_dir: ./docs
 
 
   push_to_mirror:
