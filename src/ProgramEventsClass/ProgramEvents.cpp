@@ -72,7 +72,27 @@ void ProgramEvents::SwapGraphicLib()
 
 void ProgramEvents::SwapGameLib()
 {
+    std::string game_name;
+    std::string current_game_name;
+    bool found = false;
 
+    if (currentGameLibrary == nullptr) {
+        return;
+    }
+    current_game_name = typeid(*currentGameLibrary->getInstance()).name();
+    for (auto &g : _Init->getGamesInstances()) {
+        game_name = typeid(*g.second->getInstance()).name();
+        if (found == true) {
+            currentGameLibrary = g.second;
+            return;
+        }
+        if (game_name == current_game_name) {
+            found = true;
+        }
+    }
+    if (found == true) {
+        currentGameLibrary = _Init->getGamesInstances()[0];
+    }
 }
 
 void ProgramEvents::ChangeUserName()
