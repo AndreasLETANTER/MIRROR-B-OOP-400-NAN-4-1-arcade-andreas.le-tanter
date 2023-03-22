@@ -11,14 +11,16 @@
 
 class Pacman : public IGameEngine {
 public:
-    Pacman();
-    ~Pacman();
+    Pacman() = default;
+    ~Pacman() = default;
     void handleUserInput(char key) override;
-    int getScore() const override;
-    bool getStatus() const override;
-    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() const override;
+    int getScore() override;
+    bool getStatus() override;
+    Enum::libType GetLibType();
+    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() override;
+    
 protected:
     int _score;
     bool _is_ended;
-    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> test; // <index, <Enum::ObjectType, <x, y>>>
+    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData; // <index, <Enum::ObjectType, <x, y>>>
 };
