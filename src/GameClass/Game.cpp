@@ -46,7 +46,6 @@ static std::map<int, std::pair<ObjectType, std::pair<int, int>>> getObjectsData(
     return _ObjectData;
 }
 
-
 void Game::DisplayGame()
 {
     int keypressed = 0;

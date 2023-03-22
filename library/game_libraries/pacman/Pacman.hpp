@@ -4,9 +4,10 @@
 ** File description:
 ** handle Pacman
 */
-#ifndef ARCADE_PACMAN_HPP
-    #define ARCADE_PACMAN_HPP
-    #include "../IGameEngine.hpp"
+
+#pragma once
+
+#include "../IGameEngine.hpp"
 
 class Pacman : public IGameEngine {
 public:
@@ -21,5 +22,3 @@ protected:
     bool _is_ended;
     std::map<int, std::pair<ObjectType, std::pair<int, int>>> test; // <index, <ObjectType, <x, y>>>
 };
-
-#endif //ARCADE_PACMAN_HPP
