@@ -9,10 +9,10 @@
 #include "../IDisplayModule.hpp"
 #include <iostream>
 
-class LibraryNcurses : public IDisplayModule {
+class LibrarySDL : public IDisplayModule {
     public:
-        LibraryNcurses() = default;
-        ~LibraryNcurses() = default;
+        LibrarySDL() = default;
+        ~LibrarySDL() = default;
         void InitWindow() override;
         void FiniWindow() override;
         void displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData) override;

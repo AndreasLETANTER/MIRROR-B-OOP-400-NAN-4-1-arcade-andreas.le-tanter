@@ -6,17 +6,17 @@
 */
 
 #include <unistd.h>
-#include "library_ncurses.hpp"
+#include "library_sdl.hpp"
 
 extern "C"
 {
     IDisplayModule *entryPoint()
     {
-        return new LibraryNcurses();
+        return new LibrarySDL();
     }
 }
 
-void LibraryNcurses::InitWindow()
+void LibrarySDL::InitWindow()
 {
     initscr();
     _CurrentWindow = newwin(0, 0, 0, 0);
@@ -32,13 +32,13 @@ void LibraryNcurses::InitWindow()
     start_color();
 }
 
-void LibraryNcurses::FiniWindow()
+void LibrarySDL::FiniWindow()
 {
     delwin(_CurrentWindow);
     endwin();
 }
 
-void LibraryNcurses::displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData)
+void LibrarySDL::displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData)
 {
     std::map<ObjectType, std::string> _ObjectTypeDefinition;
     _ObjectTypeDefinition[ObjectType::PLAYER] = "P";
@@ -53,13 +53,13 @@ void LibraryNcurses::displayObjects(std::map<int, std::pair<ObjectType, std::pai
     }
 }
 
-void LibraryNcurses::displayScore(int _Score, int x, int y)
+void LibrarySDL::displayScore(int _Score, int x, int y)
 {
     mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
     wrefresh(_CurrentWindow);
 }
 
-void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, Color FrontFont, Color BackFont)
+void LibrarySDL::displayText(std::string _String, std::pair<int, int> _Pos, Color FrontFont, Color BackFont)
 {
     idx++;
     init_pair(idx, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
@@ -68,18 +68,18 @@ void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, 
     wattroff(_CurrentWindow, COLOR_PAIR(idx));
 }
 
-const std::string &LibraryNcurses::GetLibType() const
+const std::string &LibrarySDL::GetLibType() const
 {
     static std::string name = "Graphic";
     return name;
 }
 
-std::pair<int, int> LibraryNcurses::GetWindowSize()
+std::pair<int, int> LibrarySDL::GetWindowSize()
 {
     return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
 }
 
-char LibraryNcurses::getUserInput()
+char LibrarySDL::getUserInput()
 {
     return wgetch(_CurrentWindow);
 }
