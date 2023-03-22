@@ -7,6 +7,7 @@
 
 #pragma once
 #include "../../library/graphic_libraries/IDisplayModule.hpp"
+#include "../../library/game_libraries/IGameEngine.hpp"
 #include "../Loader/DLLoader.hpp"
 #include <memory>
 #include <map>
@@ -15,7 +16,7 @@ class IInit {
     public:
         virtual ~IInit() = default;
         virtual void loadInstances(const std::string &path) = 0;
-        virtual std::map<int, DLLoader<IDisplayModule> *> getGamesInstances() = 0;
+        virtual std::map<int, DLLoader<IGameEngine> *> getGamesInstances() = 0;
         virtual std::map<int, DLLoader<IDisplayModule> *> getGraphicalInstances() = 0;
 
     protected:

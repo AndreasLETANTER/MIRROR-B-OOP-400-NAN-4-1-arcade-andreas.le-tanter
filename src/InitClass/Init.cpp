@@ -51,22 +51,25 @@ void Init::getAllFilePaths(const std::string &path)
 void Init::loadInstances(const std::string  &path)
 {
     int nb_files = getNbFiles(path);
-    DLLoader<IDisplayModule> *tempInstance;
+    DLLoader<IDisplayModule> *tempInstanceGraphic;
+    DLLoader<IGameEngine> *tempInstanceGame;
     IDisplayModule *module;
     int nb_graphical = 0;
     int nb_games = 0;
 
     getAllFilePaths(path);
     for (int i = 0; i !=  nb_files; i++) {
-        tempInstance = new DLLoader<IDisplayModule>(_libraryFilesPath[i].c_str());
-        tempInstance->openInstance();
-        module = tempInstance->getInstance();
+        tempInstanceGraphic = new DLLoader<IDisplayModule>(_libraryFilesPath[i].c_str());
+        tempInstanceGame = new DLLoader<IGameEngine>(_libraryFilesPath[i].c_str());
+        tempInstanceGraphic->openInstance();
+        tempInstanceGame->openInstance();
+        module = tempInstanceGraphic->getInstance();
         if (module->GetLibType() == "Graphic") {
-            _GraphicalInstances[i] = tempInstance;
+            _GraphicalInstances[i] = tempInstanceGraphic;
             nb_graphical++;
         }
         else if (module->GetLibType() == "Game") {
-            _GraphicalInstances[i] = tempInstance;
+            _GamesInstances[i] = tempInstanceGame;
             nb_games++;
         }    
     }

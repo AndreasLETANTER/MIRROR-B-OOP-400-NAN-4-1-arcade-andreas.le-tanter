@@ -13,11 +13,11 @@ class Init : public IInit {
         Init();
         Init(const std::string &path);
         void loadInstances(const std::string &path);
-        inline std::map<int, DLLoader<IDisplayModule> *> getGamesInstances() { return _GamesInstances; };
+        inline std::map<int, DLLoader<IGameEngine> *> getGamesInstances() { return _GamesInstances; };
         inline std::map<int, DLLoader<IDisplayModule> *> getGraphicalInstances() { return _GraphicalInstances; };
 
     protected:
-        std::map<int, DLLoader<IDisplayModule> *> _GamesInstances;
+        std::map<int, DLLoader<IGameEngine> *> _GamesInstances;
         std::map<int, DLLoader<IDisplayModule> *> _GraphicalInstances;
     private:
         int getNbFiles(const std::string &path);

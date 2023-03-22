@@ -17,7 +17,7 @@ class ProgramEvents : public IProgramEvents {
         ~ProgramEvents();
         char handleEvents();
         inline DLLoader<IDisplayModule> *getCurrentGraphicLibrary() { return currentGraphicLibrary; };
-        inline DLLoader<IDisplayModule> *getCurrentGameLibrary() { return currentGameLibrary; };
+        inline DLLoader<IGameEngine> *getCurrentGameLibrary() { return currentGameLibrary; };
         inline std::string getCurrentUserName() { return _currentUserName; };
         inline IInit *getInit() { return _Init; };
         State getCurrentState() { return _currentState; };
@@ -26,7 +26,7 @@ class ProgramEvents : public IProgramEvents {
         IInit *_Init;
         std::map<int, std::function<void(ProgramEvents *)>> _keyMap;
         DLLoader<IDisplayModule> *currentGraphicLibrary;
-        DLLoader<IDisplayModule> *currentGameLibrary;
+        DLLoader<IGameEngine> *currentGameLibrary;
         std::string _currentUserName;
     private:
         State _currentState;

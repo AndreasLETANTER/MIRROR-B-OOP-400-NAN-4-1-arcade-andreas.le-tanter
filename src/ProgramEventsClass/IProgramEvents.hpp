@@ -19,7 +19,7 @@ class IProgramEvents {
     public:
         virtual ~IProgramEvents() = default;
         virtual DLLoader<IDisplayModule> *getCurrentGraphicLibrary() = 0;
-        virtual DLLoader<IDisplayModule> *getCurrentGameLibrary() = 0;
+        virtual DLLoader<IGameEngine> *getCurrentGameLibrary() = 0;
         virtual std::string getCurrentUserName() = 0;
         virtual IInit *getInit() = 0;
         virtual char handleEvents() = 0;
