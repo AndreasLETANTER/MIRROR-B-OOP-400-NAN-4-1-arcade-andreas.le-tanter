@@ -9,7 +9,7 @@
 #include <map>
 #include "../graphic_libraries/IDisplayModule.hpp"
 
-class IGameEngine {
+class IGameEngine : public ILibrary {
     public:
         virtual ~IGameEngine() = default;
         virtual void handleUserInput(char key) = 0;

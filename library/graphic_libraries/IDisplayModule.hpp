@@ -10,32 +10,9 @@
 #include <string>
 #include <ncurses.h>
 #include <map>
+#include "../ILibrary.hpp"
 
-namespace Enum {
-    enum class ObjectType {
-        PLAYER,
-        PLAYER_PART,
-        ENEMY,
-        ITEM,
-        BORDER
-    };
-
-    enum class Color {
-        RED,
-        GREEN,
-        BLUE,
-        YELLOW,
-        WHITE,
-        BLACK
-    };
-
-    enum libType {
-        GRAPHIC,
-        GAME
-    };
-}
-
-class IDisplayModule {
+class IDisplayModule : public ILibrary {
     public:
         virtual ~IDisplayModule() = default;
         virtual void InitWindow() = 0;

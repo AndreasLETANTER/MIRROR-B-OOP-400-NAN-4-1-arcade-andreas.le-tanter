@@ -85,16 +85,15 @@ void Menu::displayGamesMenu()
     int idx = 5;
     std::string name;
     std::string current_name = typeid(*_ProgramEvents->getCurrentGameLibrary()->getInstance()).name();
-    current_name.erase(0, 2);
+    current_name.erase(0, 1);
 
     for (auto &p : _ProgramEvents->getInit()->getGamesInstances()) {
         name = typeid(*p.second->getInstance()).name();
-        name.erase(0, 2);
+        name.erase(0, 1);
         if (current_name == name)
             _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 20, idx), Enum::Color::BLACK, Enum::Color::WHITE);
         else
             _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 20, idx), Enum::Color::WHITE, Enum::Color::BLACK);
         idx += 2;
     }
-
 }
