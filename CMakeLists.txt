@@ -5,8 +5,8 @@ project("arcade" VERSION 0.1.0 LANGUAGES CXX)
 ###############################COMPILATION VARIABLES###############################
 set(NAME "arcade")
 set(TEST_NAME "unit_tests")
-set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror -g)
-set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses -g)
+set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror)
+set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
 
 ###############################DIRECTORIES SRC###################################
 set(SRC
