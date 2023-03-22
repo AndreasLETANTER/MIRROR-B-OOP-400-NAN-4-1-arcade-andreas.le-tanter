@@ -19,7 +19,7 @@ set(TESTS
     tests/Unit_tests/InitClassTests.cpp
 )
 set(NCURSES
-    library/ncurses/library_ncurses.cpp
+    library/graphic_libraries/ncurses/library_ncurses.cpp
 )
 
 ###############################COMPILATION MAIN PROGRAM##########################
