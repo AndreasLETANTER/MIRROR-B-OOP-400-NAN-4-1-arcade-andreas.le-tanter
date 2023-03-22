@@ -21,4 +21,5 @@ protected:
     bool _is_ended;
     std::map<int, std::pair<ObjectType, std::pair<int, int>>> test; // <index, <ObjectType, <x, y>>>
 };
+
 #endif //ARCADE_PACMAN_HPP
