@@ -16,16 +16,6 @@ extern "C"
     }
 }
 
-LibraryNcurses::LibraryNcurses()
-{
-    
-}
-
-LibraryNcurses::~LibraryNcurses()
-{
-    
-}
-
 void LibraryNcurses::InitWindow()
 {
     initscr();

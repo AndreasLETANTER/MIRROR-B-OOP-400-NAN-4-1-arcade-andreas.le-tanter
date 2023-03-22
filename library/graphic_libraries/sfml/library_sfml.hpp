@@ -11,8 +11,8 @@
 
 class LibrarySFML : public IDisplayModule {
     public:
-        LibrarySFML();
-        ~LibrarySFML();
+        LibrarySFML() = default;
+        ~LibrarySFML() = default;
         void InitWindow() override;
         void FiniWindow() override;
         void displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData) override;

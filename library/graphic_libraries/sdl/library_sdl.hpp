@@ -11,8 +11,8 @@
 
 class LibrarySDL : public IDisplayModule {
     public:
-        LibrarySDL();
-        ~LibrarySDL();
+        LibrarySDL() = default;
+        ~LibrarySDL() = default;
         void InitWindow() override;
         void FiniWindow() override;
         void displayObjects(std::map<int, std::pair<ObjectType, std::pair<int, int>>> _ObjectData) override;

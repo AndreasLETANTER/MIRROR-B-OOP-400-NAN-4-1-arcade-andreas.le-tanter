@@ -16,16 +16,6 @@ extern "C"
     }
 }
 
-LibrarySDL::LibrarySDL()
-{
-    
-}
-
-LibrarySDL::~LibrarySDL()
-{
-    
-}
-
 void LibrarySDL::InitWindow()
 {
     initscr();

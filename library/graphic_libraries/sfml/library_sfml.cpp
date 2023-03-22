@@ -16,16 +16,6 @@ extern "C"
     }
 }
 
-LibrarySFML::LibrarySFML()
-{
-    
-}
-
-LibrarySFML::~LibrarySFML()
-{
-    
-}
-
 void LibrarySFML::InitWindow()
 {
     initscr();
