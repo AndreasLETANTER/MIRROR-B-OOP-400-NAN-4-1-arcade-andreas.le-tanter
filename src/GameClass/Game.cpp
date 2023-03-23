@@ -7,19 +7,36 @@
 
 #include "Game.hpp"
 
+/**
+ * @brief Construct a new Game
+ * @details Create the Game object
+*/
 Game::Game()
 {
 }
 
+/**
+ * @brief Destroy the Game
+ * @details Destroy the Game object
+*/
 Game::~Game()
 {
 }
 
+/**
+ * @brief Set the Program Events object
+ * @details Set the Program Events object
+ * @param programEvents
+*/
 int getScore()
 {
     return 0;
 }
 
+/**
+ * @brief Display the Game
+ * @details Display the Game
+*/
 static std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjectsData(int keypressed)
 {
     std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
@@ -46,6 +63,10 @@ static std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObject
     return _ObjectData;
 }
 
+/**
+ * @brief Display the Game
+ * @details Display the Game
+*/
 void Game::DisplayGame()
 {
     int keypressed = 0;

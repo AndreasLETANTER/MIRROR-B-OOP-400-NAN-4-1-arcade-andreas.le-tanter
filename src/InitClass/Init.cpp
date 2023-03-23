@@ -9,6 +9,10 @@
 #include <iostream>
 #include <filesystem>
 
+/**
+ * @brief Get the number of files in a folder
+ * @param path Path to the folder
+*/
 int Init::getNbFiles(const std::string &path)
 {
     int count = 0;
@@ -27,6 +31,11 @@ int Init::getNbFiles(const std::string &path)
     return count;
 }
 
+
+/**
+ * @brief Get all files path in a folder
+ * @param path Path to the folder
+*/
 void Init::getAllFilePaths(const std::string &path)
 {
     int file_count = 0;
@@ -48,6 +57,10 @@ void Init::getAllFilePaths(const std::string &path)
     _libraryFilesPath[file_count] = "";
 }
 
+/**
+ * @brief Load all instances of libraries in a folder
+ * @param path Path to the folder
+*/
 void Init::loadInstances(const std::string  &path)
 {
     int nb_files = getNbFiles(path);
@@ -77,10 +90,17 @@ void Init::loadInstances(const std::string  &path)
     std::cout << "<---------------------------------------------------------------->" << std::endl;
 }
 
+/**
+ * @brief Construct a new Init object
+*/
 Init::Init()
 {
 }
 
+/**
+ * @brief construct a new Init object with all the instances
+ * @param path Path to the folder
+*/
 Init::Init(const std::string &path)
 {
     loadInstances(path);

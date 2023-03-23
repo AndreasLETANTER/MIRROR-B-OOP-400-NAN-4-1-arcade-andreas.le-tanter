@@ -11,6 +11,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+/**
+ * @brief Main function
+ * @details Create the Core object and run it
+*/
 int main(int argc, char **argv)
 {
     (void)argc;

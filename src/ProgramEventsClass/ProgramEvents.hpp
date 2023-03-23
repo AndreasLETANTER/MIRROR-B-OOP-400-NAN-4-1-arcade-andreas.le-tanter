@@ -11,6 +11,9 @@
 #include <map>
 #include <functional>
 
+/**
+ * @brief ProgramEvents class
+ */
 class ProgramEvents : public IProgramEvents {
     public:
         ProgramEvents();

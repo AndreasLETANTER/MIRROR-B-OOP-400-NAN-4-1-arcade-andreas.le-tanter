@@ -7,6 +7,10 @@
 
 #include "Core.hpp"
 
+/**
+ * @brief Construct a new Core
+ * @details Create the Menu and Game object
+*/
 Core::Core()
 {
     _Menu = std::make_shared<Menu>();
@@ -14,10 +18,18 @@ Core::Core()
     _ProgramEvents = std::make_shared<ProgramEvents>();
 }
 
+/**
+ * @brief Destroy the Core
+ * @details Destroy the Menu and Game object
+*/
 Core::~Core()
 {
 }
 
+/**
+ * @brief Run the Core
+ * @details Run the Core
+*/
 void Core::Run()
 {
     while (1) {

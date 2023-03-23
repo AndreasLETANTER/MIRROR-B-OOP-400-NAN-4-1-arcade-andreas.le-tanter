@@ -2,10 +2,16 @@
 #include <unistd.h>
 #include <filesystem>
 
+/**
+ * @brief Construct a new Menu:: Menu object
+*/
 Menu::Menu()
 {
 }
 
+/**
+ * @brief Display the Menu
+*/
 void Menu::DisplayMenu()
 {
     char keypressed = 0;
@@ -21,6 +27,9 @@ void Menu::DisplayMenu()
     } while (_ProgramEvents->getCurrentState() == State::MENU);
 }
 
+/**
+ * @brief Create the menu objects data
+*/
 std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Menu::CreateMenuObjectsData(char keypressed)
 {
     (void)(keypressed);
@@ -49,6 +58,9 @@ std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Menu::CreateMenu
     return _ObjectData;
 }
 
+/**
+ * @brief Display the menu text
+*/
 void Menu::DisplayMenuText()
 {
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Games Libraries", std::pair<int, int>(_WindowMaxSize.first / 4.5, 3), Enum::Color::WHITE, Enum::Color::BLACK);
@@ -62,6 +74,9 @@ void Menu::DisplayMenuText()
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(_ProgramEvents->getCurrentUserName(), std::pair<int, int>(_WindowMaxSize.first / 20, _WindowMaxSize.second / 1.10), Enum::Color::WHITE, Enum::Color::BLACK);
 }
 
+/**
+ * @brief Display the graphical menu part
+*/
 void Menu::displayGraphicalMenu()
 {
     int idx = 5;
@@ -80,6 +95,9 @@ void Menu::displayGraphicalMenu()
     }
 }
 
+/**
+ * @brief Display the games menu part
+*/
 void Menu::displayGamesMenu()
 {
     int idx = 5;

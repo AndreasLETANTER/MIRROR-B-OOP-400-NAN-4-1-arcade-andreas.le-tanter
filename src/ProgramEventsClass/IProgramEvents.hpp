@@ -9,12 +9,18 @@
 #include "../Loader/DLLoader.hpp"
 #include "../InitClass/IInit.hpp"
 
+/**
+ * @brief State enum
+*/
 enum State {
     MENU,
     GAME,
     STOP
 };
 
+/**
+ * @brief ProgramEvents interface
+*/
 class IProgramEvents {
     public:
         virtual ~IProgramEvents() = default;
