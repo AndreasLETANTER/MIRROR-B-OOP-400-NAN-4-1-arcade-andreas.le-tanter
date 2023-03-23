@@ -5,6 +5,7 @@ project("arcade" VERSION 0.1.0 LANGUAGES CXX)
 ###############################COMPILATION VARIABLES###############################
 set(NAME "arcade")
 set(TEST_NAME "unit_tests")
+set(GAMES_FLAGS -Wall -Werror -fpic --shared)
 set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror)
 set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
 
@@ -30,6 +31,9 @@ set(SFML
 )
 set(SDL
     library/graphic_libraries/sdl/library_sdl.cpp
+)
+set(PACMAN
+    library/game_libraries/pacman/Pacman.cpp
 )
 
 ###############################COMPILATION MAIN PROGRAM##########################
@@ -68,6 +72,9 @@ include_directories(${CURSES_INCLUDE_DIR})
 add_library(sdl SHARED ${SDL})
 #link the library with the ncurses library
 target_link_libraries(sdl ${CURSES_LIBRARIES})
+##############################PACMAN#############################################
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
+add_library(pacman SHARED ${PACMAN})
 
 ###############################COMPILATION TESTS#################################
 #create the tests executable
