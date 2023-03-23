@@ -11,6 +11,10 @@
 template <typename T>
 class DLLoader;
 
+/**
+ * @brief Open a library with the given path
+ * @param libraryPath The path of the library
+*/
 template <typename T>
 void DLLoader<T>::openLibrary(const std::string &libraryPath)
 {
@@ -25,6 +29,10 @@ void DLLoader<T>::openLibrary(const std::string &libraryPath)
     }
 }
 
+/**
+ * @brief Close the opened library
+ * @param libraryPath The path of the library
+*/
 template <typename T>
 void DLLoader<T>::closeLibrary(void)
 {
@@ -36,6 +44,9 @@ void DLLoader<T>::closeLibrary(void)
     }
 }
 
+/**
+ * @brief Open the instance of the library
+*/
 template <typename T>
 void DLLoader<T>::openInstance(void)
 {
@@ -50,6 +61,9 @@ void DLLoader<T>::openInstance(void)
     _instance = _entryPoint();
 }
 
+/**
+ * @brief Get the instance of the library
+*/
 template <typename T>
 T *DLLoader<T>::getInstance(void)
 {

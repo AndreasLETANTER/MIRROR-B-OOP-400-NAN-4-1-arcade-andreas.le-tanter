@@ -10,6 +10,9 @@
 #include <map>
 #include <memory>
 
+/**
+ * @brief Menu class
+*/
 class Menu : public IMenu {
     public:
         Menu();

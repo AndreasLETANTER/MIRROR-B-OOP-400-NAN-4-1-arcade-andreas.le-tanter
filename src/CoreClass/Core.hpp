@@ -10,6 +10,9 @@
 #include "../MenuClass/Menu.hpp"
 #include "../GameClass/Game.hpp"
 
+/**
+ * @brief Core class
+*/
 class Core : public ICore {
     public:
         Core();

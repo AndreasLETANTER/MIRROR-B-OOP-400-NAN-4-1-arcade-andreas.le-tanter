@@ -8,6 +8,9 @@
 #pragma once
 #include "IInit.hpp"
 
+/**
+ * @brief Init class
+*/
 class Init : public IInit {
     public:
         Init();

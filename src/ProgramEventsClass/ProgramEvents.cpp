@@ -7,6 +7,9 @@
 
 #include "ProgramEvents.hpp"
 
+/**
+ * @brief Construct a new Program Events object
+*/
 ProgramEvents::ProgramEvents()
 {
     _Init = new Init("lib/");
@@ -25,10 +28,16 @@ ProgramEvents::ProgramEvents()
     _currentState = MENU;
 }
 
+/**
+ * @brief Destroy the Program Events object
+*/
 ProgramEvents::~ProgramEvents()
 {
 }
 
+/**
+ * @brief Handle the events
+*/
 char ProgramEvents::handleEvents()
 {
     int keypressed = currentGraphicLibrary->getInstance()->getUserInput();
@@ -41,6 +50,9 @@ char ProgramEvents::handleEvents()
     return 0;
 }
 
+/**
+ * @brief Swap the current graphic library
+*/
 void ProgramEvents::SwapGraphicLib()
 {
     std::string graphic_name;
@@ -70,6 +82,9 @@ void ProgramEvents::SwapGraphicLib()
     }
 }
 
+/**
+ * @brief Swap the current game library
+*/
 void ProgramEvents::SwapGameLib()
 {
     std::string game_name;
@@ -95,6 +110,9 @@ void ProgramEvents::SwapGameLib()
     }
 }
 
+/**
+ * @brief Change the current user name
+*/
 void ProgramEvents::ChangeUserName()
 {
     std::string buffer;
@@ -102,12 +120,18 @@ void ProgramEvents::ChangeUserName()
     _currentUserName = "UserName: " + buffer;
 }
 
+/**
+ * @brief Go to the menu
+*/
 void ProgramEvents::GoToMenu()
 {
     currentGraphicLibrary->getInstance()->InitWindow();
     _currentState = MENU;
 }
 
+/**
+ * @brief Go to the game
+*/
 void ProgramEvents::GoToGame()
 {
     currentGraphicLibrary->getInstance()->FiniWindow();
@@ -115,6 +139,9 @@ void ProgramEvents::GoToGame()
     _currentState = GAME;
 }
 
+/**
+ * @brief Exit the program
+*/
 void ProgramEvents::Exit()
 {
     getCurrentGraphicLibrary()->getInstance()->FiniWindow();
