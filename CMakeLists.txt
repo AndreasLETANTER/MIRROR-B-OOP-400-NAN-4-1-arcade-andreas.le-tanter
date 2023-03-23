@@ -41,6 +41,10 @@ add_compile_options(${CXX_FLAGS})
 
 add_executable(${NAME} ${SRC} ${MAIN})
 
+add_custom_target(core
+    COMMAND make ${NAME}
+)
+
 ###############################COMPILATION LIBRARIES#############################
 ###############################NCURSES###########################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
@@ -72,9 +76,21 @@ include_directories(${CURSES_INCLUDE_DIR})
 add_library(sdl SHARED ${SDL})
 #link the library with the ncurses library
 target_link_libraries(sdl ${CURSES_LIBRARIES})
+
+add_custom_target(graphicals
+    COMMAND make ncurses
+    COMMAND make sfml
+    COMMAND make sdl
+)
+
+###############################COMPILATION GAMES#################################
 ##############################PACMAN#############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
 add_library(pacman SHARED ${PACMAN})
+
+add_custom_target(games
+    COMMAND make pacman
+)
 
 ###############################COMPILATION TESTS#################################
 #create the tests executable
