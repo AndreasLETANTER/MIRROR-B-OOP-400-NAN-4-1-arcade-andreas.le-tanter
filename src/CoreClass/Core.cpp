@@ -19,6 +19,17 @@ Core::Core()
 }
 
 /**
+ * @brief Construct a new Core object with a lib path
+ * @details Create the Menu and Game objec
+*/
+Core::Core(std::string libPath)
+{
+    _Menu = std::make_shared<Menu>();
+    _Game = std::make_shared<Game>();
+    _ProgramEvents = std::make_shared<ProgramEvents>(libPath);
+}
+
+/**
  * @brief Destroy the Core
  * @details Destroy the Menu and Game object
 */
