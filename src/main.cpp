@@ -17,9 +17,11 @@
 */
 int main(int argc, char **argv)
 {
-    (void)argc;
-    (void)argv;
-    std::shared_ptr<ICore> _Core = std::make_shared<Core>();
+    if (argc != 2) {
+        std::cerr << "Usage: ./arcade [lib]" << std::endl;
+        return 84;
+    }
+    std::shared_ptr<ICore> _Core = std::make_shared<Core>(argv[1]);
 
     _Core->Run();
 }

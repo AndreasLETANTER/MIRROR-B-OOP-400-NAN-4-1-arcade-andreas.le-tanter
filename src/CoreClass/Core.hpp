@@ -16,6 +16,7 @@
 class Core : public ICore {
     public:
         Core();
+        Core(std::string libPath);
         ~Core();
         void Run();
 

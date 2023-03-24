@@ -8,7 +8,8 @@ set(TEST_NAME "unit_tests")
 set(GAMES_FLAGS -Wall -Werror -fpic --shared)
 set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror)
 set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
-
+set(LIB_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
+file(MAKE_DIRECTORY lib)
 ###############################DIRECTORIES SRC###################################
 set(SRC
     src/InitClass/Init.cpp
@@ -38,12 +39,15 @@ set(PACMAN
 
 ###############################COMPILATION MAIN PROGRAM##########################
 add_compile_options(${CXX_FLAGS})
-
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${NAME} ${SRC} ${MAIN})
+add_custom_target(core
+    COMMAND make ${NAME}
+)
 
 ###############################COMPILATION LIBRARIES#############################
 ###############################NCURSES###########################################
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 #find the ncurses library
 find_package(Curses REQUIRED)
 #set the include directories for the library
@@ -53,7 +57,7 @@ add_library(ncurses SHARED ${NCURSES})
 #link the library with the ncurses library
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 ###############################SFML##############################################
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 #find the ncurses library
 find_package(Curses REQUIRED)
 #set the include directories for the library
@@ -63,7 +67,7 @@ add_library(sfml SHARED ${SFML})
 #link the library with the ncurses library
 target_link_libraries(sfml ${CURSES_LIBRARIES})
 ###############################SDL##############################################
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 #find the ncurses library
 find_package(Curses REQUIRED)
 #set the include directories for the library
@@ -72,9 +76,21 @@ include_directories(${CURSES_INCLUDE_DIR})
 add_library(sdl SHARED ${SDL})
 #link the library with the ncurses library
 target_link_libraries(sdl ${CURSES_LIBRARIES})
+
+add_custom_target(graphicals
+    COMMAND make ncurses
+    COMMAND make sfml
+    COMMAND make sdl
+)
+
+###############################COMPILATION GAMES#################################
 ##############################PACMAN#############################################
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib/)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(pacman SHARED ${PACMAN})
+
+add_custom_target(games
+    COMMAND make pacman
+)
 
 ###############################COMPILATION TESTS#################################
 #create the tests executable

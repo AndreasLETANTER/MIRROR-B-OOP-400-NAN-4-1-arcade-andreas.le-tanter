@@ -6,6 +6,7 @@
 */
 
 #include "ProgramEvents.hpp"
+#include <unistd.h>
 
 /**
  * @brief Construct a new Program Events object
@@ -26,6 +27,48 @@ ProgramEvents::ProgramEvents()
     _keyMap['g'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToGame(); };
     _keyMap['e'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->Exit(); };
     _currentState = MENU;
+}
+
+void ProgramEvents::loadLibraryAsked(std::string libPath)
+{
+    DLLoader<IDisplayModule> *tempInstanceGraphic;
+    DLLoader<IGameEngine> *tempInstanceGame;
+    ILibrary *module;
+
+        tempInstanceGraphic = new DLLoader<IDisplayModule>(libPath);
+        tempInstanceGame = new DLLoader<IGameEngine>(libPath);
+        tempInstanceGraphic->openInstance();
+        tempInstanceGame->openInstance();
+        module = tempInstanceGraphic->getInstance();
+        if (module->GetLibType() == Enum::GRAPHIC) {
+            currentGraphicLibrary = tempInstanceGraphic;
+        } else if (module->GetLibType() == Enum::GAME) {
+            delete tempInstanceGame;
+            std::cout << "This library is not a game library" << std::endl;
+            std::cout << "Swapping to the next library..." << std::endl;
+            sleep(1);
+            currentGraphicLibrary = _Init->getGraphicalInstances()[0];
+        }
+}
+
+ProgramEvents::ProgramEvents(std::string libPath)
+{
+    _Init = new Init("lib/");
+    loadLibraryAsked(libPath);
+    if (_Init->getGamesInstances().size() > 0)
+        currentGameLibrary = _Init->getGamesInstances()[0];
+    _currentUserName = "UserName: ";
+
+    _keyMap['l'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->SwapGraphicLib(); };
+    _keyMap['k'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->SwapGameLib(); };
+    _keyMap['u'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->ChangeUserName(); };
+    _keyMap['m'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToMenu(); };
+    _keyMap['g'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToGame(); };
+    _keyMap['e'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->Exit(); };
+    _currentState = MENU;
+    std::cout << "Everything is loaded" << std::endl;
+    std::cout << "Displaying the menu..." << std::endl;
+    sleep(1);
 }
 
 /**
