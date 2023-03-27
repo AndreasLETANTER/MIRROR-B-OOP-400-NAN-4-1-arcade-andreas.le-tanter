@@ -16,7 +16,7 @@ public:
     void handleUserInput(char key) override;
     int getScore() override;
     bool getStatus() override;
-    Enum::libType GetLibType();
+    Enum::libType GetLibType() override;
     std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() override;
     
 protected:
