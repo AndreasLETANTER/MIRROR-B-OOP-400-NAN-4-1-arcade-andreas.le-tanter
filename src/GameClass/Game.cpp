@@ -39,10 +39,10 @@ void Game::DisplayGame()
             _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(_ProgramEvents->getCurrentUserName(), std::pair<int, int>(1, 1), Enum::Color::WHITE, Enum::Color::BLACK);
             _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(_ProgramEvents->getCurrentGameLibrary()->getInstance()->getScore(), 1, 3);
         } else {
+            keypressed = _ProgramEvents->handleEvents();
             _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("GAME OVER", std::pair<int, int>(100, 25), Enum::Color::RED, Enum::Color::BLACK);
             _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(_ProgramEvents->getCurrentUserName(), std::pair<int, int>(1, 1), Enum::Color::WHITE, Enum::Color::BLACK);
             _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(_ProgramEvents->getCurrentGameLibrary()->getInstance()->getScore(), 1, 3);
-            keypressed = _ProgramEvents->handleEvents();
         }
     }
 }
