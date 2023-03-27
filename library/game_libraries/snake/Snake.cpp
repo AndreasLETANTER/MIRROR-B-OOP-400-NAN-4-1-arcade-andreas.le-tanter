@@ -15,15 +15,28 @@ extern "C"
     }
 }
 
+void Snake::InitPlayer()
+{
+    int x = 100;
+    int y = 25;
+
+    _PlayerData[last_player_idx] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x, y));
+    last_player_idx++;
+    for (int i = 1; i != 4; i++) {
+        _PlayerData[last_player_idx] = std::make_pair(Enum::ObjectType::PLAYER_PART, std::make_pair(x - i, y));
+        last_player_idx++;
+    }
+}
+
 Snake::Snake()
 {
     _score = 0;
     _is_ended = false;
-    _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(100, 25));
-    last_idx++;
+    InitPlayer();
     CreateBoxCase(23, 1, 160, 50);
-    for (int i =0; i < 10; i++)
+    for (int i = 0; i < 10; i++) {
         GenerateFruit();
+    }
 }
 
 void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
@@ -42,14 +55,20 @@ void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
 
 void Snake::handlePlayerMovement(char key)
 {
-    if (key == 'z' && _ObjectData[0].second.second > 1 + 1)
-        _ObjectData[0].second.second -= 1;
-    if (key == 's' && _ObjectData[0].second.second < 50 + 1 - 1)
-        _ObjectData[0].second.second += 1;
-    if (key == 'q' && _ObjectData[0].second.first > 23 + 1)
-        _ObjectData[0].second.first -= 1;
-    if (key == 'd' && _ObjectData[0].second.first < 160 + 23 - 1)
-        _ObjectData[0].second.first += 1;
+    for (int i = last_player_idx - 1; i >= 0; i--) {
+        if (_PlayerData[i].first == Enum::ObjectType::PLAYER_PART) {
+            _PlayerData[i].second.first = _PlayerData[i - 1].second.first;
+            _PlayerData[i].second.second = _PlayerData[i - 1].second.second;
+        }
+    }
+    if (key == 'z' && _PlayerData[0].second.second > 1 + 1)
+        _PlayerData[0].second.second -= 1;
+    if (key == 's' && _PlayerData[0].second.second < 50 + 1 - 1)
+        _PlayerData[0].second.second += 1;
+    if (key == 'q' && _PlayerData[0].second.first > 23 + 1)
+        _PlayerData[0].second.first -= 1;
+    if (key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1)
+        _PlayerData[0].second.first += 1;
 }
 
 void Snake::GenerateFruit()
@@ -62,9 +81,9 @@ void Snake::GenerateFruit()
 
 std::pair<int, int> Snake::GetPlayerPos()
 {
-    for(int i = 0; i < last_idx; i++) {
-        if (_ObjectData[i].first == Enum::ObjectType::PLAYER)
-            return _ObjectData[i].second;
+    for(int i = 0; i < last_player_idx; i++) {
+        if (_PlayerData[i].first == Enum::ObjectType::PLAYER)
+            return _PlayerData[i].second;
     }
     return std::make_pair(0, 0);
 }
@@ -77,6 +96,12 @@ void Snake::erase_element(int idx)
     }
 }
 
+void Snake::AddPlayerPart()
+{
+    _PlayerData[last_player_idx] = std::make_pair(Enum::ObjectType::PLAYER_PART, std::make_pair(_PlayerData[last_player_idx - 1].second.first, _PlayerData[last_player_idx - 1].second.second));
+    last_player_idx++;
+}
+
 void Snake::UpdateGameEvent()
 {
     std::pair<int, int> player_pos = GetPlayerPos();
@@ -85,6 +110,7 @@ void Snake::UpdateGameEvent()
             if (_ObjectData[i].second.first == player_pos.first && _ObjectData[i].second.second == player_pos.second) {
                 erase_element(i);
                 last_idx--;
+                AddPlayerPart();
                 GenerateFruit();
                 _score++;
             }
@@ -92,11 +118,29 @@ void Snake::UpdateGameEvent()
     }
 }
 
+void Snake::AddPlayerToGame()
+{
+    for (int i = 0; i < last_player_idx; i++) {
+        _ObjectData[last_idx] = _PlayerData[i];
+        last_idx++;
+    }
+}
+
+void Snake::RemoveAllPlayerToGame()
+{
+    for (int i = 0; i < last_player_idx; i++) {
+        _ObjectData.erase(last_idx);
+        last_idx--;
+    }
+}
+
 void Snake::handleUserInput(char key)
 {
     (void)key;
+    RemoveAllPlayerToGame();
     handlePlayerMovement(key);
     UpdateGameEvent();
+    AddPlayerToGame();
 }
 
 int Snake::getScore()

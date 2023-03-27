@@ -23,12 +23,18 @@ class Snake : public IGameEngine {
         int _score;
         bool _is_ended;
         int last_idx = 0;
+        int last_player_idx = 0;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
+        std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
         void handlePlayerMovement(char key);
         void GenerateFruit();
         void UpdateGameEvent();
         std::pair<int, int> GetPlayerPos();
+        void InitPlayer();
         void erase_element(int idx);
+        void AddPlayerPart();
+        void AddPlayerToGame();
+        void RemoveAllPlayerToGame();
 };
