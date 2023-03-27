@@ -28,7 +28,7 @@ void LibraryNcurses::InitWindow()
     _ColorDefinition[Enum::Color::YELLOW] = COLOR_YELLOW;
     _ColorDefinition[Enum::Color::WHITE] = COLOR_WHITE;
     _ColorDefinition[Enum::Color::BLACK] = COLOR_BLACK;
-
+    noecho();
     start_color();
 }
 
