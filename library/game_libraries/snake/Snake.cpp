@@ -158,7 +158,7 @@ void Snake::UpdateGameEvent()
                 last_idx--;
                 AddPlayerPart();
                 GenerateFruit();
-                _score++;
+                _score += 10;
             }
         }
     }
