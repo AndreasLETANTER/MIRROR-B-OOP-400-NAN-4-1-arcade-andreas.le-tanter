@@ -20,8 +20,10 @@ Snake::Snake()
     _score = 0;
     _is_ended = false;
     _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(100, 25));
-    last_idx++; 
+    last_idx++;
     CreateBoxCase(23, 1, 160, 50);
+    for (int i =0; i < 5; i++)
+        GenerateFruit();
 }
 
 void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
@@ -48,6 +50,14 @@ void Snake::handlePlayerMovement(char key)
         _ObjectData[0].second.first -= 1;
     if (key == 'd' && _ObjectData[0].second.first < 160 + 23 - 1)
         _ObjectData[0].second.first += 1;
+}
+
+void Snake::GenerateFruit()
+{
+    int x = rand() % 160 + 23;
+    int y = rand() % 50 + 1;
+    _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(x, y));
+    last_idx++;
 }
 
 void Snake::handleUserInput(char key)

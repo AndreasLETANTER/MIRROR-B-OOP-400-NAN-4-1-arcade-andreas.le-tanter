@@ -27,4 +27,5 @@ class Snake : public IGameEngine {
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
         void handlePlayerMovement(char key);
+        void GenerateFruit();
 };
