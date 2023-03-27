@@ -24,6 +24,7 @@ class Snake : public IGameEngine {
         bool _is_ended;
         int last_idx = 0;
         int last_player_idx = 0;
+        char _last_key = 'd';
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
     private:
@@ -39,4 +40,5 @@ class Snake : public IGameEngine {
         void RemoveAllPlayerToGame();
         bool CheckSnakeCollision(std::pair<int, int> player_pos);
         void MoveSnakeTail();
+        void MoveWithLastKey();
 };

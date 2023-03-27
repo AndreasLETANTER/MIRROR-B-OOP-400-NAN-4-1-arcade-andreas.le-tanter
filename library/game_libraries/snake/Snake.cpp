@@ -60,6 +60,9 @@ bool Snake::CheckSnakeCollision(std::pair<int, int> player_pos)
             return true;
         }
     }
+    if (!(_PlayerData[0].second.second > 1 + 1 && _PlayerData[0].second.second < 50 + 1 - 1 && _PlayerData[0].second.first > 23 + 1 && _PlayerData[0].second.first < 160 + 23 - 1)) {
+        return true;
+    }
     return false;
 }
 
@@ -70,6 +73,23 @@ void Snake::MoveSnakeTail()
             _PlayerData[i].second.first = _PlayerData[i - 1].second.first;
             _PlayerData[i].second.second = _PlayerData[i - 1].second.second;
         }
+    }
+}
+
+void Snake::MoveWithLastKey()
+{
+    if (_last_key == 'z' && _PlayerData[0].second.second > 1 + 1) {
+        MoveSnakeTail();
+        _PlayerData[0].second.second -= 1;
+    } else if (_last_key == 's' && _PlayerData[0].second.second < 50 + 1 - 1) {
+        MoveSnakeTail();
+        _PlayerData[0].second.second += 1;
+    } else if(_last_key == 'q' && _PlayerData[0].second.first > 23 + 1) {
+        MoveSnakeTail();
+        _PlayerData[0].second.first -= 1;
+    } else if (_last_key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1) {
+        MoveSnakeTail();
+        _PlayerData[0].second.first += 1;
     }
 }
 
@@ -87,12 +107,14 @@ void Snake::handlePlayerMovement(char key)
     } else if (key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first += 1;
-    } else if (key) {
-        _is_ended = true;
+    } else if (key == -1) {
+        MoveWithLastKey();
     }
     if (CheckSnakeCollision(GetPlayerPos())) {
         _is_ended = true;
     }
+    if (key != -1)
+        _last_key = key;
 }
 
 void Snake::GenerateFruit()
