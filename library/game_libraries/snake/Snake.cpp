@@ -87,6 +87,8 @@ void Snake::handlePlayerMovement(char key)
     } else if (key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first += 1;
+    } else if (key) {
+        _is_ended = true;
     }
     if (CheckSnakeCollision(GetPlayerPos())) {
         _is_ended = true;
