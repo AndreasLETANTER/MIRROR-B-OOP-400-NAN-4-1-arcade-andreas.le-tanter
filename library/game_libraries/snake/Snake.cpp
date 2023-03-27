@@ -180,8 +180,28 @@ void Snake::RemoveAllPlayerToGame()
     }
 }
 
+void Snake::ResetGame()
+{
+    _score = 0;
+    _last_key = 'd';
+    last_idx = 0;
+    last_player_idx = 0;
+    _is_ended = false;
+    _ObjectData.clear();
+    _PlayerData.clear();
+    InitPlayer();
+    CreateBoxCase(23, 1, 160, 50);
+    for (int i = 0; i < 10; i++) {
+        GenerateFruit();
+    }
+}
+
 void Snake::handleUserInput(char key)
 {
+    if (key == 'r') {
+        ResetGame();
+        return;
+    }
     RemoveAllPlayerToGame();
     handlePlayerMovement(key);
     UpdateGameEvent();
