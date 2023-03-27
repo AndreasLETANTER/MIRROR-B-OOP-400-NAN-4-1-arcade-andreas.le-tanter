@@ -11,7 +11,7 @@
 
 class Snake : public IGameEngine {
     public:
-        Snake() = default;
+        Snake();
         ~Snake() = default;
         void handleUserInput(char key) override;
         int getScore() override;
@@ -26,4 +26,5 @@ class Snake : public IGameEngine {
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
+        void handlePlayerMovement(char key);
 };

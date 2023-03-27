@@ -15,6 +15,15 @@ extern "C"
     }
 }
 
+Snake::Snake()
+{
+    _score = 0;
+    _is_ended = false;
+    _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(100, 25));
+    last_idx++; 
+    CreateBoxCase(23, 1, 160, 50);
+}
+
 void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
 {
     for (int i = x; i <= x_length + x; i++, last_idx++) {
@@ -29,10 +38,22 @@ void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
     }
 }
 
+void Snake::handlePlayerMovement(char key)
+{
+    if (key == 'z' && _ObjectData[0].second.second > 1 + 1)
+        _ObjectData[0].second.second -= 1;
+    if (key == 's' && _ObjectData[0].second.second < 50 + 1 - 1)
+        _ObjectData[0].second.second += 1;
+    if (key == 'q' && _ObjectData[0].second.first > 23 + 1)
+        _ObjectData[0].second.first -= 1;
+    if (key == 'd' && _ObjectData[0].second.first < 160 + 23 - 1)
+        _ObjectData[0].second.first += 1;
+}
+
 void Snake::handleUserInput(char key)
 {
     (void)key;
-    CreateBoxCase(23, 1, 160, 50);
+    handlePlayerMovement(key);
 }
 
 int Snake::getScore()
