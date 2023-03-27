@@ -37,4 +37,6 @@ class Snake : public IGameEngine {
         void AddPlayerPart();
         void AddPlayerToGame();
         void RemoveAllPlayerToGame();
+        bool CheckSnakeCollision(std::pair<int, int> player_pos);
+        void MoveSnakeTail();
 };

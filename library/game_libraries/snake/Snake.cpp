@@ -53,7 +53,17 @@ void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
     }
 }
 
-void Snake::handlePlayerMovement(char key)
+bool Snake::CheckSnakeCollision(std::pair<int, int> player_pos)
+{
+    for (int i = 0; i < last_player_idx; i++) {
+        if (_PlayerData[i].first == Enum::ObjectType::PLAYER_PART && (_PlayerData[i].second.first == player_pos.first && _PlayerData[i].second.second == player_pos.second)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Snake::MoveSnakeTail()
 {
     for (int i = last_player_idx - 1; i >= 0; i--) {
         if (_PlayerData[i].first == Enum::ObjectType::PLAYER_PART) {
@@ -61,14 +71,26 @@ void Snake::handlePlayerMovement(char key)
             _PlayerData[i].second.second = _PlayerData[i - 1].second.second;
         }
     }
-    if (key == 'z' && _PlayerData[0].second.second > 1 + 1)
+}
+
+void Snake::handlePlayerMovement(char key)
+{
+    if (key == 'z' && _PlayerData[0].second.second > 1 + 1) {
+        MoveSnakeTail();
         _PlayerData[0].second.second -= 1;
-    if (key == 's' && _PlayerData[0].second.second < 50 + 1 - 1)
+    } else if (key == 's' && _PlayerData[0].second.second < 50 + 1 - 1) {
+        MoveSnakeTail();
         _PlayerData[0].second.second += 1;
-    if (key == 'q' && _PlayerData[0].second.first > 23 + 1)
+    } else if(key == 'q' && _PlayerData[0].second.first > 23 + 1) {
+        MoveSnakeTail();
         _PlayerData[0].second.first -= 1;
-    if (key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1)
+    } else if (key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1) {
+        MoveSnakeTail();
         _PlayerData[0].second.first += 1;
+    }
+    if (CheckSnakeCollision(GetPlayerPos())) {
+        _is_ended = true;
+    }
 }
 
 void Snake::GenerateFruit()
@@ -136,7 +158,6 @@ void Snake::RemoveAllPlayerToGame()
 
 void Snake::handleUserInput(char key)
 {
-    (void)key;
     RemoveAllPlayerToGame();
     handlePlayerMovement(key);
     UpdateGameEvent();
@@ -150,7 +171,7 @@ int Snake::getScore()
 
 bool Snake::getStatus()
 {
-    return false;
+    return _is_ended;
 }
 
 Enum::libType Snake::GetLibType()
