@@ -7,6 +7,9 @@
 
 #include "Snake.hpp"
 
+/**
+ * @brief Construct a new Snake:: Snake object
+*/
 extern "C"
 {
     IGameEngine *entryPoint()
@@ -15,6 +18,9 @@ extern "C"
     }
 }
 
+/**
+ * @brief Init the data needed for displaying the player and its parts
+*/
 void Snake::InitPlayer()
 {
     int x = 100;
@@ -28,6 +34,10 @@ void Snake::InitPlayer()
     }
 }
 
+/**
+ * @brief Construct a new Snake:: Snake object
+ * @details Init the game and create the border
+*/
 Snake::Snake()
 {
     _score = 0;
@@ -39,6 +49,9 @@ Snake::Snake()
     }
 }
 
+/**
+ * @brief Create the border of the game
+*/
 void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
 {
     for (int i = x; i <= x_length + x; i++, last_idx++) {
@@ -53,6 +66,12 @@ void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
     }
 }
 
+/**
+ * @brief Check if the player is colliding with the border or itself
+ * @param player_pos
+ * @return true
+ * @return false
+*/
 bool Snake::CheckSnakeCollision(std::pair<int, int> player_pos)
 {
     for (int i = 0; i < last_player_idx; i++) {
@@ -66,6 +85,10 @@ bool Snake::CheckSnakeCollision(std::pair<int, int> player_pos)
     return false;
 }
 
+/**
+ * @brief Move the snake tail
+ * @details Move the snake tail to the position of the previous part
+*/
 void Snake::MoveSnakeTail()
 {
     for (int i = last_player_idx - 1; i >= 0; i--) {
@@ -76,6 +99,10 @@ void Snake::MoveSnakeTail()
     }
 }
 
+/**
+ * @brief Move the snake
+ * @details Move the snake to the position asked by the player
+*/
 void Snake::MoveWithLastKey()
 {
     if (_last_key == 'z' && _PlayerData[0].second.second > 1 + 1) {
@@ -93,6 +120,10 @@ void Snake::MoveWithLastKey()
     }
 }
 
+/**
+ * @brief Move the snake
+ * @details Move the snake to the position asked by the player
+*/
 void Snake::handlePlayerMovement(char key)
 {
     if (key == 'z' && _PlayerData[0].second.second > 1 + 1) {
@@ -117,6 +148,10 @@ void Snake::handlePlayerMovement(char key)
         _last_key = key;
 }
 
+/**
+ * @brief Generate a fruit
+ * @details Generate a fruit at a random position
+*/
 void Snake::GenerateFruit()
 {
     int x = rand() % 160 + 23;
@@ -125,6 +160,10 @@ void Snake::GenerateFruit()
     last_idx++;
 }
 
+/**
+ * @brief Get the Player Position
+ * @return std::pair<int, int>
+*/
 std::pair<int, int> Snake::GetPlayerPos()
 {
     for(int i = 0; i < last_player_idx; i++) {
@@ -134,6 +173,11 @@ std::pair<int, int> Snake::GetPlayerPos()
     return std::make_pair(0, 0);
 }
 
+/**
+ * @brief Delete an element from the object list
+ * @details Delete an element from the object list at the given index
+ * @param idx
+*/
 void Snake::erase_element(int idx)
 {
     for (int i = idx; i < last_idx - 1; i++) {
@@ -142,12 +186,19 @@ void Snake::erase_element(int idx)
     }
 }
 
+/**
+ * @brief Add a player part
+*/
 void Snake::AddPlayerPart()
 {
     _PlayerData[last_player_idx] = std::make_pair(Enum::ObjectType::PLAYER_PART, std::make_pair(_PlayerData[last_player_idx - 1].second.first, _PlayerData[last_player_idx - 1].second.second));
     last_player_idx++;
 }
 
+/**
+ * @brief Update the game event
+ * @details Update the game event (check if the player eat a fruit)
+*/
 void Snake::UpdateGameEvent()
 {
     std::pair<int, int> player_pos = GetPlayerPos();
@@ -164,6 +215,9 @@ void Snake::UpdateGameEvent()
     }
 }
 
+/**
+ * @brief Create a Player
+*/
 void Snake::AddPlayerToGame()
 {
     for (int i = 0; i < last_player_idx; i++) {
@@ -172,6 +226,10 @@ void Snake::AddPlayerToGame()
     }
 }
 
+/**
+ * @brief Remove all player to game
+ * @details Remove all player to game and its parts
+*/
 void Snake::RemoveAllPlayerToGame()
 {
     for (int i = 0; i < last_player_idx; i++) {
@@ -180,6 +238,10 @@ void Snake::RemoveAllPlayerToGame()
     }
 }
 
+/**
+ * @brief Reset the game
+ * @details Reset the game to the initial state
+*/
 void Snake::ResetGame()
 {
     _score = 0;
@@ -196,6 +258,10 @@ void Snake::ResetGame()
     }
 }
 
+/**
+ * @brief Handle the user input
+ * @details Handle the user input and update the game
+*/
 void Snake::handleUserInput(char key)
 {
     if (key == 'r') {
@@ -208,21 +274,38 @@ void Snake::handleUserInput(char key)
     AddPlayerToGame();
 }
 
+/**
+ * @brief Get the Score
+ * @return int
+*/
 int Snake::getScore()
 {
     return _score;
 }
 
+/**
+ * @brief Get the Status
+ * @details Get the status of the game (if the game is ended or not)
+ * @return bool
+*/
 bool Snake::getStatus()
 {
     return _is_ended;
 }
 
+/**
+ * @brief Get the Lib Type
+ * @return Enum::libType
+*/
 Enum::libType Snake::GetLibType()
 {
     return Enum::libType::GAME;
 }
 
+/**
+ * @brief Get the Object Data
+ * @return std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>>
+*/
 std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Snake::getObjects()
 {
     return _ObjectData;
