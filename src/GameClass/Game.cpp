@@ -32,10 +32,10 @@ void Game::DisplayGame()
     int keypressed = 0;
 
     while (_ProgramEvents->getCurrentState() == State::GAME) {
+        _ProgramEvents->getCurrentGameLibrary()->getInstance()->handleUserInput(keypressed);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_ProgramEvents->getCurrentGameLibrary()->getInstance()->getObjects());
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(_ProgramEvents->getCurrentUserName(), std::pair<int, int>(1, 1), Enum::Color::WHITE, Enum::Color::BLACK);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(_ProgramEvents->getCurrentGameLibrary()->getInstance()->getScore(), 1, 3);
-        _ProgramEvents->getCurrentGameLibrary()->getInstance()->handleUserInput(keypressed);
         keypressed = _ProgramEvents->handleEvents();
     }
 }
