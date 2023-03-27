@@ -28,4 +28,7 @@ class Snake : public IGameEngine {
         void CreateBoxCase(int x, int y, int x_length, int y_length);
         void handlePlayerMovement(char key);
         void GenerateFruit();
+        void UpdateGameEvent();
+        std::pair<int, int> GetPlayerPos();
+        void erase_element(int idx);
 };

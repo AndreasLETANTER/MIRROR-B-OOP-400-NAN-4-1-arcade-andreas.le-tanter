@@ -22,7 +22,7 @@ Snake::Snake()
     _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(100, 25));
     last_idx++;
     CreateBoxCase(23, 1, 160, 50);
-    for (int i =0; i < 5; i++)
+    for (int i =0; i < 10; i++)
         GenerateFruit();
 }
 
@@ -60,15 +60,48 @@ void Snake::GenerateFruit()
     last_idx++;
 }
 
+std::pair<int, int> Snake::GetPlayerPos()
+{
+    for(int i = 0; i < last_idx; i++) {
+        if (_ObjectData[i].first == Enum::ObjectType::PLAYER)
+            return _ObjectData[i].second;
+    }
+    return std::make_pair(0, 0);
+}
+
+void Snake::erase_element(int idx)
+{
+    for (int i = idx; i < last_idx - 1; i++) {
+        _ObjectData[i] = _ObjectData[i + 1];
+        _ObjectData.erase(i + 1);
+    }
+}
+
+void Snake::UpdateGameEvent()
+{
+    std::pair<int, int> player_pos = GetPlayerPos();
+    for (int i = 0; i < last_idx; i++) {
+        if (_ObjectData[i].first == Enum::ObjectType::ITEM) {
+            if (_ObjectData[i].second.first == player_pos.first && _ObjectData[i].second.second == player_pos.second) {
+                erase_element(i);
+                last_idx--;
+                GenerateFruit();
+                _score++;
+            }
+        }
+    }
+}
+
 void Snake::handleUserInput(char key)
 {
     (void)key;
     handlePlayerMovement(key);
+    UpdateGameEvent();
 }
 
 int Snake::getScore()
 {
-    return 0;
+    return _score;
 }
 
 bool Snake::getStatus()
