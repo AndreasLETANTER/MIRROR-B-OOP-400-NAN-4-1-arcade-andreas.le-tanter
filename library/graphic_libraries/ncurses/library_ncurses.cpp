@@ -28,7 +28,7 @@ void LibraryNcurses::InitWindow()
     _ColorDefinition[Enum::Color::YELLOW] = COLOR_YELLOW;
     _ColorDefinition[Enum::Color::WHITE] = COLOR_WHITE;
     _ColorDefinition[Enum::Color::BLACK] = COLOR_BLACK;
-
+    noecho();
     start_color();
 }
 
@@ -47,10 +47,11 @@ void LibraryNcurses::displayObjects(std::map<int, std::pair<Enum::ObjectType, st
     _ObjectTypeDefinition[Enum::ObjectType::BORDER] = "#";
     _ObjectTypeDefinition[Enum::ObjectType::PLAYER_PART] = "X";
 
-    wclear(_CurrentWindow);
+    werase(_CurrentWindow);
     for (auto &it : _ObjectData) {
         mvwprintw(_CurrentWindow, it.second.second.second, it.second.second.first, "%s", _ObjectTypeDefinition[it.second.first].c_str());
     }
+    wrefresh(_CurrentWindow);
 }
 
 void LibraryNcurses::displayScore(int _Score, int x, int y)
@@ -66,6 +67,7 @@ void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, 
     wattron(_CurrentWindow, COLOR_PAIR(idx));
     mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
     wattroff(_CurrentWindow, COLOR_PAIR(idx));
+    wrefresh(_CurrentWindow);
 }
 
 Enum::libType LibraryNcurses::GetLibType() 
@@ -80,5 +82,6 @@ std::pair<int, int> LibraryNcurses::GetWindowSize()
 
 char LibraryNcurses::getUserInput()
 {
+    halfdelay(1);
     return wgetch(_CurrentWindow);
 }
