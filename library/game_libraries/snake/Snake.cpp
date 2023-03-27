@@ -32,7 +32,7 @@ void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
 void Snake::handleUserInput(char key)
 {
     (void)key;
-    CreateBoxCase(15, 1, 170, 50);
+    CreateBoxCase(23, 1, 160, 50);
 }
 
 int Snake::getScore()
