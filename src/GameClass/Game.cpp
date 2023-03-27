@@ -24,46 +24,6 @@ Game::~Game()
 }
 
 /**
- * @brief Set the Program Events object
- * @details Set the Program Events object
- * @param programEvents
-*/
-int getScore()
-{
-    return 0;
-}
-
-/**
- * @brief Display the Game
- * @details Display the Game
-*/
-static std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjectsData(int keypressed)
-{
-    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
-    static int x = 10;
-    static int y = 20;
-    if (keypressed == 'z') {
-        y--;
-    }
-    if (keypressed == 's') {
-        y++;
-    }
-    if (keypressed == 'q') {
-        x--;
-    }
-    if (keypressed == 'd') {
-        x++;
-    }
-
-    _ObjectData[0] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x,  y));
-    _ObjectData[1] = std::make_pair(Enum::ObjectType::ENEMY, std::make_pair(5, 20));
-    _ObjectData[3] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(8, 27));
-    _ObjectData[4] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(10, 25));
-
-    return _ObjectData;
-}
-
-/**
  * @brief Display the Game
  * @details Display the Game
 */
@@ -72,9 +32,10 @@ void Game::DisplayGame()
     int keypressed = 0;
 
     while (_ProgramEvents->getCurrentState() == State::GAME) {
-        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(getObjectsData(keypressed));
+        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_ProgramEvents->getCurrentGameLibrary()->getInstance()->getObjects());
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(_ProgramEvents->getCurrentUserName(), std::pair<int, int>(1, 1), Enum::Color::WHITE, Enum::Color::BLACK);
-        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(getScore(), 1, 3);
+        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(_ProgramEvents->getCurrentGameLibrary()->getInstance()->getScore(), 1, 3);
+        _ProgramEvents->getCurrentGameLibrary()->getInstance()->handleUserInput(keypressed);
         keypressed = _ProgramEvents->handleEvents();
     }
 }
