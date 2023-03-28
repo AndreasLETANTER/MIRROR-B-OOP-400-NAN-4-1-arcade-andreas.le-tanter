@@ -7,6 +7,10 @@
 
 #include "Core.hpp"
 
+/**
+ * @brief Construct a new Core
+ * @details Create the Menu and Game object
+*/
 Core::Core()
 {
     _Menu = std::make_shared<Menu>();
@@ -14,10 +18,29 @@ Core::Core()
     _ProgramEvents = std::make_shared<ProgramEvents>();
 }
 
+/**
+ * @brief Construct a new Core object with a lib path
+ * @details Create the Menu and Game objec
+*/
+Core::Core(std::string libPath)
+{
+    _Menu = std::make_shared<Menu>();
+    _Game = std::make_shared<Game>();
+    _ProgramEvents = std::make_shared<ProgramEvents>(libPath);
+}
+
+/**
+ * @brief Destroy the Core
+ * @details Destroy the Menu and Game object
+*/
 Core::~Core()
 {
 }
 
+/**
+ * @brief Run the Core
+ * @details Run the Core
+*/
 void Core::Run()
 {
     while (1) {

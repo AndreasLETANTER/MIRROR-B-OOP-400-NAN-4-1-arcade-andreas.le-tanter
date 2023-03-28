@@ -6,7 +6,11 @@
 */
 
 #include "ProgramEvents.hpp"
+#include <unistd.h>
 
+/**
+ * @brief Construct a new Program Events object
+*/
 ProgramEvents::ProgramEvents()
 {
     _Init = new Init("lib/");
@@ -25,10 +29,58 @@ ProgramEvents::ProgramEvents()
     _currentState = MENU;
 }
 
+void ProgramEvents::loadLibraryAsked(std::string libPath)
+{
+    DLLoader<IDisplayModule> *tempInstanceGraphic;
+    DLLoader<IGameEngine> *tempInstanceGame;
+    ILibrary *module;
+
+        tempInstanceGraphic = new DLLoader<IDisplayModule>(libPath);
+        tempInstanceGame = new DLLoader<IGameEngine>(libPath);
+        tempInstanceGraphic->openInstance();
+        tempInstanceGame->openInstance();
+        module = tempInstanceGraphic->getInstance();
+        if (module->GetLibType() == Enum::GRAPHIC) {
+            currentGraphicLibrary = tempInstanceGraphic;
+        } else if (module->GetLibType() == Enum::GAME) {
+            delete tempInstanceGame;
+            std::cout << "This library is not a game library" << std::endl;
+            std::cout << "Swapping to the next library..." << std::endl;
+            sleep(1);
+            currentGraphicLibrary = _Init->getGraphicalInstances()[0];
+        }
+}
+
+ProgramEvents::ProgramEvents(std::string libPath)
+{
+    _Init = new Init("lib/");
+    loadLibraryAsked(libPath);
+    if (_Init->getGamesInstances().size() > 0)
+        currentGameLibrary = _Init->getGamesInstances()[0];
+    _currentUserName = "UserName: ";
+
+    _keyMap['l'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->SwapGraphicLib(); };
+    _keyMap['k'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->SwapGameLib(); };
+    _keyMap['u'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->ChangeUserName(); };
+    _keyMap['m'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToMenu(); };
+    _keyMap['g'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->GoToGame(); };
+    _keyMap['e'] = [](ProgramEvents *_ProgramEvents) { _ProgramEvents->Exit(); };
+    _currentState = MENU;
+    std::cout << "Everything is loaded" << std::endl;
+    std::cout << "Displaying the menu..." << std::endl;
+    sleep(1);
+}
+
+/**
+ * @brief Destroy the Program Events object
+*/
 ProgramEvents::~ProgramEvents()
 {
 }
 
+/**
+ * @brief Handle the events
+*/
 char ProgramEvents::handleEvents()
 {
     int keypressed = currentGraphicLibrary->getInstance()->getUserInput();
@@ -41,6 +93,9 @@ char ProgramEvents::handleEvents()
     return 0;
 }
 
+/**
+ * @brief Swap the current graphic library
+*/
 void ProgramEvents::SwapGraphicLib()
 {
     std::string graphic_name;
@@ -70,11 +125,37 @@ void ProgramEvents::SwapGraphicLib()
     }
 }
 
+/**
+ * @brief Swap the current game library
+*/
 void ProgramEvents::SwapGameLib()
 {
+    std::string game_name;
+    std::string current_game_name;
+    bool found = false;
 
+    if (currentGameLibrary == nullptr) {
+        return;
+    }
+    current_game_name = typeid(*currentGameLibrary->getInstance()).name();
+    for (auto &g : _Init->getGamesInstances()) {
+        game_name = typeid(*g.second->getInstance()).name();
+        if (found == true) {
+            currentGameLibrary = g.second;
+            return;
+        }
+        if (game_name == current_game_name) {
+            found = true;
+        }
+    }
+    if (found == true) {
+        currentGameLibrary = _Init->getGamesInstances()[0];
+    }
 }
 
+/**
+ * @brief Change the current user name
+*/
 void ProgramEvents::ChangeUserName()
 {
     std::string buffer;
@@ -82,12 +163,18 @@ void ProgramEvents::ChangeUserName()
     _currentUserName = "UserName: " + buffer;
 }
 
+/**
+ * @brief Go to the menu
+*/
 void ProgramEvents::GoToMenu()
 {
     currentGraphicLibrary->getInstance()->InitWindow();
     _currentState = MENU;
 }
 
+/**
+ * @brief Go to the game
+*/
 void ProgramEvents::GoToGame()
 {
     currentGraphicLibrary->getInstance()->FiniWindow();
@@ -95,6 +182,9 @@ void ProgramEvents::GoToGame()
     _currentState = GAME;
 }
 
+/**
+ * @brief Exit the program
+*/
 void ProgramEvents::Exit()
 {
     getCurrentGraphicLibrary()->getInstance()->FiniWindow();

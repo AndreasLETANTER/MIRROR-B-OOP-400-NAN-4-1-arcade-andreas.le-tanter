@@ -11,9 +11,13 @@
 #include <map>
 #include <functional>
 
+/**
+ * @brief ProgramEvents class
+ */
 class ProgramEvents : public IProgramEvents {
     public:
         ProgramEvents();
+        ProgramEvents(std::string libPath);
         ~ProgramEvents();
         char handleEvents();
         inline DLLoader<IDisplayModule> *getCurrentGraphicLibrary() { return currentGraphicLibrary; };
@@ -29,6 +33,7 @@ class ProgramEvents : public IProgramEvents {
         DLLoader<IGameEngine> *currentGameLibrary;
         std::string _currentUserName;
     private:
+        void loadLibraryAsked(std::string libPath);
         State _currentState;
         void SwapGraphicLib();
         void SwapGameLib();

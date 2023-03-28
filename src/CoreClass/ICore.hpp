@@ -7,6 +7,9 @@
 
 #pragma once
 
+/**
+ * @brief Core interface
+ */
 class ICore {
     public:
         virtual ~ICore() = default;

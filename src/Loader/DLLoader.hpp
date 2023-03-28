@@ -9,6 +9,9 @@
 #include <iostream>
 #include <string>
 
+/**
+ * @brief DLLoader class
+*/
 template <typename T>
 class DLLoader
 {

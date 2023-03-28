@@ -10,6 +10,9 @@
 #include "../ProgramEventsClass/ProgramEvents.hpp"
 #include <memory>
 
+/**
+ * @brief Game class
+*/
 class Game : public IGame {
     public:
         Game();

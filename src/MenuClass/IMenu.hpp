@@ -9,6 +9,9 @@
 #include <memory>
 #include "../ProgramEventsClass/IProgramEvents.hpp"
 
+/**
+ * @brief Menu interface
+*/
 class IMenu {
     public:
         virtual ~IMenu() = default;

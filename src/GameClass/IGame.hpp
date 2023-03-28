@@ -9,6 +9,9 @@
 #include <memory>
 #include "../ProgramEventsClass/IProgramEvents.hpp"
 
+/**
+ * @brief Game interface
+*/
 class IGame {
     public:
         virtual ~IGame() = default;

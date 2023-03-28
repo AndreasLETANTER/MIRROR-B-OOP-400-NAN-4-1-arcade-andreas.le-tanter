@@ -12,6 +12,9 @@
 #include <memory>
 #include <map>
 
+/**
+ * @brief Init interface
+*/
 class IInit {
     public:
         virtual ~IInit() = default;
