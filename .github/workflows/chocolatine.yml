@@ -173,12 +173,13 @@ jobs:
       - name: Create doxygen
         run: |
           doxygen Doxyfile
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.SSH_KEY }}
-          publish_dir: ./docs
-
+      - name: Create gh-pages branch
+        run: |
+          git checkout --orphan gh-pages
+          git rm -rf .
+          git add .
+          git commit -m "Initial commit"
+          git push origin gh-pages
 
   push_to_mirror:
     if: github.event_name == 'push'
