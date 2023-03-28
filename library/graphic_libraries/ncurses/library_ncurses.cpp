@@ -62,12 +62,23 @@ void LibraryNcurses::displayScore(int _Score, int x, int y)
 
 void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    idx++;
-    init_pair(idx, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
-    wattron(_CurrentWindow, COLOR_PAIR(idx));
-    mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
-    wattroff(_CurrentWindow, COLOR_PAIR(idx));
-    wrefresh(_CurrentWindow);
+    int contains = _KnownColors.count(std::pair<Enum::Color, Enum::Color>(FrontFont, BackFont));
+    int custom_idx = _KnownColors[std::pair<Enum::Color, Enum::Color>(FrontFont, BackFont)];
+
+    if (contains == 0) {
+        init_pair(idx, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
+        wattron(_CurrentWindow, COLOR_PAIR(idx));
+        mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
+        wattroff(_CurrentWindow, COLOR_PAIR(idx));
+        wrefresh(_CurrentWindow);
+        _KnownColors[std::pair<Enum::Color, Enum::Color>(FrontFont, BackFont)] = idx;
+        idx++;
+    } else {
+        wattron(_CurrentWindow, COLOR_PAIR(custom_idx));
+        mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
+        wrefresh(_CurrentWindow);
+        wattroff(_CurrentWindow, COLOR_PAIR(custom_idx));
+    }
 }
 
 Enum::libType LibraryNcurses::GetLibType() 
