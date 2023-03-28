@@ -7,6 +7,8 @@
 
 #pragma once
 #include "../IDisplayModule.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <iostream>
 
 class LibrarySFML : public IDisplayModule {
@@ -24,7 +26,7 @@ class LibrarySFML : public IDisplayModule {
 
     protected:
         int idx = 0;
-        WINDOW *_CurrentWindow;
-        std::map <Enum::Color, int> _ColorDefinition;
+        sf::RenderWindow *_CurrentWindow;
+        std::map <Enum::Color, sf::Color> _ColorDefinition;
     private:
 };

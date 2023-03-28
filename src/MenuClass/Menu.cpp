@@ -22,7 +22,7 @@ void Menu::DisplayMenu()
         _MenuObjectsData = CreateMenuObjectsData(keypressed);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_MenuObjectsData);
         DisplayMenuText();
-        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(0, _WindowMaxSize.first / 1.35, _WindowMaxSize.second / 1.10);
+        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(0, _WindowMaxSize.first / 1.20, _WindowMaxSize.second / 1.10);
         _ProgramEvents->handleEvents();
     } while (_ProgramEvents->getCurrentState() == State::MENU);
 }
@@ -63,11 +63,11 @@ std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Menu::CreateMenu
 */
 void Menu::DisplayMenuText()
 {
-    _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Games Libraries", std::pair<int, int>(_WindowMaxSize.first / 4.5, 3), Enum::Color::WHITE, Enum::Color::BLACK);
+    _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Games Libraries", std::pair<int, int>(_WindowMaxSize.first / 5.5, 2.5), Enum::Color::WHITE, Enum::Color::BLACK);
     if (_ProgramEvents->getInit()->getGamesInstances().size() > 0) {
         displayGamesMenu();
     }
-    _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Graphics Libraries", std::pair<int, int>(_WindowMaxSize.first / 1.37, 3), Enum::Color::WHITE, Enum::Color::BLACK);
+    _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText("Graphics Libraries", std::pair<int, int>(_WindowMaxSize.first / 1.37, 2.5), Enum::Color::WHITE, Enum::Color::BLACK);
     if (_ProgramEvents->getInit()->getGraphicalInstances().size() > 0) {
         displayGraphicalMenu();
     }
@@ -88,9 +88,9 @@ void Menu::displayGraphicalMenu()
         name = typeid(*p.second->getInstance()).name();
         name.erase(0, 2);
         if (current_name == name)
-            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 1.73, idx), Enum::Color::BLACK, Enum::Color::WHITE);
+            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 1.35, idx), Enum::Color::BLACK, Enum::Color::WHITE);
         else
-            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 1.73, idx), Enum::Color::WHITE, Enum::Color::BLACK);
+            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 1.35, idx), Enum::Color::WHITE, Enum::Color::BLACK);
         idx += 2;
     }
 }
@@ -109,9 +109,9 @@ void Menu::displayGamesMenu()
         name = typeid(*p.second->getInstance()).name();
         name.erase(0, 1);
         if (current_name == name)
-            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 20, idx), Enum::Color::BLACK, Enum::Color::WHITE);
+            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 5, idx), Enum::Color::BLACK, Enum::Color::WHITE);
         else
-            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 20, idx), Enum::Color::WHITE, Enum::Color::BLACK);
+            _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayText(name, std::pair<int, int>(_WindowMaxSize.first / 5, idx), Enum::Color::WHITE, Enum::Color::BLACK);
         idx += 2;
     }
 }

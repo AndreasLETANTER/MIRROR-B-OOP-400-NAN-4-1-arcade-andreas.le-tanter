@@ -6,6 +6,10 @@
 */
 
 #include <unistd.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <iostream>
 #include "library_sfml.hpp"
 
 extern "C"
@@ -18,28 +22,33 @@ extern "C"
 
 void LibrarySFML::InitWindow()
 {
-    initscr();
-    _CurrentWindow = newwin(0, 0, 0, 0);
-    keypad(stdscr, TRUE);
-    curs_set(0);
-    _ColorDefinition[Enum::Color::RED] = COLOR_RED;
-    _ColorDefinition[Enum::Color::GREEN] = COLOR_GREEN;
-    _ColorDefinition[Enum::Color::BLUE] = COLOR_BLUE;
-    _ColorDefinition[Enum::Color::YELLOW] = COLOR_YELLOW;
-    _ColorDefinition[Enum::Color::WHITE] = COLOR_WHITE;
-    _ColorDefinition[Enum::Color::BLACK] = COLOR_BLACK;
+    _CurrentWindow = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Arcade");
 
-    start_color();
+    _CurrentWindow->setFramerateLimit(60);
+    _CurrentWindow->setVerticalSyncEnabled(true);
+    _CurrentWindow->setKeyRepeatEnabled(false);
+    _CurrentWindow->setActive(false);
+    _CurrentWindow->setMouseCursorVisible(false);
+    _CurrentWindow->setMouseCursorGrabbed(true);
+    _CurrentWindow->setPosition(sf::Vector2i(0, 0));
+
+    _ColorDefinition[Enum::Color::RED] = sf::Color::Red;
+    _ColorDefinition[Enum::Color::GREEN] = sf::Color::Green;
+    _ColorDefinition[Enum::Color::BLUE] = sf::Color::Blue;
+    _ColorDefinition[Enum::Color::YELLOW] = sf::Color::Yellow;
+    _ColorDefinition[Enum::Color::WHITE] = sf::Color::White;
+    _ColorDefinition[Enum::Color::BLACK] = sf::Color::Black;
 }
 
 void LibrarySFML::FiniWindow()
 {
-    delwin(_CurrentWindow);
-    endwin();
+    _CurrentWindow->close();
 }
 
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
+    _CurrentWindow->clear(sf::Color(44, 102, 110, 255));
+
     std::map<Enum::ObjectType, std::string> _ObjectTypeDefinition;
     _ObjectTypeDefinition[Enum::ObjectType::PLAYER] = "P";
     _ObjectTypeDefinition[Enum::ObjectType::ENEMY] = "E";
@@ -47,25 +56,48 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
     _ObjectTypeDefinition[Enum::ObjectType::BORDER] = "#";
     _ObjectTypeDefinition[Enum::ObjectType::PLAYER_PART] = "X";
 
-    wclear(_CurrentWindow);
     for (auto &it : _ObjectData) {
-        mvwprintw(_CurrentWindow, it.second.second.second, it.second.second.first, "%s", _ObjectTypeDefinition[it.second.first].c_str());
+        sf::RectangleShape rectangle(sf::Vector2f(10, 10));
+
+        if (_ObjectData[it.first].first == Enum::ObjectType::PLAYER) {
+            rectangle.setFillColor(sf::Color::Green);
+        } else if (_ObjectData[it.first].first == Enum::ObjectType::BORDER) {
+            rectangle.setFillColor(sf::Color::White);
+        } else if (_ObjectData[it.first].first == Enum::ObjectType::ENEMY) {
+            rectangle.setFillColor(sf::Color::Red);
+        } else if (_ObjectData[it.first].first == Enum::ObjectType::ITEM) {
+            rectangle.setFillColor(sf::Color::Yellow);
+        } else if (_ObjectData[it.first].first == Enum::ObjectType::PLAYER_PART) {
+            rectangle.setFillColor(sf::Color::Blue);
+        }
+        rectangle.setPosition(_ObjectData[it.first].second.first * 10, _ObjectData[it.first].second.second * 10);
+        _CurrentWindow->draw(rectangle);
     }
+    _CurrentWindow->display();
 }
 
 void LibrarySFML::displayScore(int _Score, int x, int y)
 {
-    mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
-    wrefresh(_CurrentWindow);
+    (void)_Score;
+    (void)x;
+    (void)y;
 }
 
 void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    idx++;
-    init_pair(idx, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
-    wattron(_CurrentWindow, COLOR_PAIR(idx));
-    mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
-    wattroff(_CurrentWindow, COLOR_PAIR(idx));
+    sf::Text text;
+    sf::Font font;
+
+    if (!font.loadFromFile("library/graphic_libraries/sfml/arial.ttf"))
+        return;
+    text.setFont(font);
+    text.setString(_String);
+    text.setCharacterSize(28);
+    text.setFillColor(_ColorDefinition[FrontFont]);
+    text.setPosition(_Pos.first, _Pos.second * 35);
+    _CurrentWindow->draw(text);
+    _CurrentWindow->display();
+    (void)BackFont;
 }
 
 Enum::libType LibrarySFML::GetLibType()
@@ -75,10 +107,21 @@ Enum::libType LibrarySFML::GetLibType()
 
 std::pair<int, int> LibrarySFML::GetWindowSize()
 {
-    return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
+    sf::Vector2u size = _CurrentWindow->getSize();
+
+    return (std::pair<int, int>(size.x, size.y));
 }
 
 char LibrarySFML::getUserInput()
 {
-    return wgetch(_CurrentWindow);
+    sf::Event event;
+
+    _CurrentWindow->pollEvent(event);
+    if (event.type == sf::Event::TextEntered) {
+        if (event.text.unicode < 128) {
+            return static_cast<char>(event.text.unicode);
+        }
+    }
+    return ' ';
 }
+
