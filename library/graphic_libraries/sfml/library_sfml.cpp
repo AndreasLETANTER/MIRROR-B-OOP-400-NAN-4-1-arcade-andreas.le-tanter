@@ -122,6 +122,6 @@ char LibrarySFML::getUserInput()
             return static_cast<char>(event.text.unicode);
         }
     }
-    return ' ';
+    return -1;
 }
 
