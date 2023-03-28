@@ -177,6 +177,7 @@ jobs:
         run: |
           git checkout --orphan gh-pages
           git rm -rf .
+          git config user.name "GitHub Actions"
           git add .
           git commit -m "Initial commit"
           git push origin gh-pages
