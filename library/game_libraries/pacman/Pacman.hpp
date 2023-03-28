@@ -22,5 +22,8 @@ public:
 protected:
     int _score;
     bool _is_ended;
-    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData; // <index, <Enum::ObjectType, <x, y>>>
+    std::pair<Enum::ObjectType, std::pair<int, int>> _Pacman;
+    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _GumData; // <index, <Enum::ObjectType, <x, y>>>
+    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _GhostData;
+    std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _MazeData;
 };
