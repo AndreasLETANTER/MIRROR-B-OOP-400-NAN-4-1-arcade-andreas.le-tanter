@@ -37,6 +37,9 @@ set(SDL
 set(PACMAN
     library/game_libraries/pacman/Pacman.cpp
 )
+set(SNAKE
+    library/game_libraries/snake/Snake.cpp    
+)
 
 ###############################COMPILATION MAIN PROGRAM##########################
 add_compile_options(${CXX_FLAGS})
@@ -86,9 +89,13 @@ add_custom_target(graphicals
 ##############################PACMAN#############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(pacman SHARED ${PACMAN})
+##############################Snake##############################################
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
+add_library(snake SHARED ${SNAKE})
 
 add_custom_target(games
     COMMAND make pacman
+    COMMAND make snake
 )
 
 ###############################COMPILATION TESTS#################################
