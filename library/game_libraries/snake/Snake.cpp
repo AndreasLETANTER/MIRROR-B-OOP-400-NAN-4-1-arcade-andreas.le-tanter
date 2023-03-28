@@ -154,8 +154,8 @@ void Snake::handlePlayerMovement(char key)
 */
 void Snake::GenerateFruit()
 {
-    int x = rand() % 160 + 23;
-    int y = rand() % 50 + 1;
+    int x = rand() % 160 + 23 - 1;
+    int y = rand() % 50 + 1 - 1;
     _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(x, y));
     last_idx++;
 }
