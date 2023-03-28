@@ -126,25 +126,30 @@ void Snake::MoveWithLastKey()
 */
 void Snake::handlePlayerMovement(char key)
 {
-    if (key == 'z' && _PlayerData[0].second.second > 1 + 1) {
+    bool keep_key = true;
+
+    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > 1 + 1) {
         MoveSnakeTail();
         _PlayerData[0].second.second -= 1;
-    } else if (key == 's' && _PlayerData[0].second.second < 50 + 1 - 1) {
+    } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < 50 + 1 - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.second += 1;
-    } else if(key == 'q' && _PlayerData[0].second.first > 23 + 1) {
+    } else if(key == 'q' && _last_key != 'd' && _PlayerData[0].second.first > 23 + 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first -= 1;
-    } else if (key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1) {
+    } else if (key == 'd' && _last_key != 'q' && _PlayerData[0].second.first < 160 + 23 - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first += 1;
     } else if (key == -1) {
         MoveWithLastKey();
+    } else {
+        MoveWithLastKey();
+        keep_key = false;
     }
     if (CheckSnakeCollision(GetPlayerPos())) {
         _is_ended = true;
     }
-    if (key != -1)
+    if (key != -1 && keep_key == true)
         _last_key = key;
 }
 
