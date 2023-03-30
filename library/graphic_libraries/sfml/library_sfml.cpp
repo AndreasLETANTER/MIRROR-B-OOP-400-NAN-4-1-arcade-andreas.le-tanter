@@ -22,16 +22,19 @@ extern "C"
 
 void LibrarySFML::InitWindow()
 {
+    _CurrentWindow = nullptr;
     _CurrentWindow = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Arcade");
 
-    _CurrentWindow->setFramerateLimit(60);
-    _CurrentWindow->setVerticalSyncEnabled(true);
+    _CurrentWindow->setFramerateLimit(120);
+    _CurrentWindow->setVerticalSyncEnabled(false);
     _CurrentWindow->setKeyRepeatEnabled(false);
     _CurrentWindow->setActive(false);
     _CurrentWindow->setMouseCursorVisible(false);
     _CurrentWindow->setMouseCursorGrabbed(true);
     _CurrentWindow->setPosition(sf::Vector2i(0, 0));
-
+    if (_font.loadFromFile("library/graphic_libraries/sfml/arial.ttf") == false) {
+        std::cout << "Error loading font" << std::endl;
+    }
     _ColorDefinition[Enum::Color::RED] = sf::Color::Red;
     _ColorDefinition[Enum::Color::GREEN] = sf::Color::Green;
     _ColorDefinition[Enum::Color::BLUE] = sf::Color::Blue;
@@ -48,13 +51,15 @@ void LibrarySFML::InitWindow()
 
 void LibrarySFML::FiniWindow()
 {
+    _CurrentWindow->setActive(false);
     _CurrentWindow->close();
+    delete _CurrentWindow;
+    _ColorDefinition.clear();
 }
 
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
     _CurrentWindow->clear(sf::Color(44, 102, 110, 255));
-
     std::map<Enum::ObjectType, std::string> _ObjectTypeDefinition;
     _ObjectTypeDefinition[Enum::ObjectType::PLAYER] = "P";
     _ObjectTypeDefinition[Enum::ObjectType::ENEMY] = "E";
@@ -111,6 +116,10 @@ char LibrarySFML::getUserInput()
     sf::Event event;
 
     _CurrentWindow->pollEvent(event);
+    if (event.type == sf::Event::Closed) {
+        _CurrentWindow->close();
+        return -1;
+    }
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode < 128) {
             return static_cast<char>(event.text.unicode);
