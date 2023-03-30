@@ -24,6 +24,8 @@ void LibrarySFML::InitWindow()
 {
     _CurrentWindow.create(sf::VideoMode(1920, 1080), "Arcade", sf::Style::Fullscreen);
 
+    _CurrentWindow.setVerticalSyncEnabled(false);
+
     _ColorDefinition[Enum::Color::RED] = sf::Color::Red;
     _ColorDefinition[Enum::Color::GREEN] = sf::Color::Green;
     _ColorDefinition[Enum::Color::BLUE] = sf::Color::Blue;
@@ -48,12 +50,12 @@ void LibrarySFML::InitWindow()
 
 void LibrarySFML::FiniWindow()
 {
-    _Text.setString("");
-    _CurrentWindow.clear(sf::Color::Black);
     _ObjectDefinition.clear();
     _ColorDefinition.clear();
-    _Font.~Font();
     _CurrentWindow.close();
+    _Text.~Text();
+    _Font.~Font();
+    _CurrentWindow.~RenderWindow();
 }
 
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
