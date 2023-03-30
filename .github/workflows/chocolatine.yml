@@ -89,12 +89,6 @@ jobs:
           echo "| Jobs | Status |" >> $GITHUB_STEP_SUMMARY
           echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
           echo -n "| Unit tests | " >> $GITHUB_STEP_SUMMARY
-      - name: Create build directory
-        run: |
-          mkdir ./build/
-      - name: Go to build directory
-        run: |
-          cd ./build/
       - name: Build project
         run: |
           cmake CMakeLists.txt
