@@ -132,5 +132,7 @@ add_custom_target(re
 
 #set the target to run the tests
 add_custom_target(tests_run
+    COMMAND make ${TEST_NAME}
+    COMMAND ./${TEST_NAME}
     COMMENT "Running unit tests"
 )

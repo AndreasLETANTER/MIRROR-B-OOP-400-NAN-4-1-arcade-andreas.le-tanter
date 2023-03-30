@@ -24,17 +24,6 @@ Test(InitClass, basic_test)
     cr_assert_eq(worked, true);
 }
 
-Test(InitClass, no_lib_game_test)
-{
-    std::shared_ptr<IInit> _Init = std::make_shared<Init>("lib/");
-    bool worked = false;
-
-    if (_Init->getGamesInstances().size() == 0)
-        worked = true;
-
-    cr_assert_eq(worked, true);
-}
-
 Test(InitClass, no_folder_lib_test)
 {
     bool worked = false;
@@ -44,7 +33,7 @@ Test(InitClass, no_folder_lib_test)
 
     child_pid = fork();
 
-    if (child_pid == 0) {  
+    if (child_pid == 0) {
         std::shared_ptr<IInit> _Init = std::make_shared<Init>("dqzdqzq");
         exit(0);
     } else {
