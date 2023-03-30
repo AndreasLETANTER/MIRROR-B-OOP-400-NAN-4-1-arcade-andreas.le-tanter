@@ -58,12 +58,6 @@ void LibrarySFML::FiniWindow()
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
     _CurrentWindow.clear(sf::Color(44, 102, 110, 255));
-    std::map<Enum::ObjectType, std::string> _ObjectTypeDefinition;
-    _ObjectTypeDefinition[Enum::ObjectType::PLAYER] = "P";
-    _ObjectTypeDefinition[Enum::ObjectType::ENEMY] = "E";
-    _ObjectTypeDefinition[Enum::ObjectType::ITEM] = "I";
-    _ObjectTypeDefinition[Enum::ObjectType::BORDER] = "#";
-    _ObjectTypeDefinition[Enum::ObjectType::PLAYER_PART] = "X";
 
     for (auto &it : _ObjectData) {
         sf::RectangleShape rectangle(sf::Vector2f(10, 10));
