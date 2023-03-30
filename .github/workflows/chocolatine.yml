@@ -3,7 +3,7 @@ env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-OOP-400-NAN-4-1-arcade-andreas.le-tanter.git
   EXECUTABLE: "arcade"
   UNWANTED_FILES: '^(.*\/)*((.*\.(([ao])|(so)|(gcno)|(gcda)|(gcov)))|(^.*\~)|(.*\/tmp\/.+)|(#.*\#))$'
-  SUMMARY: "$SUMMARY='louis'"
+  SUMMARY: "$SUMMARY"
 
 on:
   push:
