@@ -75,11 +75,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create build directory
-        run: |
-          mkdir ./build/
-      - name: Go to build directory
-        run: |
-          cd ./build/
       - name: Build project
         run: |
           cmake CMakeLists.txt
@@ -115,12 +110,6 @@ jobs:
       - name: install ftest
         run: |
           cargo build --release -p ftest
-      - name: Create build directory
-        run: |
-          mkdir ./build/
-      - name: Go to build directory
-        run: |
-          cd ./build/
       - name: Build project
         run: |
           echo "cmake CMakeLists.txt"
