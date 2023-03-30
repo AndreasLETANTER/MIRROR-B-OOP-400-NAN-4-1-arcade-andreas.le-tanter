@@ -30,11 +30,11 @@ jobs:
           done
           if [ $error -eq 1 ]; then
             SUMMARY+=$':x: |\n'
-            echo "::set-output name=summary::$SUMMARY"
+            echo "$SUMMARY" >> $GITHUB_OUTPUT
             exit 1
           fi
           SUMMARY+=$':white_check_mark: |\n'
-          echo "::set-output name=summary::$SUMMARY"
+          echo "$SUMMARY" >> $GITHUB_OUTPUT
 
   check_program_compilation:
     runs-on: ubuntu-latest
