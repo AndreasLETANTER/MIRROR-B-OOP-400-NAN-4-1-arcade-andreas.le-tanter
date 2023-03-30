@@ -53,9 +53,6 @@ void LibrarySFML::FiniWindow()
     _ObjectDefinition.clear();
     _ColorDefinition.clear();
     _CurrentWindow.close();
-    _Text.~Text();
-    _Font.~Font();
-    _CurrentWindow.~RenderWindow();
 }
 
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
