@@ -29,10 +29,10 @@ jobs:
             fi
           done
           if [ $error -eq 1 ]; then
-            ${{ env.SUMMARY }} += '| Check unwanted files | :x: |\n'
+            $SUMMARY += '| Check unwanted files | :x: |\n'
             exit 1
           fi
-          ${{ env.SUMMARY }} += '| Check unwanted files | :white_check_mark: |\n'
+          $SUMMARY += '| Check unwanted files | :white_check_mark: |\n'
 
   check_program_compilation:
     runs-on: ubuntu-latest
@@ -52,11 +52,11 @@ jobs:
           make
       - name: Check if executable exists
         run: |
-          ${{ env.SUMMARY }} += '| Check if executable exists | '
+          $SUMMARY += '| Check if executable exists | '
           if [ -f $EXECUTABLE ]; then
-            ${{ env.SUMMARY }} += ':white_check_mark: |\n'
+            $SUMMARY += ':white_check_mark: |\n'
           else
-            ${{ env.SUMMARY }} += ':x: |\n'
+            $SUMMARY += ':x: |\n'
             echo "::error title=Executable not found::The executable $EXECUTABLE was not found."
             exit 1
           fi
@@ -76,12 +76,12 @@ jobs:
           cmake .
       - name: Compile and run unit tests
         run: |
-          ${{ env.SUMMARY }} += '| Run unit tests | '
+          $SUMMARY += '| Run unit tests | '
           make tests_run
           if [ $? -eq 0 ]; then
-            ${{ env.SUMMARY }} += ':white_check_mark: |\n'
+            $SUMMARY += ':white_check_mark: |\n'
           else
-            ${{ env.SUMMARY }} += ':x: |\n'
+            $SUMMARY += ':x: |\n'
             echo "::error title=Unit tests failed::The unit tests failed."
             exit 1
           fi
@@ -119,12 +119,12 @@ jobs:
           echo "make functinals_tests_run"
       - name: Run functinals tests
         run: |
-          ${{ env.SUMMARY }} += '| Run functionals tests | '
+          $SUMMARY += '| Run functionals tests | '
           echo "make functinals_tests_run"
           if [ $? -eq 0 ]; then
-            ${{ env.SUMMARY }} += ':white_check_mark: |\n'
+            $SUMMARY+= ':white_check_mark: |\n'
           else
-            ${{ env.SUMMARY }} += ':x: |\n'
+            $SUMMARY += ':x: |\n'
             echo "::error title=Functionals tests failed::The functionals tests failed."
             exit 1
           fi
@@ -140,7 +140,7 @@ jobs:
           fetch-depth: 0
       - name: Create release
         run: |
-          echo ${{ env.SUMMARY }} >> $GITHUB_STEP_SUMMARY
+          echo $SUMMARY >> $GITHUB_STEP_SUMMARY
 
   create_doxygen:
     runs-on: ubuntu-latest
