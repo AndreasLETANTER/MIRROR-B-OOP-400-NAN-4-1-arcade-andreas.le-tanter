@@ -76,7 +76,6 @@ void LibrarySFML::displayScore(int _Score, int x, int y)
 {
     (void)_Score;
     (void)x;
-    _CurrentWindow.clear();
     (void)y;
 }
 
