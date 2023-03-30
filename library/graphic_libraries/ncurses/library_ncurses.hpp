@@ -26,5 +26,6 @@ class LibraryNcurses : public IDisplayModule {
         int idx = 0;
         WINDOW *_CurrentWindow;
         std::map <Enum::Color, int> _ColorDefinition;
+        std::map <std::pair<Enum::Color, Enum::Color>, int> _KnownColors;
     private:
 };
