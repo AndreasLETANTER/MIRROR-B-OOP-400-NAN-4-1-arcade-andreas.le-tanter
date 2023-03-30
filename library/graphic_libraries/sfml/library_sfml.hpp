@@ -26,9 +26,10 @@ class LibrarySFML : public IDisplayModule {
         void display() override;
 
     protected:
-        int idx = 0;
-        sf::RenderWindow *_CurrentWindow;
+        sf::RenderWindow _CurrentWindow;
         std::map <Enum::Color, sf::Color> _ColorDefinition;
         std::map <Enum::ObjectType, sf::Color> _ObjectDefinition;
+        sf::Font _Font;
+        sf::Text _Text;
     private:
 };

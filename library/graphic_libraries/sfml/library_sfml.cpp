@@ -22,19 +22,8 @@ extern "C"
 
 void LibrarySFML::InitWindow()
 {
-    _CurrentWindow = nullptr;
-    _CurrentWindow = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Arcade");
+    _CurrentWindow.create(sf::VideoMode(1920, 1080), "Arcade", sf::Style::Fullscreen);
 
-    _CurrentWindow->setFramerateLimit(120);
-    _CurrentWindow->setVerticalSyncEnabled(false);
-    _CurrentWindow->setKeyRepeatEnabled(false);
-    _CurrentWindow->setActive(false);
-    _CurrentWindow->setMouseCursorVisible(false);
-    _CurrentWindow->setMouseCursorGrabbed(true);
-    _CurrentWindow->setPosition(sf::Vector2i(0, 0));
-    if (_font.loadFromFile("library/graphic_libraries/sfml/arial.ttf") == false) {
-        std::cout << "Error loading font" << std::endl;
-    }
     _ColorDefinition[Enum::Color::RED] = sf::Color::Red;
     _ColorDefinition[Enum::Color::GREEN] = sf::Color::Green;
     _ColorDefinition[Enum::Color::BLUE] = sf::Color::Blue;
@@ -47,19 +36,26 @@ void LibrarySFML::InitWindow()
     _ObjectDefinition[Enum::ObjectType::ITEM] = sf::Color::Yellow;
     _ObjectDefinition[Enum::ObjectType::BORDER] = sf::Color::White;
     _ObjectDefinition[Enum::ObjectType::PLAYER_PART] = sf::Color::Blue;
+
+    if (!_Font.loadFromFile("library/graphic_libraries/sfml/arial.ttf")) {
+        std::cout << "Error loading font" << std::endl;
+        exit(84);
+    }
+
+    _Text.setCharacterSize(28);
+    _Text.setFont(_Font);
 }
 
 void LibrarySFML::FiniWindow()
 {
-    _CurrentWindow->setActive(false);
-    _CurrentWindow->close();
-    delete _CurrentWindow;
+    _CurrentWindow.setActive(false);
+    _CurrentWindow.close();
     _ColorDefinition.clear();
 }
 
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
-    _CurrentWindow->clear(sf::Color(44, 102, 110, 255));
+    _CurrentWindow.clear(sf::Color(44, 102, 110, 255));
     std::map<Enum::ObjectType, std::string> _ObjectTypeDefinition;
     _ObjectTypeDefinition[Enum::ObjectType::PLAYER] = "P";
     _ObjectTypeDefinition[Enum::ObjectType::ENEMY] = "E";
@@ -72,7 +68,7 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
 
         rectangle.setFillColor(_ObjectDefinition[_ObjectData[it.first].first]);
         rectangle.setPosition(_ObjectData[it.first].second.first * 10, _ObjectData[it.first].second.second * 10);
-        _CurrentWindow->draw(rectangle);
+        _CurrentWindow.draw(rectangle);
     }
 }
 
@@ -80,23 +76,18 @@ void LibrarySFML::displayScore(int _Score, int x, int y)
 {
     (void)_Score;
     (void)x;
+    _CurrentWindow.clear();
     (void)y;
 }
 
 void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    sf::Text text;
-    sf::Font font;
+    _Text.setString(_String);
+    _Text.setPosition(_Pos.first, _Pos.second * 35);
+    _Text.setFillColor(_ColorDefinition[FrontFont]);
+    _Text.setOutlineColor(_ColorDefinition[BackFont]);
 
-    if (!font.loadFromFile("library/graphic_libraries/sfml/arial.ttf"))
-        return;
-    text.setFont(font);
-    text.setString(_String);
-    text.setCharacterSize(28);
-    text.setFillColor(_ColorDefinition[FrontFont]);
-    text.setPosition(_Pos.first, _Pos.second * 35);
-    _CurrentWindow->draw(text);
-    (void)BackFont;
+    _CurrentWindow.draw(_Text);
 }
 
 Enum::libType LibrarySFML::GetLibType()
@@ -106,7 +97,7 @@ Enum::libType LibrarySFML::GetLibType()
 
 std::pair<int, int> LibrarySFML::GetWindowSize()
 {
-    sf::Vector2u size = _CurrentWindow->getSize();
+    sf::Vector2u size = _CurrentWindow.getSize();
 
     return (std::pair<int, int>(size.x, size.y));
 }
@@ -115,9 +106,9 @@ char LibrarySFML::getUserInput()
 {
     sf::Event event;
 
-    _CurrentWindow->pollEvent(event);
+    _CurrentWindow.pollEvent(event);
     if (event.type == sf::Event::Closed) {
-        _CurrentWindow->close();
+        _CurrentWindow.close();
         return -1;
     }
     if (event.type == sf::Event::TextEntered) {
@@ -130,5 +121,5 @@ char LibrarySFML::getUserInput()
 
 void LibrarySFML::display()
 {
-    _CurrentWindow->display();
+    _CurrentWindow.display();
 }
