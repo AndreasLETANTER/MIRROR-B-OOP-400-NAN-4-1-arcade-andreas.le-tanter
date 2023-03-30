@@ -23,10 +23,12 @@ class LibrarySFML : public IDisplayModule {
         Enum::libType GetLibType() override;
         std::pair<int, int> GetWindowSize() override;
         char getUserInput() override;
+        void display() override;
 
     protected:
         int idx = 0;
         sf::RenderWindow *_CurrentWindow;
         std::map <Enum::Color, sf::Color> _ColorDefinition;
+        std::map <Enum::ObjectType, sf::Color> _ObjectDefinition;
     private:
 };

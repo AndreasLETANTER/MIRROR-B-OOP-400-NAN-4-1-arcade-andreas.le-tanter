@@ -51,13 +51,11 @@ void LibraryNcurses::displayObjects(std::map<int, std::pair<Enum::ObjectType, st
     for (auto &it : _ObjectData) {
         mvwprintw(_CurrentWindow, it.second.second.second, it.second.second.first, "%s", _ObjectTypeDefinition[it.second.first].c_str());
     }
-    wrefresh(_CurrentWindow);
 }
 
 void LibraryNcurses::displayScore(int _Score, int x, int y)
 {
     mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
-    wrefresh(_CurrentWindow);
 }
 
 void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
@@ -95,4 +93,9 @@ char LibraryNcurses::getUserInput()
 {
     halfdelay(1);
     return wgetch(_CurrentWindow);
+}
+
+void LibraryNcurses::display()
+{
+    wrefresh(_CurrentWindow);
 }

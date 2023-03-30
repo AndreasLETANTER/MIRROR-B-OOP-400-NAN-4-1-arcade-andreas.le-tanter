@@ -38,6 +38,12 @@ void LibrarySFML::InitWindow()
     _ColorDefinition[Enum::Color::YELLOW] = sf::Color::Yellow;
     _ColorDefinition[Enum::Color::WHITE] = sf::Color::White;
     _ColorDefinition[Enum::Color::BLACK] = sf::Color::Black;
+
+    _ObjectDefinition[Enum::ObjectType::PLAYER] = sf::Color::Green;
+    _ObjectDefinition[Enum::ObjectType::ENEMY] = sf::Color::Red;
+    _ObjectDefinition[Enum::ObjectType::ITEM] = sf::Color::Yellow;
+    _ObjectDefinition[Enum::ObjectType::BORDER] = sf::Color::White;
+    _ObjectDefinition[Enum::ObjectType::PLAYER_PART] = sf::Color::Blue;
 }
 
 void LibrarySFML::FiniWindow()
@@ -59,21 +65,10 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
     for (auto &it : _ObjectData) {
         sf::RectangleShape rectangle(sf::Vector2f(10, 10));
 
-        if (_ObjectData[it.first].first == Enum::ObjectType::PLAYER) {
-            rectangle.setFillColor(sf::Color::Green);
-        } else if (_ObjectData[it.first].first == Enum::ObjectType::BORDER) {
-            rectangle.setFillColor(sf::Color::White);
-        } else if (_ObjectData[it.first].first == Enum::ObjectType::ENEMY) {
-            rectangle.setFillColor(sf::Color::Red);
-        } else if (_ObjectData[it.first].first == Enum::ObjectType::ITEM) {
-            rectangle.setFillColor(sf::Color::Yellow);
-        } else if (_ObjectData[it.first].first == Enum::ObjectType::PLAYER_PART) {
-            rectangle.setFillColor(sf::Color::Blue);
-        }
+        rectangle.setFillColor(_ObjectDefinition[_ObjectData[it.first].first]);
         rectangle.setPosition(_ObjectData[it.first].second.first * 10, _ObjectData[it.first].second.second * 10);
         _CurrentWindow->draw(rectangle);
     }
-    _CurrentWindow->display();
 }
 
 void LibrarySFML::displayScore(int _Score, int x, int y)
@@ -96,7 +91,6 @@ void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enu
     text.setFillColor(_ColorDefinition[FrontFont]);
     text.setPosition(_Pos.first, _Pos.second * 35);
     _CurrentWindow->draw(text);
-    _CurrentWindow->display();
     (void)BackFont;
 }
 
@@ -122,6 +116,10 @@ char LibrarySFML::getUserInput()
             return static_cast<char>(event.text.unicode);
         }
     }
-    return ' ';
+    return -1;
 }
 
+void LibrarySFML::display()
+{
+    _CurrentWindow->display();
+}
