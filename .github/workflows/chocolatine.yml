@@ -30,8 +30,10 @@ jobs:
             fi
           done
           if [ $error -eq 1 ]; then
+            ${SUMMARY} += '| Check unwanted files | :x: |\n'
             exit 1
           fi
+          ${SUMMARY} += '| Check unwanted files | :white_check_mark: |\n'
 
   check_program_compilation:
     runs-on: ubuntu-latest
