@@ -20,11 +20,7 @@ jobs:
           fetch-depth: 0
       - name: Check unwanted files
         run: |
-          echo "## Summary report : :chart_with_upwards_trend:" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Jobs | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
-          echo -n "| Check unwanted files | " >> $GITHUB_STEP_SUMMARY
+          SUMMARY=$'## Summary report : :chart_with_upwards_trend:\n\n| Jobs | Status |\n| ---- | ------ |\n| Check unwanted files | '
           error=0
           for file in $(git ls-files); do
             if [[ $file =~ $UNWANTED_FILES ]]; then
@@ -33,10 +29,12 @@ jobs:
             fi
           done
           if [ $error -eq 1 ]; then
-            echo "Error :x: |" >> $GITHUB_STEP_SUMMARY
+            SUMMARY+=$':x: |\n'
+            echo "::set-output name=summary::$SUMMARY"
             exit 1
           fi
-          echo "Passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY
+          SUMMARY+=$':white_check_mark: |\n'
+          echo "::set-output name=summary::$SUMMARY"
 
   check_program_compilation:
     runs-on: ubuntu-latest
