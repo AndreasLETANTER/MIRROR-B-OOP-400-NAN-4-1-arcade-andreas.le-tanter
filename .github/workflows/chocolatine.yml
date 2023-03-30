@@ -33,7 +33,7 @@ jobs:
             $SUMMARY += "| Check unwanted files | :x: |\n"
             exit 1
           fi
-          echo "$SUMMARY | Check unwanted files | :white_check_mark: |\n" >> $GITHUB_ENV
+          echo "$SUMMARY ghjh" >> $GITHUB_ENV
 
   check_program_compilation:
     runs-on: ubuntu-latest
