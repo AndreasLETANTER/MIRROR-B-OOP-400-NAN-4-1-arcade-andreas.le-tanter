@@ -34,7 +34,7 @@ jobs:
             exit 1
           fi
           SUMMARY+=$':white_check_mark: |\n'
-          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+          echo "$SUMMARY" >> $GITHUB_ENV
 
   check_program_compilation:
     runs-on: ubuntu-latest
@@ -54,7 +54,14 @@ jobs:
           make
       - name: Check if executable exists
         run: |
-          { [ -f $EXECUTABLE ] && echo "Executable found :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Executable not found :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Executable not found::The executable $EXECUTABLE was not found in the repository." && exit 1; }
+          ${{ env.SUMMARY }} += $'| Check if executable exists | '
+          if [ -f $EXECUTABLE ]; then
+            ${{ env.SUMMARY }} += $':white_check_mark: |\n'
+          else
+            ${{ env.SUMMARY }} += $':x: |\n'
+            echo "::error title=Executable not found::The executable $EXECUTABLE was not found."
+            exit 1
+          fi
 
   run_units_tests:
     runs-on: ubuntu-latest
@@ -71,7 +78,15 @@ jobs:
           cmake .
       - name: Compile and run unit tests
         run: |
-          { make tests_run && echo "Unit tests passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Unit tests failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Unit tests failed::The unit tests failed." && exit 1; }
+          ${{ env.SUMMARY }} += $'| Run unit tests | '
+          make tests_run
+          if [ $? -eq 0 ]; then
+            ${{ env.SUMMARY }} += $':white_check_mark: |\n'
+          else
+            ${{ env.SUMMARY }} += $':x: |\n'
+            echo "::error title=Unit tests failed::The unit tests failed."
+            exit 1
+          fi
 
   run_functionals_tests:
     runs-on: ubuntu-latest
@@ -106,7 +121,15 @@ jobs:
           echo "make functinals_tests_run"
       - name: Run functinals tests
         run: |
-          { echo "./functinals_tests_run" && echo "Functionals tests passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Functionals tests failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Functionals tests failed::The functionals tests failed." && exit 1; }
+          ${{ env.SUMMARY }} += $'| Run functionals tests | '
+          echo "make functinals_tests_run"
+          if [ $? -eq 0 ]; then
+            ${{ env.SUMMARY }} += $':white_check_mark: |\n'
+          else
+            ${{ env.SUMMARY }} += $':x: |\n'
+            echo "::error title=Functionals tests failed::The functionals tests failed."
+            exit 1
+          fi
 
   create_release:
     if: github.event_name == 'push'
@@ -119,7 +142,7 @@ jobs:
           fetch-depth: 0
       - name: Create release
         run: |
-          { echo "Creating release..." && echo "Release created :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Release creation failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Release creation failed::The release creation failed." && exit 1; }
+          echo ${{ env.SUMMARY }} >> $GITHUB_STEP_SUMMARY
 
   create_doxygen:
     runs-on: ubuntu-latest
