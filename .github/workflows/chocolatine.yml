@@ -103,7 +103,13 @@ jobs:
           make tests_run
       - name: Run unit tests
         run: |
-          ./tests_run && echo "Passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY || echo "Error :x: |" >> $GITHUB_STEP_SUMMARY
+          ./tests_run
+          if [ $? -ne 0 ]; then
+            echo "Error :x: |" >> $GITHUB_STEP_SUMMARY
+            echo "::error title=Unit tests failed::Some unit tests failed."
+            exit 1
+          fi
+          echo "Passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY
 
   run_functionals_tests:
     runs-on: ubuntu-latest
