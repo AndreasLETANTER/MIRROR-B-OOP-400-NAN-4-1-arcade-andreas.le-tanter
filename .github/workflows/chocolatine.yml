@@ -48,11 +48,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Print summary
-        run: |
-          echo "| Jobs | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
-          echo -n "| Program compilation | " >> $GITHUB_STEP_SUMMARY
       - name: Create build directory
         run: |
           mkdir ./build/
@@ -67,12 +62,7 @@ jobs:
           make
       - name: Check if executable exists
         run: |
-          if [ ! -f $EXECUTABLE ]; then
-            echo "Error :x: |" >> $GITHUB_STEP_SUMMARY
-            echo "::error title=Executable not found::The executable $EXECUTABLE was not found."
-            exit 1
-          fi
-          echo "Passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY
+          { [ -f $EXECUTABLE ] && echo "Executable found :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Executable not found :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Executable not found::The executable $EXECUTABLE was not found in the repository." && exit 1; }
 
   run_units_tests:
     runs-on: ubuntu-latest
@@ -84,11 +74,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Print summary
+      - name: Create build directory
         run: |
-          echo "| Jobs | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
-          echo -n "| Unit tests | " >> $GITHUB_STEP_SUMMARY
+          mkdir ./build/
+      - name: Go to build directory
+        run: |
+          cd ./build/
       - name: Build project
         run: |
           cmake CMakeLists.txt
@@ -97,13 +88,7 @@ jobs:
           make tests_run
       - name: Run unit tests
         run: |
-          ./tests_run
-          if [ $? -ne 0 ]; then
-            echo "Error :x: |" >> $GITHUB_STEP_SUMMARY
-            echo "::error title=Unit tests failed::Some unit tests failed."
-            exit 1
-          fi
-          echo "Passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY
+          { ./tests_run && echo "Unit tests passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Unit tests failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Unit tests failed::The unit tests failed." && exit 1; }
 
   run_functionals_tests:
     runs-on: ubuntu-latest
@@ -144,7 +129,7 @@ jobs:
           echo "make functinals_tests_run"
       - name: Run functinals tests
         run: |
-          echo "./functinals_tests_run"
+          { echo "./functinals_tests_run" && echo "Functionals tests passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Functionals tests failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Functionals tests failed::The functionals tests failed." && exit 1; }
 
   create_release:
     if: github.event_name == 'push'
@@ -157,7 +142,7 @@ jobs:
           fetch-depth: 0
       - name: Create release
         run: |
-          echo "Creating release..."
+          { echo "Creating release..." && echo "Release created :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Release creation failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Release creation failed::The release creation failed." && exit 1; }
 
   create_doxygen:
     runs-on: ubuntu-latest
@@ -175,7 +160,7 @@ jobs:
           doxygen Doxyfile
       - name: Add doxygen to release
         run: |
-          echo "Adding doxygen to release..."
+          { echo "Doxygen created :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Doxygen creation failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Doxygen creation failed::The doxygen creation failed." && exit 1; }
 
   push_to_mirror:
     if: github.event_name == 'push'
