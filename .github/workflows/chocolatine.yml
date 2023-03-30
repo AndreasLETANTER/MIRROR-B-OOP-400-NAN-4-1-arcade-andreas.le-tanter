@@ -174,13 +174,8 @@ jobs:
         run: |
           doxygen Doxyfile
       - name: Add doxygen to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./doxygen/html/*
-          asset_name: doxygen
-          tag: ${{ github.ref }}
-          overwrite: true
+        run: |
+          echo "Adding doxygen to release..."
 
   push_to_mirror:
     if: github.event_name == 'push'
