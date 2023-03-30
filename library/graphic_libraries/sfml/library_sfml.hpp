@@ -28,5 +28,9 @@ class LibrarySFML : public IDisplayModule {
         int idx = 0;
         sf::RenderWindow *_CurrentWindow;
         std::map <Enum::Color, sf::Color> _ColorDefinition;
+        sf::Clock _clock;
+        sf::Time _time;
+        sf::Font _font;
+        sf::Text _text;
     private:
 };
