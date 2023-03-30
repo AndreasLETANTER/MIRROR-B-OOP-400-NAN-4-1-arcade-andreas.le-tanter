@@ -71,12 +71,9 @@ jobs:
       - name: Build project
         run: |
           cmake .
-      - name: Compile unit tests
+      - name: Compile and run unit tests
         run: |
-          make tests_run
-      - name: Run unit tests
-        run: |
-          { ./tests_run && echo "Unit tests passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Unit tests failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Unit tests failed::The unit tests failed." && exit 1; }
+          { make tests_run && echo "Unit tests passed :white_check_mark: |" >> $GITHUB_STEP_SUMMARY; } || { echo "Unit tests failed :x: |" >> $GITHUB_STEP_SUMMARY; echo "::error title=Unit tests failed::The unit tests failed." && exit 1; }
 
   run_functionals_tests:
     runs-on: ubuntu-latest
