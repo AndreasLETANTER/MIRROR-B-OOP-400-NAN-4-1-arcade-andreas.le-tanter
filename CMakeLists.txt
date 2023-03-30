@@ -39,6 +39,9 @@ set(PACMAN
 set(SNAKE
     library/game_libraries/snake/Snake.cpp    
 )
+set(NIBBLER
+    library/game_libraries/nibbler/Nibbler.cpp
+)
 
 ###############################COMPILATION MAIN PROGRAM##########################
 add_compile_options(${CXX_FLAGS})
@@ -93,6 +96,9 @@ add_library(pacman SHARED ${PACMAN})
 ##############################Snake##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(snake SHARED ${SNAKE})
+##############################Nibbler############################################
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
+add_library(nibbler SHARED ${NIBBLER})
 
 add_custom_target(games
     COMMAND make pacman
