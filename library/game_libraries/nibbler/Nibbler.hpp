@@ -32,7 +32,7 @@ class Nibbler : public IGameEngine {
         char _last_key = 'd';
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
-        char maze[160][50];
+        char _map[160][50];
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
         void handlePlayerMovement(char key);
@@ -51,4 +51,5 @@ class Nibbler : public IGameEngine {
         void CarvePath(int height, int width, int i);
         void NorthOrWestPath(int i, int x);
         void DestroyDeadEnds();
+        void ResetMap();
 };

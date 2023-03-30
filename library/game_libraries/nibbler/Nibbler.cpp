@@ -36,7 +36,7 @@ void Nibbler::InitPlayer()
 
 /**
  * @brief Chose the direction to carve
- * @details Chose the direction to carve in the maze between North and West
+ * @details Chose the direction to carve in the _map between North and West
  * @param i Current height
  * @param x Current width
 */
@@ -44,38 +44,38 @@ void Nibbler::NorthOrWestPath(int i, int x)
 {
     (void)i;
     (void)x;
-    maze[i + 1][x + 1] = '*';
+    _map[i + 1][x + 1] = '*';
     if (rand() > RAND_MAX / 2) {
-        maze[i + 1][x] = '*';
-        maze[i][x + 1] = 'X';
+        _map[i + 1][x] = '*';
+        _map[i][x + 1] = 'X';
     } else {
-        maze[i][x + 1] = '*';
-        maze[i + 1][x] = 'X';
+        _map[i][x + 1] = '*';
+        _map[i + 1][x] = 'X';
     }
 }
 
 /**
- * @brief Carve the path in the maze
- * @details Carve the path in the maze
- * @param height Height of the maze
- * @param width Width of the maze
+ * @brief Carve the path in the _map
+ * @details Carve the path in the _map
+ * @param height Height of the _map
+ * @param width Width of the _map
  * @param i Current height
 */
 void Nibbler::CarvePath(int height, int width, int i)
 {
     for (int x = 0; x <= width - 1; x++) {
         if (i == 0 || x == 0) {
-            maze[i][x] = '*';
+            _map[i][x] = '*';
             continue;
         }
-        if (maze[i][x] == 'X' && rand() > RAND_MAX / 2) {
-            maze[i][x] = '*';
+        if (_map[i][x] == 'X' && rand() > RAND_MAX / 2) {
+            _map[i][x] = '*';
         }
-        if (maze[i][x] == 'X' || maze[i][x] == '*') {
+        if (_map[i][x] == 'X' || _map[i][x] == '*') {
             continue;
         }
-        if (maze[i][x] != '*') {
-            maze[i][x] = 'X';
+        if (_map[i][x] != '*') {
+            _map[i][x] = 'X';
         }
         if (x < width - 1 && i != height) {
             NorthOrWestPath(i, x);
@@ -84,29 +84,29 @@ void Nibbler::CarvePath(int height, int width, int i)
 }
 
 /**
- * @brief Destroy Dead Ends in the maze
+ * @brief Destroy Dead Ends in the _map
  * @details Destroy all angular dead end
 */
 void Nibbler::DestroyDeadEnds()
 {
     for (int i = 0; i <= WIDTH; i++) {
         for (int x = 0; x <= HEIGHT; x++) {
-            if (maze[i][x] == 'X' && ((i >= 1 && x == 1) || (i == 1 && x >= 1) || (i >= 1 && x == HEIGHT - 1) || (i == WIDTH - 1 && x >= 1))) {
-                maze[i][x] = '*';
+            if (_map[i][x] == 'X' && ((i >= 1 && x == 1) || (i == 1 && x >= 1) || (i >= 1 && x == HEIGHT - 1) || (i == WIDTH - 1 && x >= 1))) {
+                _map[i][x] = '*';
                 continue;
             }
             if (i != 0 && x != 0) {
-                if (maze[i - 1][x] == 'X' && maze[i - 1][x + 1] == 'X' && maze[i][x + 1] == 'X') {
-                    maze[i][x] = '*';
+                if (_map[i - 1][x] == 'X' && _map[i - 1][x + 1] == 'X' && _map[i][x + 1] == 'X') {
+                    _map[i][x] = '*';
                 }
-                if (maze[i - 1][x] == 'X' && maze[i - 1][x - 1] == 'X' && maze[i][x - 1] == 'X') {
-                    maze[i][x] = '*';
+                if (_map[i - 1][x] == 'X' && _map[i - 1][x - 1] == 'X' && _map[i][x - 1] == 'X') {
+                    _map[i][x] = '*';
                 }
-                if (maze[i][x - 1] == 'X' && maze[i + 1][x - 1] == 'X' && maze[i + 1][x] == 'X') {
-                    maze[i][x] = '*';
+                if (_map[i][x - 1] == 'X' && _map[i + 1][x - 1] == 'X' && _map[i + 1][x] == 'X') {
+                    _map[i][x] = '*';
                 }
-                if (maze[i][x + 1] == 'X' && maze[i + 1][x + 1] == 'X' && maze[i + 1][x] == 'X') {
-                    maze[i][x] = '*';
+                if (_map[i][x + 1] == 'X' && _map[i + 1][x + 1] == 'X' && _map[i + 1][x] == 'X') {
+                    _map[i][x] = '*';
                 }
             }
         }
@@ -122,13 +122,13 @@ void Nibbler::GenerateRandomMap()
         CarvePath(WIDTH, HEIGHT, i);
     }
     if (WIDTH % 2 == 0) {
-        maze[WIDTH - 1][HEIGHT - 2] = '*';
+        _map[WIDTH - 1][HEIGHT - 2] = '*';
     }
-    if (maze[WIDTH - 1][HEIGHT - 2] == '*' &&
-    maze[WIDTH - 2][HEIGHT - 1] == '*') {
-        maze[WIDTH - 2][HEIGHT - 1] = 'X';
+    if (_map[WIDTH - 1][HEIGHT - 2] == '*' &&
+    _map[WIDTH - 2][HEIGHT - 1] == '*') {
+        _map[WIDTH - 2][HEIGHT - 1] = 'X';
     }
-    maze[WIDTH - 1][HEIGHT - 1] = '*';
+    _map[WIDTH - 1][HEIGHT - 1] = '*';
    DestroyDeadEnds();
 }
 
@@ -260,6 +260,14 @@ void Nibbler::GenerateFruit()
 {
     int x = rand() % (WIDTH - 1) + BOX_POS_X + 1;
     int y = rand() % (HEIGHT - 1) + BOX_POS_Y + 1;
+
+    for (int i = 0; i < last_idx; i++) {
+        if (_ObjectData[i].second.first == x && _ObjectData[i].second.second == y) {
+            GenerateFruit();
+            return;
+        }
+    }
+
     _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(x, y));
     last_idx++;
 }
@@ -342,6 +350,15 @@ void Nibbler::RemoveAllPlayerToGame()
     }
 }
 
+void Nibbler::ResetMap()
+{
+    for (int i = 0; i < WIDTH; i++) {
+        for (int j = 0; j < HEIGHT; j++) {
+            _map[i][j] = 0;
+        }
+    }
+}
+
 /**
  * @brief Reset the game
  * @details Reset the game to the initial state
@@ -355,7 +372,9 @@ void Nibbler::ResetGame()
     _is_ended = false;
     _ObjectData.clear();
     _PlayerData.clear();
+    ResetMap();
     InitPlayer();
+    GenerateRandomMap();
     CreateBoxCase(BOX_POS_X, BOX_POS_Y, WIDTH, HEIGHT);
     for (int i = 0; i < 10; i++) {
         GenerateFruit();
@@ -375,7 +394,7 @@ void Nibbler::handleUserInput(char key)
 
     for (int i = 0; i <= WIDTH; i++) {
         for (int j = 0; j <= HEIGHT; j++) {
-            if (maze[i][j] == 'X') {
+            if (_map[i][j] == 'X') {
                 _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(i + BOX_POS_X, j + BOX_POS_Y));
                 last_idx++;
             }
