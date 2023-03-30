@@ -50,4 +50,5 @@ class Nibbler : public IGameEngine {
         void GenerateRandomMap();
         void CarvePath(int height, int width, int i);
         void NorthOrWestPath(int i, int x);
+        void DestroyDeadEnds();
 };

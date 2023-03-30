@@ -34,6 +34,12 @@ void Nibbler::InitPlayer()
     }
 }
 
+/**
+ * @brief Chose the direction to carve
+ * @details Chose the direction to carve in the maze between North and West
+ * @param i Current height
+ * @param x Current width
+*/
 void Nibbler::NorthOrWestPath(int i, int x)
 {
     (void)i;
@@ -48,6 +54,13 @@ void Nibbler::NorthOrWestPath(int i, int x)
     }
 }
 
+/**
+ * @brief Carve the path in the maze
+ * @details Carve the path in the maze
+ * @param height Height of the maze
+ * @param width Width of the maze
+ * @param i Current height
+*/
 void Nibbler::CarvePath(int height, int width, int i)
 {
     for (int x = 0; x <= width - 1; x++) {
@@ -71,24 +84,52 @@ void Nibbler::CarvePath(int height, int width, int i)
 }
 
 /**
+ * @brief Destroy Dead Ends in the maze
+ * @details Destroy all angular dead end
+*/
+void Nibbler::DestroyDeadEnds()
+{
+    for (int i = 0; i <= WIDTH; i++) {
+        for (int x = 0; x <= HEIGHT; x++) {
+            if (maze[i][x] == 'X' && ((i >= 1 && x == 1) || (i == 1 && x >= 1) || (i >= 1 && x == HEIGHT - 1) || (i == WIDTH - 1 && x >= 1))) {
+                maze[i][x] = '*';
+                continue;
+            }
+            if (i != 0 && x != 0) {
+                if (maze[i - 1][x] == 'X' && maze[i - 1][x + 1] == 'X' && maze[i][x + 1] == 'X') {
+                    maze[i][x] = '*';
+                }
+                if (maze[i - 1][x] == 'X' && maze[i - 1][x - 1] == 'X' && maze[i][x - 1] == 'X') {
+                    maze[i][x] = '*';
+                }
+                if (maze[i][x - 1] == 'X' && maze[i + 1][x - 1] == 'X' && maze[i + 1][x] == 'X') {
+                    maze[i][x] = '*';
+                }
+                if (maze[i][x + 1] == 'X' && maze[i + 1][x + 1] == 'X' && maze[i + 1][x] == 'X') {
+                    maze[i][x] = '*';
+                }
+            }
+        }
+    }
+}
+
+/**
  * @brief Generate a random map
 */
 void Nibbler::GenerateRandomMap()
 {
-    int height = WIDTH;
-    int width = HEIGHT + 1;
-
-    for (int i = 0; i <= height; i++) {
-        CarvePath(height, width, i);
+    for (int i = 0; i <= WIDTH; i++) {
+        CarvePath(WIDTH, HEIGHT, i);
     }
-    if (height % 2 == 0) {
-        maze[height - 1][width - 2] = '*';
+    if (WIDTH % 2 == 0) {
+        maze[WIDTH - 1][HEIGHT - 2] = '*';
     }
-    if (maze[height - 1][width - 2] == '*' &&
-    maze[height - 2][width - 1] == '*') {
-        maze[height - 2][width - 1] = 'X';
+    if (maze[WIDTH - 1][HEIGHT - 2] == '*' &&
+    maze[WIDTH - 2][HEIGHT - 1] == '*') {
+        maze[WIDTH - 2][HEIGHT - 1] = 'X';
     }
-    maze[height - 1][width - 1] = '*';
+    maze[WIDTH - 1][HEIGHT - 1] = '*';
+   DestroyDeadEnds();
 }
 
 /**
