@@ -15,8 +15,6 @@
 #define PLAYER_INIT_Y 39
 #define PLAYER_INIT_X 107
 
-#define call CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(
-
 enum DIRECTION {
     NORTH,
     WEST,
@@ -42,10 +40,10 @@ class Nibbler : public IGameEngine {
         int last_player_idx = 0;
         DIRECTION _currentDirection;
         char _last_key = 'd';
-
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
         char _map[160][50];
+        bool _is_stuck = false;
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
         void handlePlayerMovement(char key);

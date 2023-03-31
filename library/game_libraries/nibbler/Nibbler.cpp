@@ -223,6 +223,13 @@ void Nibbler::RedirectNibblerIfColliding()
         _PlayerData[0].second.second += 1;
         return;
     }
+    if (_last_key == 'd' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1)) == false
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
+        _PlayerData[0].second.first -= 1;
+        _is_stuck = true;
+        return;
+    }
     if (_last_key == 'z' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1))
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false) {
@@ -236,6 +243,12 @@ void Nibbler::RedirectNibblerIfColliding()
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
         _last_key = 'd';
         _PlayerData[0].second.first += 1;
+        _PlayerData[0].second.second += 1;
+        return;
+    }
+    if (_last_key == 'z' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second + 1)) == false
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
         _PlayerData[0].second.second += 1;
         return;
     }
@@ -255,6 +268,11 @@ void Nibbler::RedirectNibblerIfColliding()
         _PlayerData[0].second.second -= 1;
         return;
     }
+    if (_last_key == 'q' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
+        _PlayerData[0].second.first += 1;
+        return;
+    }
     if (_last_key == 's' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1))
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false) {
@@ -271,6 +289,13 @@ void Nibbler::RedirectNibblerIfColliding()
         _PlayerData[0].second.second -= 1;
         return;
     }
+    if (_last_key == 's' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1)) == false) {
+        _PlayerData[0].second.second -= 1;
+        return;
+    }
+
 }
 
 /**
