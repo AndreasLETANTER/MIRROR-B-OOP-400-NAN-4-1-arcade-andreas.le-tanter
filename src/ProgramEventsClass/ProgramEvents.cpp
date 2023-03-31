@@ -6,6 +6,7 @@
 */
 
 #include "ProgramEvents.hpp"
+#include "../SuccessClass/Success.hpp"
 #include <unistd.h>
 
 /**
@@ -188,5 +189,5 @@ void ProgramEvents::GoToGame()
 void ProgramEvents::Exit()
 {
     getCurrentGraphicLibrary()->getInstance()->FiniWindow();
-    exit(0);
+    throw Success("Program exited successfully");
 }

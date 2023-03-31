@@ -18,6 +18,7 @@ set(SRC
     src/GameClass/Game.cpp
     src/CoreClass/Core.cpp
     src/ErrorClass/ErrorClass.cpp
+    src/SuccessClass/Success.cpp
 )
 set(MAIN
     src/main.cpp

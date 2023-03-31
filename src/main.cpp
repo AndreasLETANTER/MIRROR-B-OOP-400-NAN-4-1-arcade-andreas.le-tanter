@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "ErrorClass/ErrorClass.hpp"
+#include "SuccessClass/Success.hpp"
 
 /**
  * @brief Main function
@@ -29,5 +30,8 @@ int main(int argc, char **argv)
     } catch (Error &e) {
         std::cerr << e.what() << std::endl;
         return 84;
+    } catch (Success &e) {
+        std::cout << e.what() << std::endl;
+        return 0;
     }
 }
