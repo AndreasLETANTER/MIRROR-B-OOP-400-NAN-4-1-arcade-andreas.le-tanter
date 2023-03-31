@@ -6,6 +6,7 @@
 */
 
 #include "Pacman.hpp"
+#include <iostream>
 
 extern "C"
 {
@@ -13,6 +14,12 @@ extern "C"
     {
         return new Pacman();
     }
+}
+
+Pacman::Pacman()
+{
+    _score = 0;
+    _is_ended = false;
 }
 
 void Pacman::handleUserInput(char key)
@@ -31,11 +38,8 @@ void Pacman::handleUserInput(char key)
     if (key == 'd') {
         x++;
     }
-
-    _ObjectData[0] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x,  y));
-    _ObjectData[1] = std::make_pair(Enum::ObjectType::ENEMY, std::make_pair(5, 20));
-    _ObjectData[3] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(8, 27));
-    _ObjectData[4] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(10, 25));
+    createMapBorder(_MapBorderStartPos.first, _MapBorderStartPos.second, _MapBorderSize.first, _MapBorderSize.second);
+    concatDataMaps();
 }
 
 int Pacman::getScore()
@@ -55,5 +59,54 @@ Enum::libType Pacman::GetLibType()
 
 std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Pacman::getObjects()
 {
-    return _ObjectData;
+    return _ObjectsData;
+}
+
+void Pacman::concatDataMaps()
+{
+    int objIndex = 0;
+
+    _DataArrays = {
+            _GhostData,
+            _GumData,
+            _MazeData,
+            _MapBorderData
+    };
+    for (int arrayIndex = 0; arrayIndex < (int)_DataArrays.size(); arrayIndex++) {
+        for (int dataIndex = 0; dataIndex < (int)_DataArrays[arrayIndex].size(); dataIndex++) {
+            _ObjectsData[objIndex] = _DataArrays[arrayIndex][dataIndex];
+            objIndex++;
+        }
+    }
+}
+
+void Pacman::createMapBorder(int start_x, int start_y, int width, int height)
+{
+    for (int x = start_x; x <= start_x + width; x++) {
+        _MapBorderData[_MapBorderIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(x, start_y));
+        _MapBorderIndex++;
+        _MapBorderData[_MapBorderIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(x, start_y + height));
+        _MapBorderIndex++;
+    }
+    for (int y = start_y; y < start_y + height; y++) {
+        _MapBorderData[_MapBorderIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(start_x, y));
+        _MapBorderIndex++;
+        _MapBorderData[_MapBorderIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(start_x + width, y));
+        _MapBorderIndex++;
+    }
+}
+
+std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Pacman::getMapBorderData()
+{
+    return _MapBorderData;
+}
+
+std::pair<int, int> Pacman::getMapBorderStartPos()
+{
+    return _MapBorderStartPos;
+}
+
+std::pair<int, int> Pacman::getMapBorderSize()
+{
+    return _MapBorderSize;
 }
