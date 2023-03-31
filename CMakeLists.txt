@@ -17,6 +17,7 @@ set(SRC
     src/ProgramEventsClass/ProgramEvents.cpp
     src/GameClass/Game.cpp
     src/CoreClass/Core.cpp
+    src/ErrorClass/ErrorClass.cpp
 )
 set(MAIN
     src/main.cpp
