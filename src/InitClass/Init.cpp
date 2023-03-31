@@ -105,3 +105,18 @@ Init::Init(const std::string &path)
 {
     loadInstances(path);
 }
+
+/**
+ * @brief Close all instances
+*/
+void Init::close_all()
+{
+    for (auto it = _GraphicalInstances.begin(); it != _GraphicalInstances.end(); it++) {
+        it->second->closeLibrary();
+        delete it->second;
+    }
+    for (auto it = _GamesInstances.begin(); it != _GamesInstances.end(); it++) {
+        it->second->closeLibrary();
+        delete it->second;
+    }
+}

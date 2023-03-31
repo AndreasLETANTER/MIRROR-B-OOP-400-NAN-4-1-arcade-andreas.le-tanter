@@ -18,6 +18,7 @@ class Init : public IInit {
         void loadInstances(const std::string &path);
         inline std::map<int, DLLoader<IGameEngine> *> getGamesInstances() { return _GamesInstances; };
         inline std::map<int, DLLoader<IDisplayModule> *> getGraphicalInstances() { return _GraphicalInstances; };
+        void close_all();
 
     protected:
         std::map<int, DLLoader<IGameEngine> *> _GamesInstances;

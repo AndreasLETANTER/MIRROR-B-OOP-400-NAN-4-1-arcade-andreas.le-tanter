@@ -188,5 +188,8 @@ void ProgramEvents::GoToGame()
 void ProgramEvents::Exit()
 {
     getCurrentGraphicLibrary()->getInstance()->FiniWindow();
+    getCurrentGraphicLibrary()->closeLibrary();
+    getCurrentGameLibrary()->closeLibrary();
+    _Init->close_all();
     exit(0);
 }

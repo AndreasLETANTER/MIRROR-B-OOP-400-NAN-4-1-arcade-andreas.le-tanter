@@ -36,6 +36,7 @@ void DLLoader<T>::openLibrary(const std::string &libraryPath)
 template <typename T>
 void DLLoader<T>::closeLibrary(void)
 {
+    delete _instance;
     int return_value = dlclose(_OpenedLibrary);
 
     if (return_value != 0) {
