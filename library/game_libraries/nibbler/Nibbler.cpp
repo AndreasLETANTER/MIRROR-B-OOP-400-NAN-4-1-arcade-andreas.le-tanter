@@ -178,7 +178,7 @@ bool Nibbler::CheckNibblerCollision(std::pair<int, int> player_pos)
             return true;
         }
     }
-    if (!(_PlayerData[0].second.second > 1 + 1 && _PlayerData[0].second.second < HEIGHT + 1 - 1 && _PlayerData[0].second.first > BOX_POS_X + 1 && _PlayerData[0].second.first < WIDTH + BOX_POS_X - 1)) {
+    if (!(_PlayerData[0].second.second > BOX_POS_Y + 1 && _PlayerData[0].second.second < HEIGHT + BOX_POS_X - 1 && _PlayerData[0].second.first > BOX_POS_X + 1 && _PlayerData[0].second.first < WIDTH + BOX_POS_X - 1)) {
         return true;
     }
     return false;
@@ -204,16 +204,16 @@ void Nibbler::MoveNibblerTail()
 */
 void Nibbler::MoveWithLastKey()
 {
-    if (_last_key == 'z' && _PlayerData[0].second.second > 1 + 1) {
+    if (_last_key == 'z' && _PlayerData[0].second.second > BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.second -= 1;
-    } else if (_last_key == 's' && _PlayerData[0].second.second < HEIGHT + 1 - 1) {
+    } else if (_last_key == 's' && _PlayerData[0].second.second < HEIGHT + BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second += 1;
-    } else if(_last_key == 'q' && _PlayerData[0].second.first > BOX_POS_X + 1) {
+    } else if(_last_key == 'q' && _PlayerData[0].second.first > BOX_POS_X + BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.first -= 1;
-    } else if (_last_key == 'd' && _PlayerData[0].second.first < WIDTH + BOX_POS_X - 1) {
+    } else if (_last_key == 'd' && _PlayerData[0].second.first < WIDTH + BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.first += 1;
     }
@@ -227,16 +227,16 @@ void Nibbler::handlePlayerMovement(char key)
 {
     bool keep_key = true;
 
-    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > 1 + 1) {
+    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.second -= 1;
-    } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < HEIGHT + 1 - 1) {
+    } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < HEIGHT + BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second += 1;
-    } else if(key == 'q' && _last_key != 'd' && _PlayerData[0].second.first > BOX_POS_X + 1) {
+    } else if(key == 'q' && _last_key != 'd' && _PlayerData[0].second.first > BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.first -= 1;
-    } else if (key == 'd' && _last_key != 'q' && _PlayerData[0].second.first < WIDTH + BOX_POS_X - 1) {
+    } else if (key == 'd' && _last_key != 'q' && _PlayerData[0].second.first < WIDTH + BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.first += 1;
     } else if (key == -1) {
@@ -401,7 +401,7 @@ void Nibbler::handleUserInput(char key)
         }
     }
     RemoveAllPlayerToGame();
-    //handlePlayerMovement(key);
+    handlePlayerMovement(key);
     //UpdateGameEvent();
     AddPlayerToGame();
 }
