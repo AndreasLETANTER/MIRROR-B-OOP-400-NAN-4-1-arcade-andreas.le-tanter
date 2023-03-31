@@ -15,6 +15,13 @@
 #define PLAYER_INIT_Y 39
 #define PLAYER_INIT_X 107
 
+enum DIRECTION {
+    NORTH,
+    WEST,
+    EAST,
+    SOUTH
+};
+
 class Nibbler : public IGameEngine {
     public:
         Nibbler();
@@ -31,7 +38,9 @@ class Nibbler : public IGameEngine {
         bool _is_ended;
         int last_idx = 0;
         int last_player_idx = 0;
+        DIRECTION _currentDirection;
         char _last_key = 'd';
+
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
         char _map[160][50];
@@ -54,4 +63,5 @@ class Nibbler : public IGameEngine {
         void NorthOrWestPath(int i, int x);
         void DestroyDeadEnds();
         void ResetMap();
+        void RedirectNibblerIfColliding();
 };

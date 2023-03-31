@@ -175,6 +175,41 @@ void Nibbler::CreateBoxCase(int x, int y, int x_length, int y_length)
 }
 
 /**
+ * @brief Function for redirecting the Nibbler
+ * @details This function redirect the nibbler if he is colliding with a wall
+*/
+void Nibbler::RedirectNibblerIfColliding()
+{
+    if (_last_key == 'd') {
+        _last_key = 'z';
+        _PlayerData[0].second.first -= 1;
+        _PlayerData[0].second.second -= 1;
+        return;
+    }
+
+    if (_last_key == 'z') {
+        _last_key = 'q';
+        _PlayerData[0].second.first -= 1;
+        _PlayerData[0].second.second += 1;
+        return;
+    }
+
+    if (_last_key == 'q') {
+        _last_key = 's';
+        _PlayerData[0].second.first += 1;
+        _PlayerData[0].second.second += 1;
+        return;
+    }
+
+    if (_last_key == 's') {
+        _last_key = 'd';
+        _PlayerData[0].second.first += 1;
+        _PlayerData[0].second.second -= 1;
+        return;
+    }
+}
+
+/**
  * @brief Check if the player is colliding with the border or itself
  * @param player_pos
  * @return true
@@ -188,7 +223,8 @@ bool Nibbler::CheckNibblerCollision(std::pair<int, int> player_pos)
         }
     }
     if (!(_PlayerData[0].second.second >= BOX_POS_Y + 1 && _PlayerData[0].second.second <= HEIGHT + BOX_POS_Y - 1 && _PlayerData[0].second.first >= BOX_POS_X + 1 && _PlayerData[0].second.first <= WIDTH + BOX_POS_X - 1)) {
-        return true;
+        RedirectNibblerIfColliding();
+        return false;
     }
     return false;
 }
@@ -239,15 +275,19 @@ void Nibbler::handlePlayerMovement(char key)
     if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second -= 1;
+        _last_key = key;
     } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < HEIGHT + BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second += 1;
+        _last_key = key;
     } else if(key == 'q' && _last_key != 'd' && _PlayerData[0].second.first > BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.first -= 1;
+        _last_key = key;
     } else if (key == 'd' && _last_key != 'q' && _PlayerData[0].second.first < WIDTH + BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.first += 1;
+        _last_key = key;
     } else if (key == -1) {
         MoveWithLastKey();
     } else {
