@@ -64,4 +64,5 @@ class Nibbler : public IGameEngine {
         void DestroyDeadEnds();
         void ResetMap();
         void RedirectNibblerIfColliding();
+        bool CheckNibblerCollisionOnGameWalls();
 };

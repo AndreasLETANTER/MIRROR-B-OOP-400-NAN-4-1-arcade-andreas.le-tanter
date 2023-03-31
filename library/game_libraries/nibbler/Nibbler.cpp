@@ -97,16 +97,34 @@ void Nibbler::DestroyDeadEnds()
             }
             if (i != 0 && x != 0) {
                 if (_map[i - 1][x] == 'X' && _map[i - 1][x + 1] == 'X' && _map[i][x + 1] == 'X') {
-                    _map[i][x] = '*';
+                    if (rand() > RAND_MAX / 2) {
+                        _map[i][x] = '*';
+                    } else {
+                        _map[i][x + 1] = '*';
+                    }
                 }
                 if (_map[i - 1][x] == 'X' && _map[i - 1][x - 1] == 'X' && _map[i][x - 1] == 'X') {
-                    _map[i][x] = '*';
+                    if (rand() > RAND_MAX / 2) {
+                        _map[i][x] = '*';
+                    } else {
+                        _map[i][x - 1] = '*';
+                    }
                 }
                 if (_map[i][x - 1] == 'X' && _map[i + 1][x - 1] == 'X' && _map[i + 1][x] == 'X') {
                     _map[i][x] = '*';
+                    if (rand() > RAND_MAX / 2) {
+                        _map[i][x] = '*';
+                    } else {
+                        _map[i + 1][x] = '*';
+                    }
                 }
                 if (_map[i][x + 1] == 'X' && _map[i + 1][x + 1] == 'X' && _map[i + 1][x] == 'X') {
                     _map[i][x] = '*';
+                    if (rand() > RAND_MAX / 2) {
+                        _map[i][x + 1] = '*';
+                    } else {
+                        _map[i][x] = '*';
+                    }
                 }
             }
         }
@@ -210,6 +228,20 @@ void Nibbler::RedirectNibblerIfColliding()
 }
 
 /**
+ * @brief Check if Nibbler is colliding with a wall
+ * @return False if he didnt true if he did
+*/
+bool Nibbler::CheckNibblerCollisionOnGameWalls()
+{
+    for (int i = 0; i <= last_idx; i++) {
+        if (_ObjectData[i].first == Enum::ObjectType::BORDER && _PlayerData[0].second.first == _ObjectData[i].second.first && _PlayerData[0].second.second == _ObjectData[i].second.second) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * @brief Check if the player is colliding with the border or itself
  * @param player_pos
  * @return true
@@ -222,9 +254,8 @@ bool Nibbler::CheckNibblerCollision(std::pair<int, int> player_pos)
             return true;
         }
     }
-    if (!(_PlayerData[0].second.second >= BOX_POS_Y + 1 && _PlayerData[0].second.second <= HEIGHT + BOX_POS_Y - 1 && _PlayerData[0].second.first >= BOX_POS_X + 1 && _PlayerData[0].second.first <= WIDTH + BOX_POS_X - 1)) {
+    if (CheckNibblerCollisionOnGameWalls() == true) {
         RedirectNibblerIfColliding();
-        return false;
     }
     return false;
 }
