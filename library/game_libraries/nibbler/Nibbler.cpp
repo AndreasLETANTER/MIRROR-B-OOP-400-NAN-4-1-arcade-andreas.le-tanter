@@ -23,8 +23,8 @@ extern "C"
 */
 void Nibbler::InitPlayer()
 {
-    int x = 100;
-    int y = 25;
+    int x = PLAYER_INIT_X;
+    int y = PLAYER_INIT_Y;
 
     _PlayerData[last_player_idx] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x, y));
     last_player_idx++;
@@ -400,10 +400,10 @@ void Nibbler::handleUserInput(char key)
             }
         }
     }
-    //RemoveAllPlayerToGame();
+    RemoveAllPlayerToGame();
     //handlePlayerMovement(key);
     //UpdateGameEvent();
-    //AddPlayerToGame();
+    AddPlayerToGame();
 }
 
 /**

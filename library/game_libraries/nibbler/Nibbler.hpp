@@ -12,6 +12,8 @@
 #define BOX_POS_X 80
 #define BOX_POS_Y 15
 #define WIDTH 50
+#define PLAYER_INIT_Y 39
+#define PLAYER_INIT_X 107
 
 class Nibbler : public IGameEngine {
     public:
