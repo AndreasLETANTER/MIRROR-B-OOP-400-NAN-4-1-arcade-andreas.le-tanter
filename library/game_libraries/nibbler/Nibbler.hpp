@@ -42,6 +42,7 @@ class Nibbler : public IGameEngine {
         char _last_key = 'd';
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
+        std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PreviousPlayerData;
         char _map[160][50];
         bool _is_stuck = false;
     private:
@@ -67,4 +68,6 @@ class Nibbler : public IGameEngine {
         bool CheckNibblerCollisionOnGameWalls();
         void PartialReset();
         bool CheckObjectPosition(Enum::ObjectType _type, std::pair<int, int> _pos);
+        void CopyPlayerData();
+        void RestorePlayerData();
 };

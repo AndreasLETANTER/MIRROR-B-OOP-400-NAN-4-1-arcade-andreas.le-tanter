@@ -191,6 +191,13 @@ void Nibbler::CreateBoxCase(int x, int y, int x_length, int y_length)
     }
 }
 
+/**
+ * @brief check the position of an object
+ * @details check if an object is at a specific position
+ * @param _type type of the object
+ * @param _pos position of the object
+ * @return true if the object is at the position
+*/
 bool Nibbler::CheckObjectPosition(Enum::ObjectType _type, std::pair<int, int> _pos)
 {
     for (int i = 0; i < last_idx; i++) {
@@ -199,6 +206,20 @@ bool Nibbler::CheckObjectPosition(Enum::ObjectType _type, std::pair<int, int> _p
         }
     }
     return false;
+}
+
+void Nibbler::RestorePlayerData()
+{
+    for (int i = 0; i < last_player_idx; i++) {
+        _PlayerData[i] = _PreviousPlayerData[i];
+    }
+}
+
+void Nibbler::CopyPlayerData()
+{
+    for (int i = 0; i < last_player_idx; i++) {
+        _PreviousPlayerData[i] = _PlayerData[i];
+    }
 }
 
 /**
@@ -226,8 +247,7 @@ void Nibbler::RedirectNibblerIfColliding()
     if (_last_key == 'd' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1)) == false
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
-        _PlayerData[0].second.first -= 1;
-        _is_stuck = true;
+        RestorePlayerData();
         return;
     }
     if (_last_key == 'z' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
@@ -249,7 +269,7 @@ void Nibbler::RedirectNibblerIfColliding()
     if (_last_key == 'z' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second + 1)) == false
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
-        _PlayerData[0].second.second += 1;
+        RestorePlayerData();
         return;
     }
     if (_last_key == 'q' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
@@ -269,8 +289,9 @@ void Nibbler::RedirectNibblerIfColliding()
         return;
     }
     if (_last_key == 'q' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
-        _PlayerData[0].second.first += 1;
+        RestorePlayerData();
         return;
     }
     if (_last_key == 's' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
@@ -292,7 +313,7 @@ void Nibbler::RedirectNibblerIfColliding()
     if (_last_key == 's' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false
                          && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1)) == false) {
-        _PlayerData[0].second.second -= 1;
+        RestorePlayerData();
         return;
     }
 
@@ -373,6 +394,8 @@ void Nibbler::MoveWithLastKey()
 void Nibbler::handlePlayerMovement(char key)
 {
     bool keep_key = true;
+
+    CopyPlayerData();
     if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second -= 1;
@@ -498,7 +521,7 @@ void Nibbler::AddPlayerToGame()
 void Nibbler::RemoveAllPlayerToGame()
 {
     int tem = last_idx - 1;
-    for (int i = 0; i < tem; i++) {
+    for (int i = 0; i <= tem; i++) {
         if (_ObjectData[i].first == Enum::ObjectType::PLAYER || _ObjectData[i].first == Enum::ObjectType::PLAYER_PART) {
             erase_element(i);
             last_idx--;
@@ -532,6 +555,7 @@ void Nibbler::ResetGame()
     _is_ended = false;
     _ObjectData.clear();
     _PlayerData.clear();
+    _PreviousPlayerData.clear();
     ResetMap();
     InitPlayer();
     GenerateRandomMap();
