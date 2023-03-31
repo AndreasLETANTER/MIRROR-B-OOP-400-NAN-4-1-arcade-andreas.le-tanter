@@ -18,6 +18,8 @@ set(SRC
     src/ProgramEventsClass/ProgramEvents.cpp
     src/GameClass/Game.cpp
     src/CoreClass/Core.cpp
+    src/ErrorClass/ErrorClass.cpp
+    src/SuccessClass/Success.cpp
 )
 set(MAIN
     src/main.cpp
@@ -39,6 +41,9 @@ set(PACMAN
 )
 set(SNAKE
     library/game_libraries/snake/Snake.cpp    
+)
+set(NIBBLER
+    library/game_libraries/nibbler/Nibbler.cpp
 )
 
 ###############################COMPILATION MAIN PROGRAM##########################
@@ -92,6 +97,9 @@ add_library(pacman SHARED ${PACMAN})
 ##############################Snake##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(snake SHARED ${SNAKE})
+##############################Nibbler############################################
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
+add_library(nibbler SHARED ${NIBBLER})
 
 add_custom_target(games
     COMMAND make pacman

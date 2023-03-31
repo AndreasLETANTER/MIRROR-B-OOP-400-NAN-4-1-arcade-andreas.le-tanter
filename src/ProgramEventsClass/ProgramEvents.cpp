@@ -6,6 +6,7 @@
 */
 
 #include "ProgramEvents.hpp"
+#include "../SuccessClass/Success.hpp"
 #include <unistd.h>
 
 /**
@@ -191,5 +192,5 @@ void ProgramEvents::Exit()
     getCurrentGraphicLibrary()->closeLibrary();
     getCurrentGameLibrary()->closeLibrary();
     _Init->close_all();
-    exit(0);
+    throw Success("Program exited successfully");
 }

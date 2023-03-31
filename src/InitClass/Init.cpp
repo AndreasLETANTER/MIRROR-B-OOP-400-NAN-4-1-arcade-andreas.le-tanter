@@ -8,6 +8,7 @@
 #include "Init.hpp"
 #include <iostream>
 #include <filesystem>
+#include "../ErrorClass/ErrorClass.hpp"
 
 /**
  * @brief Get the number of files in a folder
@@ -19,8 +20,7 @@ int Init::getNbFiles(const std::string &path)
 
     std::filesystem::path fp = path;
     if (!std::filesystem::exists(fp)) {
-        std::cout << "Error: " << path << " folder doesn't exist." << std::endl;
-        exit(84);
+        throw Error("Error: " + path + " folder doesn't exist.");
     }
     for (auto p : std::filesystem::directory_iterator(fp)) {
         if (p.is_regular_file())
@@ -43,8 +43,7 @@ void Init::getAllFilePaths(const std::string &path)
     std::cout << "Libraries opened in " << path << " folder :" << std::endl;
     std::filesystem::path fp = path;
     if (!std::filesystem::exists(fp)) {
-        std::cout << "Error: " << path << " folder doesn't exist." << std::endl;
-        exit(84);
+        throw Error("Error: " + path + " folder doesn't exist.");
     }
     for (auto p : std::filesystem::directory_iterator(fp)) {
         if (p.is_regular_file()) {
