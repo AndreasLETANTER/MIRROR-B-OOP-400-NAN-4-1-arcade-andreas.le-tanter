@@ -1,12 +1,10 @@
 /*
 ** EPITECH PROJECT, 20BOX_POS_X
-** MIRROR-B-OOP-400-NAN-4-1-arcade-andreas.le-tanter [WSL : Ubuntu]
+** MIRROR-B-OOP-400-NAN-4-1-arcade-andreas.le-tanter [WSL : Ubuntu]
 ** File description:
 ** Nibbler
 */
-
 #include "Nibbler.hpp"
-
 /**
  * @brief Construct a new Nibbler:: Nibbler object
 */
@@ -17,7 +15,6 @@ extern "C"
         return new Nibbler();
     }
 }
-
 /**
  * @brief Init the data needed for displaying the player and its parts
 */
@@ -25,7 +22,6 @@ void Nibbler::InitPlayer()
 {
     int x = PLAYER_INIT_X;
     int y = PLAYER_INIT_Y;
-
     _PlayerData[last_player_idx] = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x, y));
     last_player_idx++;
     for (int i = 1; i != 4; i++) {
@@ -33,7 +29,6 @@ void Nibbler::InitPlayer()
         last_player_idx++;
     }
 }
-
 /**
  * @brief Chose the direction to carve
  * @details Chose the direction to carve in the _map between North and West
@@ -53,7 +48,6 @@ void Nibbler::NorthOrWestPath(int i, int x)
         _map[i + 1][x] = 'X';
     }
 }
-
 /**
  * @brief Carve the path in the _map
  * @details Carve the path in the _map
@@ -82,7 +76,6 @@ void Nibbler::CarvePath(int height, int width, int i)
         }
     }
 }
-
 /**
  * @brief Destroy Dead Ends in the _map
  * @details Destroy all angular dead end
@@ -130,7 +123,6 @@ void Nibbler::DestroyDeadEnds()
         }
     }
 }
-
 /**
  * @brief Generate a random map
 */
@@ -148,7 +140,6 @@ void Nibbler::GenerateRandomMap()
     }
     _map[WIDTH - 1][HEIGHT - 1] = '*';
    DestroyDeadEnds();
-
    for (int i = 0; i <= WIDTH; i++) {
         for (int j = 0; j <= HEIGHT; j++) {
             if (_map[i][j] == 'X') {
@@ -158,7 +149,6 @@ void Nibbler::GenerateRandomMap()
         }
     }
 }
-
 /**
  * @brief Construct a new Nibbler:: Nibbler object
  * @details Init the game and create the border
@@ -174,7 +164,6 @@ Nibbler::Nibbler()
         GenerateFruit();
     }
 }
-
 /**
  * @brief Create the border of the game
 */
@@ -191,7 +180,6 @@ void Nibbler::CreateBoxCase(int x, int y, int x_length, int y_length)
         _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(x_length + x, i));
     }
 }
-
 /**
  * @brief Function for redirecting the Nibbler
  * @details This function redirect the nibbler if he is colliding with a wall
@@ -204,21 +192,18 @@ void Nibbler::RedirectNibblerIfColliding()
         _PlayerData[0].second.second -= 1;
         return;
     }
-
     if (_last_key == 'z') {
         _last_key = 'q';
         _PlayerData[0].second.first -= 1;
         _PlayerData[0].second.second += 1;
         return;
     }
-
     if (_last_key == 'q') {
         _last_key = 's';
         _PlayerData[0].second.first += 1;
         _PlayerData[0].second.second += 1;
         return;
     }
-
     if (_last_key == 's') {
         _last_key = 'd';
         _PlayerData[0].second.first += 1;
@@ -226,7 +211,6 @@ void Nibbler::RedirectNibblerIfColliding()
         return;
     }
 }
-
 /**
  * @brief Check if Nibbler is colliding with a wall
  * @return False if he didnt true if he did
@@ -240,7 +224,6 @@ bool Nibbler::CheckNibblerCollisionOnGameWalls()
     }
     return false;
 }
-
 /**
  * @brief Check if the player is colliding with the border or itself
  * @param player_pos
@@ -259,7 +242,6 @@ bool Nibbler::CheckNibblerCollision(std::pair<int, int> player_pos)
     }
     return false;
 }
-
 /**
  * @brief Move the Nibbler tail
  * @details Move the Nibbler tail to the position of the previous part
@@ -273,7 +255,6 @@ void Nibbler::MoveNibblerTail()
         }
     }
 }
-
 /**
  * @brief Move the Nibbler
  * @details Move the Nibbler to the position asked by the player
@@ -294,7 +275,6 @@ void Nibbler::MoveWithLastKey()
         _PlayerData[0].second.first += 1;
     }
 }
-
 /**
  * @brief Move the Nibbler
  * @details Move the Nibbler to the position asked by the player
@@ -302,7 +282,6 @@ void Nibbler::MoveWithLastKey()
 void Nibbler::handlePlayerMovement(char key)
 {
     bool keep_key = true;
-
     if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second -= 1;
@@ -331,7 +310,6 @@ void Nibbler::handlePlayerMovement(char key)
     if (key != -1 && keep_key == true)
         _last_key = key;
 }
-
 /**
  * @brief Generate a fruit
  * @details Generate a fruit at a random position
@@ -340,18 +318,15 @@ void Nibbler::GenerateFruit()
 {
     int x = rand() % (WIDTH - 1) + BOX_POS_X + 1;
     int y = rand() % (HEIGHT - 1) + BOX_POS_Y + 1;
-
     for (int i = 0; i < last_idx; i++) {
         if (_ObjectData[i].second.first == x && _ObjectData[i].second.second == y) {
             GenerateFruit();
             return;
         }
     }
-
     _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(x, y));
     last_idx++;
 }
-
 /**
  * @brief Get the Player Position
  * @return std::pair<int, int>
@@ -364,7 +339,6 @@ std::pair<int, int> Nibbler::GetPlayerPos()
     }
     return std::make_pair(0, 0);
 }
-
 /**
  * @brief Delete an element from the object list
  * @details Delete an element from the object list at the given index
@@ -372,12 +346,11 @@ std::pair<int, int> Nibbler::GetPlayerPos()
 */
 void Nibbler::erase_element(int idx)
 {
-    for (int i = idx; i < last_idx - 1; i++) {
+    for (int i = idx; i < last_idx; i++) {
         _ObjectData[i] = _ObjectData[i + 1];
         _ObjectData.erase(i + 1);
     }
 }
-
 /**
  * @brief Add a player part
 */
@@ -386,27 +359,30 @@ void Nibbler::AddPlayerPart()
     _PlayerData[last_player_idx] = std::make_pair(Enum::ObjectType::PLAYER_PART, std::make_pair(_PlayerData[last_player_idx - 1].second.first, _PlayerData[last_player_idx - 1].second.second));
     last_player_idx++;
 }
-
 /**
  * @brief Update the game event
  * @details Update the game event (check if the player eat a fruit)
 */
 void Nibbler::UpdateGameEvent()
 {
+    int _NbItems = 0;
     std::pair<int, int> player_pos = GetPlayerPos();
     for (int i = 0; i < last_idx; i++) {
         if (_ObjectData[i].first == Enum::ObjectType::ITEM) {
+            _NbItems++;
             if (_ObjectData[i].second.first == player_pos.first && _ObjectData[i].second.second == player_pos.second) {
                 erase_element(i);
                 last_idx--;
                 AddPlayerPart();
-                GenerateFruit();
                 _score += 10;
+                _NbItems--;
             }
         }
     }
+    if (_NbItems == 0) {
+        //PartialReset();
+    }
 }
-
 /**
  * @brief Create a Player
 */
@@ -417,19 +393,20 @@ void Nibbler::AddPlayerToGame()
         last_idx++;
     }
 }
-
 /**
  * @brief Remove all player to game
  * @details Remove all player to game and its parts
 */
 void Nibbler::RemoveAllPlayerToGame()
 {
-    for (int i = 0; i < last_player_idx; i++) {
-        _ObjectData.erase(last_idx);
-        last_idx--;
+    int tem = last_idx;
+    for (int i = 0; i < tem; i++) {
+        if (_ObjectData[i].first == Enum::ObjectType::PLAYER || _ObjectData[i].first == Enum::ObjectType::PLAYER_PART) {
+            _ObjectData.erase(i);
+            last_idx--;
+        }
     }
 }
-
 void Nibbler::ResetMap()
 {
     for (int i = 0; i < WIDTH; i++) {
@@ -438,7 +415,6 @@ void Nibbler::ResetMap()
         }
     }
 }
-
 /**
  * @brief Reset the game
  * @details Reset the game to the initial state
@@ -454,13 +430,32 @@ void Nibbler::ResetGame()
     _PlayerData.clear();
     ResetMap();
     InitPlayer();
+    //GenerateRandomMap();
+    CreateBoxCase(BOX_POS_X, BOX_POS_Y, WIDTH, HEIGHT);
+    for (int i = 0; i < 10; i++) {
+        GenerateFruit();
+    }
+}
+/**
+ * @brief Partially reset the game
+ * @brief reset the everything except the score of the player
+*/
+void Nibbler::PartialReset()
+{
+    _last_key = 'd';
+    last_idx = 0;
+    last_player_idx = 0;
+    _is_ended = false;
+    _ObjectData.clear();
+    _PlayerData.clear();
+    ResetMap();
+    InitPlayer();
     GenerateRandomMap();
     CreateBoxCase(BOX_POS_X, BOX_POS_Y, WIDTH, HEIGHT);
     for (int i = 0; i < 10; i++) {
         GenerateFruit();
     }
 }
-
 /**
  * @brief Handle the user input
  * @details Handle the user input and update the game
@@ -472,13 +467,12 @@ void Nibbler::handleUserInput(char key)
         return;
     }
     handlePlayerMovement(key);
-    //UpdateGameEvent();
-    if (_is_ended == false) {   
+    UpdateGameEvent();
+    if (_is_ended == false) {  
         RemoveAllPlayerToGame();
         AddPlayerToGame();
     }
 }
-
 /**
  * @brief Get the Score
  * @return int
@@ -487,7 +481,6 @@ int Nibbler::getScore()
 {
     return _score;
 }
-
 /**
  * @brief Get the Status
  * @details Get the status of the game (if the game is ended or not)
@@ -497,7 +490,6 @@ bool Nibbler::getStatus()
 {
     return _is_ended;
 }
-
 /**
  * @brief Get the Lib Type
  * @return Enum::libType
@@ -506,7 +498,6 @@ Enum::libType Nibbler::GetLibType()
 {
     return Enum::libType::GAME;
 }
-
 /**
  * @brief Get the Object Data
  * @return std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>>

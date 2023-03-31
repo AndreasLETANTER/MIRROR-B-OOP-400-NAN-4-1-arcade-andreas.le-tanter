@@ -65,4 +65,5 @@ class Nibbler : public IGameEngine {
         void ResetMap();
         void RedirectNibblerIfColliding();
         bool CheckNibblerCollisionOnGameWalls();
+        void PartialReset();
 };
