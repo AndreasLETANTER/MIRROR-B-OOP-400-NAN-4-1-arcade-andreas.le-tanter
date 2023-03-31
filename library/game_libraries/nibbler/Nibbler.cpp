@@ -187,7 +187,7 @@ bool Nibbler::CheckNibblerCollision(std::pair<int, int> player_pos)
             return true;
         }
     }
-    if (!(_PlayerData[0].second.second > BOX_POS_Y + 1 && _PlayerData[0].second.second < HEIGHT + BOX_POS_X - 1 && _PlayerData[0].second.first > BOX_POS_X + 1 && _PlayerData[0].second.first < WIDTH + BOX_POS_X - 1)) {
+    if (!(_PlayerData[0].second.second >= BOX_POS_Y + 1 && _PlayerData[0].second.second <= HEIGHT + BOX_POS_Y - 1 && _PlayerData[0].second.first >= BOX_POS_X + 1 && _PlayerData[0].second.first <= WIDTH + BOX_POS_X - 1)) {
         return true;
     }
     return false;
@@ -255,7 +255,7 @@ void Nibbler::handlePlayerMovement(char key)
         keep_key = false;
     }
     if (CheckNibblerCollision(GetPlayerPos())) {
-        //_is_ended = true;
+        _is_ended = true;
     }
     if (key != -1 && keep_key == true)
         _last_key = key;
@@ -400,10 +400,12 @@ void Nibbler::handleUserInput(char key)
         ResetGame();
         return;
     }
-    RemoveAllPlayerToGame();
     handlePlayerMovement(key);
     //UpdateGameEvent();
-    AddPlayerToGame();
+    if (_is_ended == false) {   
+        RemoveAllPlayerToGame();
+        AddPlayerToGame();
+    }
 }
 
 /**
