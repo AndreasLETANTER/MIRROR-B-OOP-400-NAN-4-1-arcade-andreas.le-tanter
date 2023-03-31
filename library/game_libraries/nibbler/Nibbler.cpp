@@ -380,7 +380,7 @@ void Nibbler::UpdateGameEvent()
         }
     }
     if (_NbItems == 0) {
-        //PartialReset();
+        PartialReset();
     }
 }
 /**
@@ -399,10 +399,10 @@ void Nibbler::AddPlayerToGame()
 */
 void Nibbler::RemoveAllPlayerToGame()
 {
-    int tem = last_idx;
+    int tem = last_idx - 1;
     for (int i = 0; i < tem; i++) {
         if (_ObjectData[i].first == Enum::ObjectType::PLAYER || _ObjectData[i].first == Enum::ObjectType::PLAYER_PART) {
-            _ObjectData.erase(i);
+            erase_element(i);
             last_idx--;
         }
     }
@@ -430,7 +430,7 @@ void Nibbler::ResetGame()
     _PlayerData.clear();
     ResetMap();
     InitPlayer();
-    //GenerateRandomMap();
+    GenerateRandomMap();
     CreateBoxCase(BOX_POS_X, BOX_POS_Y, WIDTH, HEIGHT);
     for (int i = 0; i < 10; i++) {
         GenerateFruit();
