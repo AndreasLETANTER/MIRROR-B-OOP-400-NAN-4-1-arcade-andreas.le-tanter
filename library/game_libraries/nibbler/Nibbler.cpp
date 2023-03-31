@@ -130,6 +130,15 @@ void Nibbler::GenerateRandomMap()
     }
     _map[WIDTH - 1][HEIGHT - 1] = '*';
    DestroyDeadEnds();
+
+   for (int i = 0; i <= WIDTH; i++) {
+        for (int j = 0; j <= HEIGHT; j++) {
+            if (_map[i][j] == 'X') {
+                _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(i + BOX_POS_X, j + BOX_POS_Y));
+                last_idx++;
+            }
+        }
+    }
 }
 
 /**
@@ -204,13 +213,13 @@ void Nibbler::MoveNibblerTail()
 */
 void Nibbler::MoveWithLastKey()
 {
-    if (_last_key == 'z' && _PlayerData[0].second.second > BOX_POS_X) {
+    if (_last_key == 'z' && _PlayerData[0].second.second > BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second -= 1;
     } else if (_last_key == 's' && _PlayerData[0].second.second < HEIGHT + BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second += 1;
-    } else if(_last_key == 'q' && _PlayerData[0].second.first > BOX_POS_X + BOX_POS_X) {
+    } else if(_last_key == 'q' && _PlayerData[0].second.first > BOX_POS_X) {
         MoveNibblerTail();
         _PlayerData[0].second.first -= 1;
     } else if (_last_key == 'd' && _PlayerData[0].second.first < WIDTH + BOX_POS_X) {
@@ -227,7 +236,7 @@ void Nibbler::handlePlayerMovement(char key)
 {
     bool keep_key = true;
 
-    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > BOX_POS_X) {
+    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > BOX_POS_Y) {
         MoveNibblerTail();
         _PlayerData[0].second.second -= 1;
     } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < HEIGHT + BOX_POS_Y) {
@@ -246,7 +255,7 @@ void Nibbler::handlePlayerMovement(char key)
         keep_key = false;
     }
     if (CheckNibblerCollision(GetPlayerPos())) {
-        _is_ended = true;
+        //_is_ended = true;
     }
     if (key != -1 && keep_key == true)
         _last_key = key;
@@ -390,15 +399,6 @@ void Nibbler::handleUserInput(char key)
     if (key == 'r') {
         ResetGame();
         return;
-    }
-
-    for (int i = 0; i <= WIDTH; i++) {
-        for (int j = 0; j <= HEIGHT; j++) {
-            if (_map[i][j] == 'X') {
-                _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(i + BOX_POS_X, j + BOX_POS_Y));
-                last_idx++;
-            }
-        }
     }
     RemoveAllPlayerToGame();
     handlePlayerMovement(key);
