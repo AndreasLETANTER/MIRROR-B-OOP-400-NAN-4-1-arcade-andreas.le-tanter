@@ -191,33 +191,83 @@ void Nibbler::CreateBoxCase(int x, int y, int x_length, int y_length)
     }
 }
 
+bool Nibbler::CheckObjectPosition(Enum::ObjectType _type, std::pair<int, int> _pos)
+{
+    for (int i = 0; i < last_idx; i++) {
+        if (_ObjectData[i].first == _type && _ObjectData[i].second == _pos) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * @brief Function for redirecting the Nibbler
  * @details This function redirect the nibbler if he is colliding with a wall
 */
 void Nibbler::RedirectNibblerIfColliding()
 {
-    if (_last_key == 'd') {
+    if (_last_key == 'd' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second + 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1)) == false) {
         _last_key = 'z';
         _PlayerData[0].second.first -= 1;
         _PlayerData[0].second.second -= 1;
         return;
     }
-    if (_last_key == 'z') {
+    if (_last_key == 'd' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
+        _last_key = 's';
+        _PlayerData[0].second.first -= 1;
+        _PlayerData[0].second.second += 1;
+        return;
+    }
+    if (_last_key == 'z' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false) {
         _last_key = 'q';
         _PlayerData[0].second.first -= 1;
         _PlayerData[0].second.second += 1;
         return;
     }
-    if (_last_key == 'q') {
+    if (_last_key == 'z' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second + 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
+        _last_key = 'd';
+        _PlayerData[0].second.first += 1;
+        _PlayerData[0].second.second += 1;
+        return;
+    }
+    if (_last_key == 'q' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1)) == false) {
         _last_key = 's';
         _PlayerData[0].second.first += 1;
         _PlayerData[0].second.second += 1;
         return;
     }
-    if (_last_key == 's') {
+    if (_last_key == 'q' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second + 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false) {
+        _last_key = 'z';
+        _PlayerData[0].second.first += 1;
+        _PlayerData[0].second.second -= 1;
+        return;
+    }
+    if (_last_key == 's' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1)) == false) {
         _last_key = 'd';
         _PlayerData[0].second.first += 1;
+        _PlayerData[0].second.second -= 1;
+        return;
+    }
+    if (_last_key == 's' && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first, _PlayerData[0].second.second))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first + 1, _PlayerData[0].second.second - 1))
+                         && CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(_PlayerData[0].second.first - 1, _PlayerData[0].second.second - 1)) == false) {
+        _last_key = 'q';
+        _PlayerData[0].second.first -= 1;
         _PlayerData[0].second.second -= 1;
         return;
     }

@@ -15,6 +15,8 @@
 #define PLAYER_INIT_Y 39
 #define PLAYER_INIT_X 107
 
+#define call CheckObjectPosition(Enum::ObjectType::BORDER, std::make_pair(
+
 enum DIRECTION {
     NORTH,
     WEST,
@@ -66,4 +68,5 @@ class Nibbler : public IGameEngine {
         void RedirectNibblerIfColliding();
         bool CheckNibblerCollisionOnGameWalls();
         void PartialReset();
+        bool CheckObjectPosition(Enum::ObjectType _type, std::pair<int, int> _pos);
 };
