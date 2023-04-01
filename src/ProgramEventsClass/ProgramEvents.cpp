@@ -159,8 +159,14 @@ void ProgramEvents::SwapGameLib()
 */
 void ProgramEvents::ChangeUserName()
 {
+    char key = 'u';
     std::string buffer;
-    std::cin >> buffer;
+
+    while (key != '\n') {
+        key = currentGraphicLibrary->getInstance()->getUserInput();
+        if (key != -1)
+            buffer += key;
+    }
     _currentUserName = "UserName: " + buffer;
 }
 
