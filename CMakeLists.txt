@@ -62,6 +62,8 @@ find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 #compile the library
 add_library(ncurses SHARED ${NCURSES})
+#set the prefix and suffix for the library
+set_target_properties(ncurses PROPERTIES PREFIX "arcade_")
 #link the library with the ncurses library
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 ###############################SFML##############################################
@@ -72,6 +74,8 @@ find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 #compile the library
 add_library(sfml SHARED ${SFML})
+#set the prefix and suffix for the library
+set_target_properties(sfml PROPERTIES PREFIX "arcade_")
 #link the library with the ncurses library
 target_link_libraries(sfml ${CURSES_LIBRARIES})
 ###############################SDL##############################################
@@ -81,26 +85,34 @@ find_package(Curses REQUIRED)
 #set the include directories for the library
 include_directories(${CURSES_INCLUDE_DIR})
 #compile the library
-add_library(sdl SHARED ${SDL})
+add_library(sdl2 SHARED ${SDL})
+#set the prefix and suffix for the library
+set_target_properties(sdl2 PROPERTIES PREFIX "arcade_")
 #link the library with the ncurses library
-target_link_libraries(sdl ${CURSES_LIBRARIES})
+target_link_libraries(sdl2 ${CURSES_LIBRARIES})
 
 add_custom_target(graphicals
     COMMAND make ncurses
     COMMAND make sfml
-    COMMAND make sdl
+    COMMAND make sdl2
 )
 
 ###############################COMPILATION GAMES#################################
 ##############################PACMAN#############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(pacman SHARED ${PACMAN})
+#set the prefix and suffix for the library
+set_target_properties(pacman PROPERTIES PREFIX "arcade_")
 ##############################Snake##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(snake SHARED ${SNAKE})
+#set the prefix and suffix for the library
+set_target_properties(snake PROPERTIES PREFIX "arcade_")
 ##############################Nibbler############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(nibbler SHARED ${NIBBLER})
+#set the prefix and suffix for the library
+set_target_properties(nibbler PROPERTIES PREFIX "arcade_")
 
 add_custom_target(games
     COMMAND make pacman
