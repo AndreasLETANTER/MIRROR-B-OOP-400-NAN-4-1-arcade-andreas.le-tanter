@@ -22,7 +22,7 @@ void Menu::DisplayMenu()
         _MenuObjectsData = CreateMenuObjectsData(keypressed);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_MenuObjectsData);
         DisplayMenuText();
-        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(0, _WindowMaxSize.first / 1.80, _WindowMaxSize.second / 1.10);
+        _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayScore(_ProgramEvents->getCurrentGameLibrary()->getInstance()->getScore(), _WindowMaxSize.first / 1.80, _WindowMaxSize.second / 1.10);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->display();
         _ProgramEvents->handleEvents();
     } while (_ProgramEvents->getCurrentState() == State::MENU);
