@@ -24,6 +24,7 @@ public:
 protected:
     int _score;
     int _MapBorderIndex = 0;
+    int _ObjectIndex = 0;
     bool _is_ended;
     std::pair<int, int> _MapBorderStartPos  = std::make_pair(60, 15);
     std::pair<int, int> _MapBorderSize = std::make_pair(36, 30);
@@ -39,6 +40,7 @@ private:
     void concatDataMaps(void);
     void createMapBorder(int start_x, int start_y, int width, int height);
     void createGhostSpawnArea(void);
+    void createPacman(int x, int y);
     std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getMapBorderData(void);
     std::pair<int, int> getMapBorderStartPos(void);
     std::pair<int, int> getMapBorderSize(void);
