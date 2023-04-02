@@ -20,23 +20,22 @@ Pacman::Pacman()
 {
     _score = 0;
     _is_ended = false;
+    createPacman(20, 20);
 }
 
 void Pacman::handleUserInput(char key)
 {
-    static int x = 10;
-    static int y = 20;
     if (key == 'z') {
-        y--;
+        _Pacman.second.second -= 1;
     }
     if (key == 's') {
-        y++;
+        _Pacman.second.second += 1;
     }
     if (key == 'q') {
-        x--;
+        _Pacman.second.first -= 1;
     }
     if (key == 'd') {
-        x++;
+        _Pacman.second.first += 1;
     }
     createMapBorder(_MapBorderStartPos.first, _MapBorderStartPos.second, _MapBorderSize.first, _MapBorderSize.second);
     createGhostSpawnArea();
@@ -65,8 +64,6 @@ std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Pacman::getObjec
 
 void Pacman::concatDataMaps()
 {
-    int objIndex = 0;
-
     _DataArrays = {
             _GhostData,
             _GumData,
@@ -76,10 +73,11 @@ void Pacman::concatDataMaps()
     };
     for (int arrayIndex = 0; arrayIndex < (int)_DataArrays.size(); arrayIndex++) {
         for (int dataIndex = 0; dataIndex < (int)_DataArrays[arrayIndex].size(); dataIndex++) {
-            _ObjectsData[objIndex] = _DataArrays[arrayIndex][dataIndex];
-            objIndex++;
+            _ObjectsData[_ObjectIndex] = _DataArrays[arrayIndex][dataIndex];
+            _ObjectIndex++;
         }
     }
+    _ObjectsData[_ObjectIndex] = _Pacman;
 }
 
 void Pacman::createMapBorder(int start_x, int start_y, int width, int height)
@@ -135,4 +133,9 @@ void Pacman::createGhostSpawnArea()
         _WallData[wallIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(x + width, i));
         wallIndex++;
     }
+}
+
+void Pacman::createPacman(int x, int y)
+{
+    _Pacman = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x, y));
 }
