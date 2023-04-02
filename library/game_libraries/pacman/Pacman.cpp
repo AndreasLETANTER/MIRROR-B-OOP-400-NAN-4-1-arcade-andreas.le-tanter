@@ -25,18 +25,7 @@ Pacman::Pacman()
 
 void Pacman::handleUserInput(char key)
 {
-    if (key == 'z') {
-        _Pacman.second.second -= 1;
-    }
-    if (key == 's') {
-        _Pacman.second.second += 1;
-    }
-    if (key == 'q') {
-        _Pacman.second.first -= 1;
-    }
-    if (key == 'd') {
-        _Pacman.second.first += 1;
-    }
+    handlePacmanMovement(key);
     createMapBorder(_MapBorderStartPos.first, _MapBorderStartPos.second, _MapBorderSize.first, _MapBorderSize.second);
     createGhostSpawnArea();
     concatDataMaps();
@@ -138,4 +127,24 @@ void Pacman::createGhostSpawnArea()
 void Pacman::createPacman(int x, int y)
 {
     _Pacman = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x, y));
+}
+
+void Pacman::handlePacmanMovement(char key)
+{
+    switch (key) {
+        case 'z':
+            _Pacman.second.second -= 1;
+            break;
+        case 's':
+            _Pacman.second.second += 1;
+            break;
+        case 'q':
+            _Pacman.second.first -= 1;
+            break;
+        case 'd':
+            _Pacman.second.first += 1;
+            break;
+        default:
+            break;
+    }
 }
