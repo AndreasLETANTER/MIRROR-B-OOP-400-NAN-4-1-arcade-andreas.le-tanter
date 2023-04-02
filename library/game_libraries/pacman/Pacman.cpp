@@ -20,7 +20,7 @@ Pacman::Pacman()
 {
     _score = 0;
     _is_ended = false;
-    createPacman(20, 20);
+    createPacman(_PacmanStartPos.first, _PacmanStartPos.second);
 }
 
 void Pacman::handleUserInput(char key)
@@ -147,4 +147,17 @@ void Pacman::handlePacmanMovement(char key)
         default:
             break;
     }
+    checkPacmanCollision();
+}
+
+void Pacman::checkPacmanCollision(void)
+{
+    if (_Pacman.second.first > _MapBorderStartPos.first + _MapBorderSize.first - 1)
+        _Pacman.second.first = _MapBorderStartPos.first + 1;
+    if (_Pacman.second.first < _MapBorderStartPos.first + 1)
+        _Pacman.second.first = _MapBorderStartPos.first + _MapBorderSize.first - 1;
+    if (_Pacman.second.second > _MapBorderStartPos.second + _MapBorderSize.second - 1)
+        _Pacman.second.second = _MapBorderStartPos.second + 1;
+    if (_Pacman.second.second < _MapBorderStartPos.second + 1)
+        _Pacman.second.second = _MapBorderStartPos.second + _MapBorderSize.second - 1;
 }
