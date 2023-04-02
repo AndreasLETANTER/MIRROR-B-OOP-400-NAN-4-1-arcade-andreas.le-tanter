@@ -84,9 +84,14 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
 
 void LibrarySFML::displayScore(int _Score, int x, int y)
 {
-    (void)_Score;
-    (void)x;
-    (void)y;
+    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(x, y));
+    sf::Vector2f sfmlPos = sf::Vector2f(x * CHAR_SIZE_X * scaleFactor, y * CHAR_SIZE_Y * scaleFactor);
+    _Text.setString("Score: " + std::to_string(_Score));
+    _Text.setPosition(sfmlPos.x, sfmlPos.y);
+    _Text.setFillColor(_ColorDefinition[Enum::Color::WHITE]);
+    _Text.setOutlineColor(_ColorDefinition[Enum::Color::BLACK]);
+
+    _CurrentWindow.draw(_Text);
 }
 
 void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
