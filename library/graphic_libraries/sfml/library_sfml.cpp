@@ -59,11 +59,11 @@ float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std
 {
     float scaleFactor = _ScaleFactor;
 
-    if (_MapSize.first * 8 * scaleFactor > _WindowSize.first) {
-        scaleFactor = _WindowSize.first / (_MapSize.first * 8);
+    if (_MapSize.first * CHAR_SIZE_X * scaleFactor > _WindowSize.first) {
+        scaleFactor = _WindowSize.first / (_MapSize.first * CHAR_SIZE_X);
     }
-    if (_MapSize.second * 16 * scaleFactor > _WindowSize.second) {
-        scaleFactor = _WindowSize.second / (_MapSize.second * 16);
+    if (_MapSize.second * CHAR_SIZE_Y * scaleFactor > _WindowSize.second) {
+        scaleFactor = _WindowSize.second / (_MapSize.second * CHAR_SIZE_Y);
     }
     return scaleFactor;
 }
@@ -73,9 +73,9 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
     _CurrentWindow.clear(sf::Color(44, 102, 110, 255));
 
     for (auto &it : _ObjectData) {
-        sf::RectangleShape rectangle(sf::Vector2f(8, 16));
+        sf::RectangleShape rectangle(sf::Vector2f(CHAR_SIZE_X, CHAR_SIZE_Y));
         float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _ObjectData[it.first].second);
-        sf::Vector2f sfmlPos = sf::Vector2f(_ObjectData[it.first].second.first * 8 * scaleFactor, _ObjectData[it.first].second.second * 16 * scaleFactor);
+        sf::Vector2f sfmlPos = sf::Vector2f((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
         rectangle.setFillColor(_ObjectDefinition[_ObjectData[it.first].first]);
         rectangle.setPosition(sfmlPos.x, sfmlPos.y);
         _CurrentWindow.draw(rectangle);
@@ -91,8 +91,10 @@ void LibrarySFML::displayScore(int _Score, int x, int y)
 
 void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
+    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _Pos);
+    sf::Vector2f sfmlPos = sf::Vector2f(_Pos.first * CHAR_SIZE_X * scaleFactor, _Pos.second * CHAR_SIZE_Y * scaleFactor);
     _Text.setString(_String);
-    _Text.setPosition(_Pos.first, _Pos.second * 35);
+    _Text.setPosition(sfmlPos.x, sfmlPos.y);
     _Text.setFillColor(_ColorDefinition[FrontFont]);
     _Text.setOutlineColor(_ColorDefinition[BackFont]);
 

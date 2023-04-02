@@ -11,6 +11,9 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 
+#define CHAR_SIZE_X 9.18
+#define CHAR_SIZE_Y 19.7
+
 class LibrarySFML : public IDisplayModule {
     public:
         LibrarySFML() = default;

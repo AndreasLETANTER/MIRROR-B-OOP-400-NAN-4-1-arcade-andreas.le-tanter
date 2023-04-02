@@ -18,7 +18,7 @@ void Menu::DisplayMenu()
     _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->InitWindow();
 
     do {
-        _WindowMaxSize = _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->GetWindowSize();
+        _WindowMaxSize = std::pair<int, int>(208, 54);
         _MenuObjectsData = CreateMenuObjectsData(keypressed);
         _ProgramEvents->getCurrentGraphicLibrary()->getInstance()->displayObjects(_MenuObjectsData);
         DisplayMenuText();
