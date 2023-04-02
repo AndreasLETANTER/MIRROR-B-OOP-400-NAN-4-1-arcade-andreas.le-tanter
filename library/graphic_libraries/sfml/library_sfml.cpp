@@ -55,15 +55,29 @@ void LibrarySFML::FiniWindow()
     _CurrentWindow.close();
 }
 
+float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std::pair<int, int> _MapSize)
+{
+    float scaleFactor = _ScaleFactor;
+
+    if (_MapSize.first * 8 * scaleFactor > _WindowSize.first) {
+        scaleFactor = _WindowSize.first / (_MapSize.first * 8);
+    }
+    if (_MapSize.second * 16 * scaleFactor > _WindowSize.second) {
+        scaleFactor = _WindowSize.second / (_MapSize.second * 16);
+    }
+    return scaleFactor;
+}
+
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
     _CurrentWindow.clear(sf::Color(44, 102, 110, 255));
 
     for (auto &it : _ObjectData) {
-        sf::RectangleShape rectangle(sf::Vector2f(10, 10));
-
+        sf::RectangleShape rectangle(sf::Vector2f(8, 16));
+        float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _ObjectData[it.first].second);
+        sf::Vector2f sfmlPos = sf::Vector2f(_ObjectData[it.first].second.first * 8 * scaleFactor, _ObjectData[it.first].second.second * 16 * scaleFactor);
         rectangle.setFillColor(_ObjectDefinition[_ObjectData[it.first].first]);
-        rectangle.setPosition(_ObjectData[it.first].second.first * 10, _ObjectData[it.first].second.second * 10);
+        rectangle.setPosition(sfmlPos.x, sfmlPos.y);
         _CurrentWindow.draw(rectangle);
     }
 }
