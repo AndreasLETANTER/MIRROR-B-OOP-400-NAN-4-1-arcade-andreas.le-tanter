@@ -121,15 +121,18 @@ std::pair<int, int> LibrarySFML::GetWindowSize()
 char LibrarySFML::getUserInput()
 {
     sf::Event event;
+    sf::Clock clock;
 
-    _CurrentWindow.pollEvent(event);
-    if (event.type == sf::Event::Closed) {
-        _CurrentWindow.close();
-        return -1;
-    }
-    if (event.type == sf::Event::TextEntered) {
-        if (event.text.unicode < 128) {
-            return static_cast<char>(event.text.unicode);
+    while (clock.getElapsedTime().asMilliseconds() < 100) {
+        _CurrentWindow.pollEvent(event);
+        if (event.type == sf::Event::Closed) {
+            _CurrentWindow.close();
+            return -1;
+        }
+        if (event.type == sf::Event::TextEntered) {
+            if (event.text.unicode < 128) {
+                return static_cast<char>(event.text.unicode);
+            }
         }
     }
     return -1;
