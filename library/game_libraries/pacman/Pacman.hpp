@@ -38,6 +38,7 @@ protected:
     std::vector<std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>>> _DataArrays;
 private:
     void concatDataMaps(void);
+    void handlePacmanMovement(char key);
     void createMapBorder(int start_x, int start_y, int width, int height);
     void createGhostSpawnArea(void);
     void createPacman(int x, int y);
