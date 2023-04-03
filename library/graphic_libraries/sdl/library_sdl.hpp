@@ -8,6 +8,7 @@
 #pragma once
 #include "../IDisplayModule.hpp"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #define CHAR_SIZE_X 9.18
 #define CHAR_SIZE_Y 19.7
@@ -30,5 +31,6 @@ class LibrarySDL : public IDisplayModule {
     protected:
         SDL_Window *_CurrentWindow;
         SDL_Renderer *_CurrentWindowRenderer;
+        TTF_Font *_Font;
     private:
 };

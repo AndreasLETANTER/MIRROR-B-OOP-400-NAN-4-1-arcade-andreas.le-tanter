@@ -8,6 +8,7 @@ set(TEST_NAME "unit_tests")
 set(GAMES_FLAGS -Wall -Werror -fpic --shared -g)
 set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror -g)
 set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses -g)
+set(SDL_FLAGS -Wall -Werror -fpic --shared -lSDL2 -lSDL2_ttf -g)
 set(SFML_FLAGS -Wall -Werror -fpic --shared -lsfml-graphics -lsfml-window -lsfml-system -g)
 set(LIB_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
 file(MAKE_DIRECTORY lib)
@@ -83,13 +84,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 #find the ncurses library
 find_package(SDL2 REQUIRED)
 #set the include directories for the library
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS})
 #compile the library
 add_library(sdl2 SHARED ${SDL})
 #set the prefix and suffix for the library
 set_target_properties(sdl2 PROPERTIES PREFIX "arcade_")
 #link the library with the ncurses library
-target_link_libraries(sdl2 ${SDL2_LIBRARIES})
+target_link_libraries(sdl2 ${SDL_FLAGS} ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES})
 
 add_custom_target(graphicals
     COMMAND make ncurses
