@@ -9,6 +9,10 @@
 #include "../IDisplayModule.hpp"
 #include <SDL2/SDL.h>
 
+#define CHAR_SIZE_X 9.18
+#define CHAR_SIZE_Y 19.7
+#define BACKGROUND_COLOR 128, 123, 232, 0
+
 class LibrarySDL : public IDisplayModule {
     public:
         LibrarySDL() = default;

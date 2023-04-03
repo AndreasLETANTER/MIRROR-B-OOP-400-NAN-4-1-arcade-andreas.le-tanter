@@ -33,7 +33,7 @@ void LibrarySDL::InitWindow()
     if(!_CurrentWindowRenderer) {
         throw Error("Failed to create the renderer");
     }
-    SDL_SetRenderDrawColor(_CurrentWindowRenderer, 128, 123, 232, 0);
+    SDL_SetRenderDrawColor(_CurrentWindowRenderer, BACKGROUND_COLOR);
     SDL_RenderClear(_CurrentWindowRenderer);
 }
 
@@ -42,20 +42,44 @@ void LibrarySDL::FiniWindow()
     SDL_Quit();
 }
 
+float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std::pair<int, int> _MapSize)
+{
+    float scaleFactor = _ScaleFactor;
+
+    if (_MapSize.first * CHAR_SIZE_X * scaleFactor > _WindowSize.first) {
+        scaleFactor = _WindowSize.first / (_MapSize.first * CHAR_SIZE_X);
+    }
+    if (_MapSize.second * CHAR_SIZE_Y * scaleFactor > _WindowSize.second) {
+        scaleFactor = _WindowSize.second / (_MapSize.second * CHAR_SIZE_Y);
+    }
+    return scaleFactor;
+}
+
 void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
     (void)_ObjectData;
+    SDL_RenderClear(_CurrentWindowRenderer);
+
+    SDL_Rect rect;
+    rect.w = CHAR_SIZE_X;
+    rect.h = CHAR_SIZE_Y;
     // std::map<Enum::ObjectType, std::string> _ObjectTypeDefinition;
     // _ObjectTypeDefinition[Enum::ObjectType::PLAYER] = "P";
     // _ObjectTypeDefinition[Enum::ObjectType::ENEMY] = "E";
     // _ObjectTypeDefinition[Enum::ObjectType::ITEM] = "I";
     // _ObjectTypeDefinition[Enum::ObjectType::BORDER] = "#";
     // _ObjectTypeDefinition[Enum::ObjectType::PLAYER_PART] = "X";
-
     // wclear(_CurrentWindow);
-    // for (auto &it : _ObjectData) {
-    //     mvwprintw(_CurrentWindow, it.second.second.second, it.second.second.first, "%s", _ObjectTypeDefinition[it.second.first].c_str());
-    // }
+    for (auto &it : _ObjectData) {
+        float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _ObjectData[it.first].second);
+        std::pair<int, int> sfmlPos = std::pair<int, int>((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
+        rect.x = sfmlPos.first;
+        rect.y = sfmlPos.second;
+        SDL_SetRenderDrawColor(_CurrentWindowRenderer, 255, 255, 255, 255);
+        SDL_RenderFillRect(_CurrentWindowRenderer, &rect);
+        SDL_RenderDrawRect(_CurrentWindowRenderer, &rect);
+        SDL_SetRenderDrawColor(_CurrentWindowRenderer, BACKGROUND_COLOR);
+    }
 }
 
 void LibrarySDL::displayScore(int _Score, int x, int y)
@@ -87,7 +111,11 @@ Enum::libType LibrarySDL::GetLibType()
 
 std::pair<int, int> LibrarySDL::GetWindowSize()
 {
-    return (std::pair<int, int>(0, 0));
+    int x = 0;
+    int y = 0;
+
+    SDL_GetWindowSize(_CurrentWindow, &x, &y);
+    return (std::pair<int, int>(x, y));
 }
 
 char LibrarySDL::getUserInput()
