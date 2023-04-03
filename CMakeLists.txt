@@ -81,15 +81,15 @@ target_link_libraries(sfml sfml-graphics sfml-window sfml-system)
 ###############################SDL##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 #find the ncurses library
-find_package(Curses REQUIRED)
+find_package(SDL2 REQUIRED)
 #set the include directories for the library
-include_directories(${CURSES_INCLUDE_DIR})
+include_directories(${SDL2_INCLUDE_DIRS})
 #compile the library
 add_library(sdl2 SHARED ${SDL})
 #set the prefix and suffix for the library
 set_target_properties(sdl2 PROPERTIES PREFIX "arcade_")
 #link the library with the ncurses library
-target_link_libraries(sdl2 ${CURSES_LIBRARIES})
+target_link_libraries(sdl2 ${SDL2_LIBRARIES})
 
 add_custom_target(graphicals
     COMMAND make ncurses
