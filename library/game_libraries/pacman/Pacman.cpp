@@ -21,6 +21,7 @@ Pacman::Pacman()
     _score = 0;
     _is_ended = false;
     createPacman(_PacmanStartPos.first, _PacmanStartPos.second);
+    createGhosts();
 }
 
 void Pacman::handleUserInput(char key)
@@ -28,7 +29,7 @@ void Pacman::handleUserInput(char key)
     handlePacmanMovement(key);
     createMapBorder(_MapBorderStartPos.first, _MapBorderStartPos.second, _MapBorderSize.first, _MapBorderSize.second);
     createGhostSpawnArea();
-    createGhosts();
+    handleGhostMovement();
     concatDataMaps();
 }
 
@@ -165,6 +166,31 @@ void Pacman::handlePacmanMovement(char key)
             break;
     }
     checkPacmanCollision(key);
+}
+
+void Pacman::moveGhostToSpawnAreaExit(int i)
+{
+    if (_GhostData[i].second.first != _GhostSpawnAreaStartPos.first + 3) {
+        if (_GhostData[i].second.first < _GhostSpawnAreaStartPos.first + 3) {
+            _GhostData[i].second.first++;
+        } else {
+            _GhostData[i].second.first--;
+        }
+    }
+    if (_GhostData[i].second.second != _GhostSpawnAreaStartPos.second - 1) {
+        if (_GhostData[i].second.second < _GhostSpawnAreaStartPos.second - 1) {
+            _GhostData[i].second.second++;
+        } else {
+            _GhostData[i].second.second--;
+        }
+    }
+}
+
+void Pacman::handleGhostMovement()
+{
+    for (int i = 0; i < 4; i++) {
+        moveGhostToSpawnAreaExit(i);
+    }
 }
 
 void Pacman::checkPacmanCollision(char last_key) {
