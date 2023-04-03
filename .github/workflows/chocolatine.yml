@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       summary: ${{ steps.check_unwanted_files.outputs.summary }}
+      start_time: ${{ steps.check_unwanted_files.outputs.start_time }}
+      end_time: ${{ steps.check_unwanted_files.outputs.end_time }}
     steps:
       - name: Fetch repository
         uses: actions/checkout@v3
@@ -24,6 +26,7 @@ jobs:
       - id: check_unwanted_files
         name: Check unwanted files
         run: |
+          echo "start_time= $(date +%s)" >> $GITHUB_OUTPUT
           error=0
           for file in $(git ls-files); do
             if [[ $file =~ $UNWANTED_FILES ]]; then
@@ -36,6 +39,7 @@ jobs:
             exit 1
           fi
           echo "summary=| Check unwanted files | :white_check_mark: |" >> $GITHUB_OUTPUT
+          echo "end_time= $(date +%s)" >> $GITHUB_OUTPUT
 
   check_program_compilation:
     runs-on: ubuntu-latest
@@ -111,7 +115,7 @@ jobs:
           toolchain: stable
           override: true
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: Atomot/ftest
       - name: Go to ftest directory
@@ -179,25 +183,27 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check_repository_cleanliness, check_program_compilation, run_units_tests, run_functionals_tests, create_release, create_doxygen]
     env:
-      SUMMARY_1: ${{ needs.check_repository_cleanliness.outputs.summary }}
-      SUMMARY_2: ${{ needs.check_program_compilation.outputs.summary }}
-      SUMMARY_3: ${{ needs.run_units_tests.outputs.summary }}
-      SUMMARY_4: ${{ needs.run_functionals_tests.outputs.summary }}
-      SUMMARY_5: ${{ needs.create_release.outputs.summary }}
-      SUMMARY_6: ${{ needs.create_doxygen.outputs.summary }}
+      check_repository_cleanliness: ${{ needs.check_repository_cleanliness.outputs.summary }}
+      check_repository_cleanliness_start_time: ${{ needs.check_repository_cleanliness.outputs.start_time }}
+      check_repository_cleanliness_end_time: ${{ needs.check_repository_cleanliness.outputs.end_time }}
+      check_program_compilation: ${{ needs.check_program_compilation.outputs.summary }}
+      run_units_tests: ${{ needs.run_units_tests.outputs.summary }}
+      run_functionals_tests: ${{ needs.run_functionals_tests.outputs.summary }}
+      create_release: ${{ needs.create_release.outputs.summary }}
+      create_doxygen: ${{ needs.create_doxygen.outputs.summary }}
     steps:
       - name: Print summary
         run: |
           echo "## Summary of the workflow :rocket:"
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
-          echo $SUMMARY_1 >> $GITHUB_STEP_SUMMARY
-          echo $SUMMARY_2 >> $GITHUB_STEP_SUMMARY
-          echo $SUMMARY_3 >> $GITHUB_STEP_SUMMARY
-          echo $SUMMARY_4 >> $GITHUB_STEP_SUMMARY
-          echo $SUMMARY_5 >> $GITHUB_STEP_SUMMARY
-          echo $SUMMARY_6 >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status | start time | end time |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---- | ------ | ---------- | -------- |" >> $GITHUB_STEP_SUMMARY
+          echo "$check_repository_cleanliness | $check_repository_cleanliness_start_time | $check_repository_cleanliness_end_time |" >> $GITHUB_STEP_SUMMARY
+          echo $check_program_compilation >> $GITHUB_STEP_SUMMARY
+          echo $run_units_tests >> $GITHUB_STEP_SUMMARY
+          echo $run_functionals_tests >> $GITHUB_STEP_SUMMARY
+          echo $create_release >> $GITHUB_STEP_SUMMARY
+          echo $create_doxygen >> $GITHUB_STEP_SUMMARY
 
 
   push_to_mirror:
