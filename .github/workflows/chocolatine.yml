@@ -52,7 +52,7 @@ jobs:
           fetch-depth: 0
       - name: print
         run: |
-          echo "summary=| Check if executable exists | :white_check_mark: |" >> $GITHUB_OUTPUT
+          echo "summary= $summary | Check if executable exists | :white_check_mark: |" >> $GITHUB_OUTPUT
           echo $summary
       - name: Build project
         run: |
