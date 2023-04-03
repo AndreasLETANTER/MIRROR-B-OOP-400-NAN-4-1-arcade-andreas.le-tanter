@@ -141,14 +141,19 @@ std::pair<int, int> LibrarySDL::GetWindowSize()
     return (std::pair<int, int>(x, y));
 }
 
+#include <iostream>
+
 char LibrarySDL::getUserInput()
 {
     SDL_Event e;
-
-    if (SDL_PollEvent(&e) > 0)
-    {
-        return e.key.keysym.sym;
+    
+    _timer.StartTimer();
+    while (_timer.GetElapsedTimeInMilliSeconds() < 100) {
+        if ((SDL_PollEvent(&e) > 0) && (e.type == SDL_KEYDOWN)) {
+            return e.key.keysym.sym;
+        }
     }
+    _timer.ResetTimer();
     return -1;
 }
 

@@ -36,6 +36,7 @@ set(SFML
 )
 set(SDL
     library/graphic_libraries/sdl/library_sdl.cpp
+    library/graphic_libraries/sdl/timer/Timer.cpp
 )
 set(PACMAN
     library/game_libraries/pacman/Pacman.cpp
