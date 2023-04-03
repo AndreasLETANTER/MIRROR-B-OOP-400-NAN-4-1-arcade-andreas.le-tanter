@@ -42,6 +42,13 @@ void LibrarySDL::InitWindow()
     _ColorDefinition[Enum::Color::WHITE] = SDL_Color{255, 255, 255, 255};
     _ColorDefinition[Enum::Color::BLACK] = SDL_Color{0, 0, 0, 255};
 
+
+    _ObjectDefinition[Enum::ObjectType::PLAYER] = SDL_Color{0, 255, 0, 255};
+    _ObjectDefinition[Enum::ObjectType::ENEMY] = SDL_Color{255, 0, 0, 255};
+    _ObjectDefinition[Enum::ObjectType::ITEM] = SDL_Color{255, 255, 0, 255};
+    _ObjectDefinition[Enum::ObjectType::BORDER] = SDL_Color{255, 255, 255, 255};
+    _ObjectDefinition[Enum::ObjectType::PLAYER_PART] = SDL_Color{0, 0, 255, 255};
+
     SDL_SetRenderDrawColor(_CurrentWindowRenderer, BACKGROUND_COLOR);
     SDL_RenderClear(_CurrentWindowRenderer);
 }
@@ -73,6 +80,7 @@ void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::p
     SDL_RenderClear(_CurrentWindowRenderer);
 
     SDL_Rect rect;
+    SDL_Color color;
     rect.w = CHAR_SIZE_X;
     rect.h = CHAR_SIZE_Y;
     for (auto &it : _ObjectData) {
@@ -80,7 +88,8 @@ void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::p
         std::pair<int, int> sdlPos = std::pair<int, int>((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
         rect.x = sdlPos.first;
         rect.y = sdlPos.second;
-        SDL_SetRenderDrawColor(_CurrentWindowRenderer, 255, 255, 255, 255);
+        color = _ObjectDefinition[_ObjectData[it.first].first];
+        SDL_SetRenderDrawColor(_CurrentWindowRenderer, color.r, color.g, color.b, color.a);
         SDL_RenderFillRect(_CurrentWindowRenderer, &rect);
         SDL_RenderDrawRect(_CurrentWindowRenderer, &rect);
     }

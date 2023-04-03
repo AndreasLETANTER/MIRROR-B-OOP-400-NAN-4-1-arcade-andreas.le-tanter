@@ -33,5 +33,6 @@ class LibrarySDL : public IDisplayModule {
         SDL_Renderer *_CurrentWindowRenderer;
         TTF_Font *_Font;
         std::map<Enum::Color, SDL_Color> _ColorDefinition;
+        std::map<Enum::ObjectType, SDL_Color> _ObjectDefinition;
     private:
 };
