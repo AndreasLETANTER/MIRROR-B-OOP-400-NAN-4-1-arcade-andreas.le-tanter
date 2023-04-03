@@ -6,6 +6,7 @@
 */
 
 #include "ProgramEvents.hpp"
+#include "../SuccessClass/Success.hpp"
 #include <unistd.h>
 
 /**
@@ -158,8 +159,14 @@ void ProgramEvents::SwapGameLib()
 */
 void ProgramEvents::ChangeUserName()
 {
+    char key = 'u';
     std::string buffer;
-    std::cin >> buffer;
+
+    while (key != '\n') {
+        key = currentGraphicLibrary->getInstance()->getUserInput();
+        if (key != -1)
+            buffer += key;
+    }
     _currentUserName = "UserName: " + buffer;
 }
 
@@ -188,5 +195,8 @@ void ProgramEvents::GoToGame()
 void ProgramEvents::Exit()
 {
     getCurrentGraphicLibrary()->getInstance()->FiniWindow();
-    exit(0);
+    getCurrentGraphicLibrary()->closeLibrary();
+    getCurrentGameLibrary()->closeLibrary();
+    _Init->close_all();
+    throw Success("Program exited successfully");
 }

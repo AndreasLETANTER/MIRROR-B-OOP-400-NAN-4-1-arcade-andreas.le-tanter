@@ -21,6 +21,7 @@ class LibrarySDL : public IDisplayModule {
         Enum::libType GetLibType() override;
         std::pair<int, int> GetWindowSize() override;
         char getUserInput() override;
+        void display() override;
 
     protected:
         int idx = 0;

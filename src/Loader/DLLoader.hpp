@@ -18,7 +18,7 @@ class DLLoader
     public:
         DLLoader() {};
         DLLoader(const std::string &libraryName) { openLibrary(libraryName); };
-        ~DLLoader() { closeLibrary(); };
+        ~DLLoader() {};
         void openLibrary(const std::string &libraryName);
         void openInstance(void);
         void closeLibrary(void);

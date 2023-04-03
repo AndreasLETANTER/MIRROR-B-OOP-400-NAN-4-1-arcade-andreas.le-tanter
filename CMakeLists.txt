@@ -5,9 +5,10 @@ project("arcade" VERSION 0.1.0 LANGUAGES CXX)
 ###############################COMPILATION VARIABLES###############################
 set(NAME "arcade")
 set(TEST_NAME "unit_tests")
-set(GAMES_FLAGS -Wall -Werror -fpic --shared)
-set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror)
-set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
+set(GAMES_FLAGS -Wall -Werror -fpic --shared -g)
+set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror -g)
+set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses -g)
+set(SFML_FLAGS -Wall -Werror -fpic --shared -lsfml-graphics -lsfml-window -lsfml-system -g)
 set(LIB_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
 file(MAKE_DIRECTORY lib)
 ###############################DIRECTORIES SRC###################################
@@ -17,6 +18,8 @@ set(SRC
     src/ProgramEventsClass/ProgramEvents.cpp
     src/GameClass/Game.cpp
     src/CoreClass/Core.cpp
+    src/ErrorClass/ErrorClass.cpp
+    src/SuccessClass/Success.cpp
 )
 set(MAIN
     src/main.cpp
@@ -39,6 +42,9 @@ set(PACMAN
 set(SNAKE
     library/game_libraries/snake/Snake.cpp    
 )
+set(NIBBLER
+    library/game_libraries/nibbler/Nibbler.cpp
+)
 
 ###############################COMPILATION MAIN PROGRAM##########################
 add_compile_options(${CXX_FLAGS})
@@ -57,18 +63,20 @@ find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 #compile the library
 add_library(ncurses SHARED ${NCURSES})
+#set the prefix and suffix for the library
+set_target_properties(ncurses PROPERTIES PREFIX "arcade_")
 #link the library with the ncurses library
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 ###############################SFML##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
-#find the ncurses library
-find_package(Curses REQUIRED)
-#set the include directories for the library
-include_directories(${CURSES_INCLUDE_DIR})
-#compile the library
+# find the SFML library
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+# compile the library
 add_library(sfml SHARED ${SFML})
-#link the library with the ncurses library
-target_link_libraries(sfml ${CURSES_LIBRARIES})
+#set the prefix and suffix for the library
+set_target_properties(sfml PROPERTIES PREFIX "arcade_")
+# link the library with the SFML library
+target_link_libraries(sfml sfml-graphics sfml-window sfml-system)
 ###############################SDL##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 #find the ncurses library
@@ -76,23 +84,34 @@ find_package(Curses REQUIRED)
 #set the include directories for the library
 include_directories(${CURSES_INCLUDE_DIR})
 #compile the library
-add_library(sdl SHARED ${SDL})
+add_library(sdl2 SHARED ${SDL})
+#set the prefix and suffix for the library
+set_target_properties(sdl2 PROPERTIES PREFIX "arcade_")
 #link the library with the ncurses library
-target_link_libraries(sdl ${CURSES_LIBRARIES})
+target_link_libraries(sdl2 ${CURSES_LIBRARIES})
 
 add_custom_target(graphicals
     COMMAND make ncurses
     COMMAND make sfml
-    COMMAND make sdl
+    COMMAND make sdl2
 )
 
 ###############################COMPILATION GAMES#################################
 ##############################PACMAN#############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(pacman SHARED ${PACMAN})
+#set the prefix and suffix for the library
+set_target_properties(pacman PROPERTIES PREFIX "arcade_")
 ##############################Snake##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 add_library(snake SHARED ${SNAKE})
+#set the prefix and suffix for the library
+set_target_properties(snake PROPERTIES PREFIX "arcade_")
+##############################Nibbler############################################
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
+add_library(nibbler SHARED ${NIBBLER})
+#set the prefix and suffix for the library
+set_target_properties(nibbler PROPERTIES PREFIX "arcade_")
 
 add_custom_target(games
     COMMAND make pacman

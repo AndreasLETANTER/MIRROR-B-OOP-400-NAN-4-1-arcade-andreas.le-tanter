@@ -10,6 +10,8 @@
 #include "CoreClass/Core.hpp"
 #include <unistd.h>
 #include <fcntl.h>
+#include "ErrorClass/ErrorClass.hpp"
+#include "SuccessClass/Success.hpp"
 
 /**
  * @brief Main function
@@ -21,7 +23,15 @@ int main(int argc, char **argv)
         std::cerr << "Usage: ./arcade [lib]" << std::endl;
         return 84;
     }
-    std::shared_ptr<ICore> _Core = std::make_shared<Core>(argv[1]);
 
-    _Core->Run();
+    try {
+        std::shared_ptr<ICore> _Core = std::make_shared<Core>(argv[1]);
+        _Core->Run();
+    } catch (Error &e) {
+        std::cerr << e.what() << std::endl;
+        return 84;
+    } catch (Success &e) {
+        std::cout << e.what() << std::endl;
+        return 0;
+    }
 }

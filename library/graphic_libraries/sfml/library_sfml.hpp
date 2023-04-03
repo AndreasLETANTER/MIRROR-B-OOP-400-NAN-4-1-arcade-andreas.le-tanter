@@ -7,7 +7,12 @@
 
 #pragma once
 #include "../IDisplayModule.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <iostream>
+
+#define CHAR_SIZE_X 9.18
+#define CHAR_SIZE_Y 19.7
 
 class LibrarySFML : public IDisplayModule {
     public:
@@ -21,10 +26,13 @@ class LibrarySFML : public IDisplayModule {
         Enum::libType GetLibType() override;
         std::pair<int, int> GetWindowSize() override;
         char getUserInput() override;
+        void display() override;
 
     protected:
-        int idx = 0;
-        WINDOW *_CurrentWindow;
-        std::map <Enum::Color, int> _ColorDefinition;
+        sf::RenderWindow _CurrentWindow;
+        std::map <Enum::Color, sf::Color> _ColorDefinition;
+        std::map <Enum::ObjectType, sf::Color> _ObjectDefinition;
+        sf::Font _Font;
+        sf::Text _Text;
     private:
 };
