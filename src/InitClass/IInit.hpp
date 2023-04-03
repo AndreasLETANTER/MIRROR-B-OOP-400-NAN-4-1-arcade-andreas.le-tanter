@@ -21,6 +21,7 @@ class IInit {
         virtual void loadInstances(const std::string &path) = 0;
         virtual std::map<int, DLLoader<IGameEngine> *> getGamesInstances() = 0;
         virtual std::map<int, DLLoader<IDisplayModule> *> getGraphicalInstances() = 0;
+        virtual void close_all() = 0;
 
     protected:
     private:

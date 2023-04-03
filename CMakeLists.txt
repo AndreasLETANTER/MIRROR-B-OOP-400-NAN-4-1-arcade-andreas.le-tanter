@@ -5,9 +5,10 @@ project("arcade" VERSION 0.1.0 LANGUAGES CXX)
 ###############################COMPILATION VARIABLES###############################
 set(NAME "arcade")
 set(TEST_NAME "unit_tests")
-set(GAMES_FLAGS -Wall -Werror -fpic --shared)
-set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror)
-set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses)
+set(GAMES_FLAGS -Wall -Werror -fpic --shared -g)
+set(CXX_FLAGS -ldl -fno-gnu-unique -Wall -Wextra -Werror -g)
+set(NCURSES_FLAGS -Wall -Werror -fpic --shared -lncurses -g)
+set(SFML_FLAGS -Wall -Werror -fpic --shared -lsfml-graphics -lsfml-window -lsfml-system -g)
 set(LIB_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
 file(MAKE_DIRECTORY lib)
 ###############################DIRECTORIES SRC###################################
@@ -68,16 +69,14 @@ set_target_properties(ncurses PROPERTIES PREFIX "arcade_")
 target_link_libraries(ncurses ${CURSES_LIBRARIES})
 ###############################SFML##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
-#find the ncurses library
-find_package(Curses REQUIRED)
-#set the include directories for the library
-include_directories(${CURSES_INCLUDE_DIR})
-#compile the library
+# find the SFML library
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+# compile the library
 add_library(sfml SHARED ${SFML})
 #set the prefix and suffix for the library
 set_target_properties(sfml PROPERTIES PREFIX "arcade_")
-#link the library with the ncurses library
-target_link_libraries(sfml ${CURSES_LIBRARIES})
+# link the library with the SFML library
+target_link_libraries(sfml sfml-graphics sfml-window sfml-system)
 ###############################SDL##############################################
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIRECTORY})
 #find the ncurses library

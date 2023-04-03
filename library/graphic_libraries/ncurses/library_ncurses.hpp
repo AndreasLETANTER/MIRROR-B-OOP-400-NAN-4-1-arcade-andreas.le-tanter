@@ -21,6 +21,7 @@ class LibraryNcurses : public IDisplayModule {
         Enum::libType GetLibType();
         std::pair<int, int> GetWindowSize() override;
         char getUserInput() override;
+        void display() override;
 
     protected:
         int idx = 0;

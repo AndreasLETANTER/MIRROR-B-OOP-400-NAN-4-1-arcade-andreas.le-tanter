@@ -68,7 +68,7 @@ void Nibbler::CarvePath(int height, int width, int i)
             _map[i][x] = '*';
             continue;
         }
-        if (_map[i][x] == 'X' && rand() > RAND_MAX / 2) {
+        if ((_map[i][x] == 'X') && (rand() > RAND_MAX / 2)) {
             _map[i][x] = '*';
         }
         if (_map[i][x] == 'X' || _map[i][x] == '*') {
@@ -136,6 +136,11 @@ void Nibbler::DestroyDeadEnds()
 */
 void Nibbler::GenerateRandomMap()
 {
+    for (int i = 0; i <= WIDTH; i++) {
+        for (int j = 0; j <= HEIGHT; j++) {
+            _map[i][j] = ' ';
+        }
+    }
     for (int i = 0; i <= WIDTH; i++) {
         CarvePath(WIDTH, HEIGHT, i);
     }

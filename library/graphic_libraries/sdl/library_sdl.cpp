@@ -82,3 +82,8 @@ char LibrarySDL::getUserInput()
 {
     return wgetch(_CurrentWindow);
 }
+
+void LibrarySDL::display()
+{
+    wrefresh(_CurrentWindow);
+}

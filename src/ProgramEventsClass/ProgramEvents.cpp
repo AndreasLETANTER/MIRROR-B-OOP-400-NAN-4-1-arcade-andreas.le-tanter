@@ -195,5 +195,8 @@ void ProgramEvents::GoToGame()
 void ProgramEvents::Exit()
 {
     getCurrentGraphicLibrary()->getInstance()->FiniWindow();
+    getCurrentGraphicLibrary()->closeLibrary();
+    getCurrentGameLibrary()->closeLibrary();
+    _Init->close_all();
     throw Success("Program exited successfully");
 }

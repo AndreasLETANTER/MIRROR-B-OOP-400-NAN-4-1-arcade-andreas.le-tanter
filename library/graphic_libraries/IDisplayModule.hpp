@@ -23,6 +23,7 @@ class IDisplayModule : public ILibrary {
         virtual Enum::libType GetLibType() = 0;
         virtual std::pair<int, int> GetWindowSize() = 0;
         virtual char getUserInput() = 0;
+        virtual void display() = 0;
 
     protected:
     private:

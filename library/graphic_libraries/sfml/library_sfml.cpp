@@ -6,6 +6,10 @@
 */
 
 #include <unistd.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <iostream>
 #include "library_sfml.hpp"
 
 extern "C"
@@ -18,54 +22,88 @@ extern "C"
 
 void LibrarySFML::InitWindow()
 {
-    initscr();
-    _CurrentWindow = newwin(0, 0, 0, 0);
-    keypad(stdscr, TRUE);
-    curs_set(0);
-    _ColorDefinition[Enum::Color::RED] = COLOR_RED;
-    _ColorDefinition[Enum::Color::GREEN] = COLOR_GREEN;
-    _ColorDefinition[Enum::Color::BLUE] = COLOR_BLUE;
-    _ColorDefinition[Enum::Color::YELLOW] = COLOR_YELLOW;
-    _ColorDefinition[Enum::Color::WHITE] = COLOR_WHITE;
-    _ColorDefinition[Enum::Color::BLACK] = COLOR_BLACK;
+    _CurrentWindow.create(sf::VideoMode(1920, 1080), "Arcade", sf::Style::Fullscreen);
 
-    start_color();
+    _CurrentWindow.setVerticalSyncEnabled(false);
+
+    _ColorDefinition[Enum::Color::RED] = sf::Color::Red;
+    _ColorDefinition[Enum::Color::GREEN] = sf::Color::Green;
+    _ColorDefinition[Enum::Color::BLUE] = sf::Color::Blue;
+    _ColorDefinition[Enum::Color::YELLOW] = sf::Color::Yellow;
+    _ColorDefinition[Enum::Color::WHITE] = sf::Color::White;
+    _ColorDefinition[Enum::Color::BLACK] = sf::Color::Black;
+
+    _ObjectDefinition[Enum::ObjectType::PLAYER] = sf::Color::Green;
+    _ObjectDefinition[Enum::ObjectType::ENEMY] = sf::Color::Red;
+    _ObjectDefinition[Enum::ObjectType::ITEM] = sf::Color::Yellow;
+    _ObjectDefinition[Enum::ObjectType::BORDER] = sf::Color::White;
+    _ObjectDefinition[Enum::ObjectType::PLAYER_PART] = sf::Color::Blue;
+
+    if (!_Font.loadFromFile("library/graphic_libraries/sfml/arial.ttf")) {
+        std::cout << "Error loading font" << std::endl;
+        exit(84);
+    }
+
+    _Text.setCharacterSize(28);
+    _Text.setFont(_Font);
 }
 
 void LibrarySFML::FiniWindow()
 {
-    delwin(_CurrentWindow);
-    endwin();
+    _ObjectDefinition.clear();
+    _ColorDefinition.clear();
+    _CurrentWindow.close();
+}
+
+float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std::pair<int, int> _MapSize)
+{
+    float scaleFactor = _ScaleFactor;
+
+    if (_MapSize.first * CHAR_SIZE_X * scaleFactor > _WindowSize.first) {
+        scaleFactor = _WindowSize.first / (_MapSize.first * CHAR_SIZE_X);
+    }
+    if (_MapSize.second * CHAR_SIZE_Y * scaleFactor > _WindowSize.second) {
+        scaleFactor = _WindowSize.second / (_MapSize.second * CHAR_SIZE_Y);
+    }
+    return scaleFactor;
 }
 
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
-    std::map<Enum::ObjectType, std::string> _ObjectTypeDefinition;
-    _ObjectTypeDefinition[Enum::ObjectType::PLAYER] = "P";
-    _ObjectTypeDefinition[Enum::ObjectType::ENEMY] = "E";
-    _ObjectTypeDefinition[Enum::ObjectType::ITEM] = "I";
-    _ObjectTypeDefinition[Enum::ObjectType::BORDER] = "#";
-    _ObjectTypeDefinition[Enum::ObjectType::PLAYER_PART] = "X";
+    _CurrentWindow.clear(sf::Color(44, 102, 110, 255));
 
-    wclear(_CurrentWindow);
     for (auto &it : _ObjectData) {
-        mvwprintw(_CurrentWindow, it.second.second.second, it.second.second.first, "%s", _ObjectTypeDefinition[it.second.first].c_str());
+        sf::RectangleShape rectangle(sf::Vector2f(CHAR_SIZE_X, CHAR_SIZE_Y));
+        float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _ObjectData[it.first].second);
+        sf::Vector2f sfmlPos = sf::Vector2f((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
+        rectangle.setFillColor(_ObjectDefinition[_ObjectData[it.first].first]);
+        rectangle.setPosition(sfmlPos.x, sfmlPos.y);
+        _CurrentWindow.draw(rectangle);
     }
 }
 
 void LibrarySFML::displayScore(int _Score, int x, int y)
 {
-    mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
-    wrefresh(_CurrentWindow);
+    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(x, y));
+    sf::Vector2f sfmlPos = sf::Vector2f(x * CHAR_SIZE_X * scaleFactor, y * CHAR_SIZE_Y * scaleFactor);
+    _Text.setString("Score: " + std::to_string(_Score));
+    _Text.setPosition(sfmlPos.x, sfmlPos.y);
+    _Text.setFillColor(_ColorDefinition[Enum::Color::WHITE]);
+    _Text.setOutlineColor(_ColorDefinition[Enum::Color::BLACK]);
+
+    _CurrentWindow.draw(_Text);
 }
 
 void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    idx++;
-    init_pair(idx, _ColorDefinition[FrontFont], _ColorDefinition[BackFont]);
-    wattron(_CurrentWindow, COLOR_PAIR(idx));
-    mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
-    wattroff(_CurrentWindow, COLOR_PAIR(idx));
+    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _Pos);
+    sf::Vector2f sfmlPos = sf::Vector2f(_Pos.first * CHAR_SIZE_X * scaleFactor, _Pos.second * CHAR_SIZE_Y * scaleFactor);
+    _Text.setString(_String);
+    _Text.setPosition(sfmlPos.x, sfmlPos.y);
+    _Text.setFillColor(_ColorDefinition[FrontFont]);
+    _Text.setOutlineColor(_ColorDefinition[BackFont]);
+
+    _CurrentWindow.draw(_Text);
 }
 
 Enum::libType LibrarySFML::GetLibType()
@@ -75,10 +113,32 @@ Enum::libType LibrarySFML::GetLibType()
 
 std::pair<int, int> LibrarySFML::GetWindowSize()
 {
-    return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
+    sf::Vector2u size = _CurrentWindow.getSize();
+
+    return (std::pair<int, int>(size.x, size.y));
 }
 
 char LibrarySFML::getUserInput()
 {
-    return wgetch(_CurrentWindow);
+    sf::Event event;
+    sf::Clock clock;
+
+    while (clock.getElapsedTime().asMilliseconds() < 100) {
+        _CurrentWindow.pollEvent(event);
+        if (event.type == sf::Event::Closed) {
+            _CurrentWindow.close();
+            return -1;
+        }
+        if (event.type == sf::Event::TextEntered) {
+            if (event.text.unicode < 128) {
+                return static_cast<char>(event.text.unicode);
+            }
+        }
+    }
+    return -1;
+}
+
+void LibrarySFML::display()
+{
+    _CurrentWindow.display();
 }
