@@ -105,8 +105,8 @@ void Pacman::createGhostSpawnArea()
     int wallIndex = 0;
     int width = 6;
     int height = 5;
-    int x = _MapBorderStartPos.first + _MapBorderSize.first / 2 - width / 2;
-    int y = _MapBorderStartPos.second + _MapBorderSize.second / 2 - height / 2;
+    int x = _GhostSpawnAreaStartPos.first;
+    int y = _GhostSpawnAreaStartPos.second;
 
     for (int i = x; i <= x + width; i++) {
         if (i != x + width / 2) {
@@ -147,11 +147,11 @@ void Pacman::handlePacmanMovement(char key)
         default:
             break;
     }
-    checkPacmanCollision();
+    checkPacmanCollision(key);
 }
 
-void Pacman::checkPacmanCollision(void)
-{
+void Pacman::checkPacmanCollision(char last_key) {
+    // collisions between pacman and map border
     if (_Pacman.second.first > _MapBorderStartPos.first + _MapBorderSize.first - 1)
         _Pacman.second.first = _MapBorderStartPos.first + 1;
     if (_Pacman.second.first < _MapBorderStartPos.first + 1)
@@ -160,4 +160,24 @@ void Pacman::checkPacmanCollision(void)
         _Pacman.second.second = _MapBorderStartPos.second + 1;
     if (_Pacman.second.second < _MapBorderStartPos.second + 1)
         _Pacman.second.second = _MapBorderStartPos.second + _MapBorderSize.second - 1;
+    // collisions between pacman and ghosts spawn area
+    if (_Pacman.second.first > _GhostSpawnAreaStartPos.first - 1 && _Pacman.second.first < _GhostSpawnAreaStartPos.first + 6 + 1 &&
+    _Pacman.second.second > _GhostSpawnAreaStartPos.second - 1 && _Pacman.second.second < _GhostSpawnAreaStartPos.second + 5 + 1) {
+        switch (last_key) {
+            case 'z':
+                _Pacman.second.second += 1;
+                break;
+            case 's':
+                _Pacman.second.second -= 1;
+                break;
+            case 'd':
+                _Pacman.second.first -= 1;
+                break;
+            case 'q':
+                _Pacman.second.first += 1;
+                break;
+            default:
+                break;
+        }
+    }
 }
