@@ -89,19 +89,11 @@ void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::p
 
 void LibrarySDL::displayScore(int _Score, int x, int y)
 {
-    (void)_Score;
-    (void)x;
-    (void)y;
-    // mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
-    // wrefresh(_CurrentWindow);
+    displayText("Score: " + std::to_string(_Score), std::pair<int, int>(x, y), Enum::Color::WHITE, Enum::Color::BLACK);
 }
-
-#include <iostream>
 
 void LibrarySDL::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    (void)FrontFont;
-    (void)BackFont;
     float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(_Pos.first, _Pos.second));
     std::pair<int, int> sdlPos = std::pair<int, int>((_Pos.first * CHAR_SIZE_X * scaleFactor), (_Pos.second * CHAR_SIZE_Y * scaleFactor));
     SDL_Color frontColor = _ColorDefinition[FrontFont];
