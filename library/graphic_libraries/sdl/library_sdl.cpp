@@ -18,11 +18,6 @@ extern "C"
 
 void LibrarySDL::InitWindow()
 {
-    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
-        throw Error("Failed to initialize the SDL2 library");
-    }
-    TTF_Init();
-    _Font = TTF_OpenFont("library/graphic_libraries/sdl/arial.ttf", 28);
     _CurrentWindow = SDL_CreateWindow("Arcade",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
@@ -55,6 +50,13 @@ void LibrarySDL::InitWindow()
 
 LibrarySDL::LibrarySDL()
 {
+    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+        throw Error("Failed to initialize the SDL2 library");
+    }
+    if (TTF_Init() < 0) {
+        throw Error("Failed to initialize the SDL2_ttf library");
+    }
+    _Font = TTF_OpenFont("library/graphic_libraries/sdl/arial.ttf", 28);
 }
 
 void LibrarySDL::FiniWindow()
