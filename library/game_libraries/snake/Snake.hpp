@@ -18,7 +18,7 @@ class Snake : public IGameEngine {
         bool getStatus() override;
         Enum::libType GetLibType() override;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() override;
-        void ResetGame();
+        void ResetGame() override;
         
     protected:
         int _score;

@@ -17,4 +17,5 @@ class IGameEngine : public ILibrary {
         virtual bool getStatus() = 0;
         virtual std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() = 0;
         virtual Enum::libType GetLibType() = 0;
+        virtual void ResetGame() = 0;
 };
