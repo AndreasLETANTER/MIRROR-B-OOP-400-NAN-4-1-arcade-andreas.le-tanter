@@ -43,7 +43,7 @@ Snake::Snake()
     _score = 0;
     _is_ended = false;
     InitPlayer();
-    CreateBoxCase(23, 1, 160, 50);
+    CreateBoxCase(STEP_X, STEP_Y, MAX_X, MAX_Y);
     for (int i = 0; i < 10; i++) {
         GenerateFruit();
     }
@@ -107,16 +107,16 @@ void Snake::MoveSnakeTail()
 */
 void Snake::MoveWithLastKey()
 {
-    if (_last_key == 'z' && _PlayerData[0].second.second > 1 + 1) {
+    if (_last_key == 'z' && _PlayerData[0].second.second > STEP_Y + 1) {
         MoveSnakeTail();
         _PlayerData[0].second.second -= 1;
-    } else if (_last_key == 's' && _PlayerData[0].second.second < 50 + 1 - 1) {
+    } else if (_last_key == 's' && _PlayerData[0].second.second < MAX_Y + STEP_Y - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.second += 1;
-    } else if(_last_key == 'q' && _PlayerData[0].second.first > 23 + 1) {
+    } else if(_last_key == 'q' && _PlayerData[0].second.first > STEP_X + 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first -= 1;
-    } else if (_last_key == 'd' && _PlayerData[0].second.first < 160 + 23 - 1) {
+    } else if (_last_key == 'd' && _PlayerData[0].second.first < MAX_X + STEP_X - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first += 1;
     }
@@ -130,16 +130,16 @@ void Snake::handlePlayerMovement(char key)
 {
     bool keep_key = true;
 
-    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > 1 + 1) {
+    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > STEP_Y + 1) {
         MoveSnakeTail();
         _PlayerData[0].second.second -= 1;
-    } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < 50 + 1 - 1) {
+    } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < MAX_Y + STEP_Y - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.second += 1;
-    } else if(key == 'q' && _last_key != 'd' && _PlayerData[0].second.first > 23 + 1) {
+    } else if(key == 'q' && _last_key != 'd' && _PlayerData[0].second.first > STEP_X + 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first -= 1;
-    } else if (key == 'd' && _last_key != 'q' && _PlayerData[0].second.first < 160 + 23 - 1) {
+    } else if (key == 'd' && _last_key != 'q' && _PlayerData[0].second.first < MAX_X + STEP_X - 1) {
         MoveSnakeTail();
         _PlayerData[0].second.first += 1;
     } else if (key == -1) {
@@ -161,8 +161,8 @@ void Snake::handlePlayerMovement(char key)
 */
 void Snake::GenerateFruit()
 {
-    int x = rand() % (160 - 1) + 23 + 1;
-    int y = rand() % (50 - 1) + 1 + 1;
+    int x = rand() % (MAX_X - 1) + STEP_X + 1;
+    int y = rand() % (MAX_Y - 1) + STEP_Y + 1;
     _ObjectData[last_idx] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(x, y));
     last_idx++;
 }
@@ -259,7 +259,7 @@ void Snake::ResetGame()
     _ObjectData.clear();
     _PlayerData.clear();
     InitPlayer();
-    CreateBoxCase(23, 1, 160, 50);
+    CreateBoxCase(STEP_X, STEP_Y, MAX_X, MAX_Y);
     for (int i = 0; i < 10; i++) {
         GenerateFruit();
     }

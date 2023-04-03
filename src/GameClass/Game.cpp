@@ -31,7 +31,11 @@ void Game::DisplayGame()
 {
     int keypressed = 0;
 
-    while (_ProgramEvents->getCurrentState() == State::GAME) {
+    if (_ProgramEvents->getCurrentGameLibrary()->getInstance()->getStatus() == true) {
+        _ProgramEvents->getCurrentGameLibrary()->getInstance()->ResetGame();
+    }
+
+    while (_ProgramEvents->getCurrentState() == State::GAME) {  
         if (_ProgramEvents->getCurrentGameLibrary()->getInstance()->getStatus() == false) {
             keypressed = _ProgramEvents->handleEvents();
             _ProgramEvents->getCurrentGameLibrary()->getInstance()->handleUserInput(keypressed);

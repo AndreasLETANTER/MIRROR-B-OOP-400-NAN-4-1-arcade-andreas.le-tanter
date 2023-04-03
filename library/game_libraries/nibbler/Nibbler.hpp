@@ -15,7 +15,7 @@
 #define WIDTH 50
 #define PLAYER_INIT_Y 39
 #define PLAYER_INIT_X 107
-#define MAX_TIME 15
+#define MAX_TIME 30
 
 enum DIRECTION {
     NORTH,
@@ -33,7 +33,7 @@ class Nibbler : public IGameEngine {
         bool getStatus() override;
         Enum::libType GetLibType() override;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() override;
-        void ResetGame();
+        void ResetGame() override;
         
     protected:
         int _score;
