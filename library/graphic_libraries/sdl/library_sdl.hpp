@@ -25,6 +25,6 @@ class LibrarySDL : public IDisplayModule {
 
     protected:
         SDL_Window *_CurrentWindow;
-        SDL_Surface *_CurrentWindowSurface;
+        SDL_Renderer *_CurrentWindowRenderer;
     private:
 };

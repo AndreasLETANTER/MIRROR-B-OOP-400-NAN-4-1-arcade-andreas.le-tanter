@@ -24,23 +24,22 @@ void LibrarySDL::InitWindow()
     _CurrentWindow = SDL_CreateWindow("Arcade",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
-                                          680, 480,
-                                          0);
+                                          1920, 1080,
+                                          SDL_WINDOW_FULLSCREEN);
     if(!_CurrentWindow) {
         throw Error("Failed to create the window");
     }
-    SDL_SetWindowFullscreen(_CurrentWindow, SDL_WINDOW_FULLSCREEN),
-    _CurrentWindowSurface = SDL_GetWindowSurface(_CurrentWindow);
-    if(!_CurrentWindowSurface) {
-        throw Error("Failed to get the window surface");
+    _CurrentWindowRenderer = SDL_CreateRenderer(_CurrentWindow, -1, 0);
+    if(!_CurrentWindowRenderer) {
+        throw Error("Failed to create the renderer");
     }
-    SDL_UpdateWindowSurface(_CurrentWindow);
+    SDL_SetRenderDrawColor(_CurrentWindowRenderer, 128, 123, 232, 0);
+    SDL_RenderClear(_CurrentWindowRenderer);
 }
 
 void LibrarySDL::FiniWindow()
 {
-    // delwin(_CurrentWindow);
-    // endwin();
+    SDL_Quit();
 }
 
 void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
@@ -104,5 +103,5 @@ char LibrarySDL::getUserInput()
 
 void LibrarySDL::display()
 {
-    SDL_UpdateWindowSurface(_CurrentWindow);
+    SDL_RenderPresent(_CurrentWindowRenderer);
 }
