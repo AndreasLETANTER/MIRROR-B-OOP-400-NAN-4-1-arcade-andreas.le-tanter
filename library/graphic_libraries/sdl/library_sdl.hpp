@@ -16,7 +16,7 @@
 
 class LibrarySDL : public IDisplayModule {
     public:
-        LibrarySDL() = default;
+        LibrarySDL();
         ~LibrarySDL() = default;
         void InitWindow() override;
         void FiniWindow() override;
@@ -32,5 +32,6 @@ class LibrarySDL : public IDisplayModule {
         SDL_Window *_CurrentWindow;
         SDL_Renderer *_CurrentWindowRenderer;
         TTF_Font *_Font;
+        std::map<Enum::Color, SDL_Color> _ColorDefinition;
     private:
 };

@@ -21,6 +21,8 @@ void LibrarySDL::InitWindow()
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw Error("Failed to initialize the SDL2 library");
     }
+    TTF_Init();
+    _Font = TTF_OpenFont("library/graphic_libraries/sdl/arial.ttf", 28);
     _CurrentWindow = SDL_CreateWindow("Arcade",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
@@ -33,8 +35,19 @@ void LibrarySDL::InitWindow()
     if(!_CurrentWindowRenderer) {
         throw Error("Failed to create the renderer");
     }
+    _ColorDefinition[Enum::Color::RED] = SDL_Color{255, 0, 0, 255};
+    _ColorDefinition[Enum::Color::GREEN] = SDL_Color{0, 255, 0, 255};
+    _ColorDefinition[Enum::Color::BLUE] = SDL_Color{0, 0, 255, 255};
+    _ColorDefinition[Enum::Color::YELLOW] = SDL_Color{255, 255, 0, 255};
+    _ColorDefinition[Enum::Color::WHITE] = SDL_Color{255, 255, 255, 255};
+    _ColorDefinition[Enum::Color::BLACK] = SDL_Color{0, 0, 0, 255};
+
     SDL_SetRenderDrawColor(_CurrentWindowRenderer, BACKGROUND_COLOR);
     SDL_RenderClear(_CurrentWindowRenderer);
+}
+
+LibrarySDL::LibrarySDL()
+{
 }
 
 void LibrarySDL::FiniWindow()
@@ -83,12 +96,34 @@ void LibrarySDL::displayScore(int _Score, int x, int y)
     // wrefresh(_CurrentWindow);
 }
 
+#include <iostream>
+
 void LibrarySDL::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    (void)_String;
-    (void)_Pos;
     (void)FrontFont;
     (void)BackFont;
+    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(_Pos.first, _Pos.second));
+    std::pair<int, int> sdlPos = std::pair<int, int>((_Pos.first * CHAR_SIZE_X * scaleFactor), (_Pos.second * CHAR_SIZE_Y * scaleFactor));
+    SDL_Color frontColor = _ColorDefinition[FrontFont];
+    SDL_Color backColor;
+    SDL_Surface *surface;
+    SDL_Texture *texture;
+    SDL_Rect rect;
+
+    if (BackFont == Enum::Color::BLACK) {
+        backColor = {BACKGROUND_COLOR};
+    } else {
+        backColor = _ColorDefinition[BackFont];
+    }
+    surface = TTF_RenderText_Shaded(_Font, _String.c_str(), frontColor, backColor);
+    texture = SDL_CreateTextureFromSurface(_CurrentWindowRenderer, surface);
+    rect.x = sdlPos.first;
+    rect.y = sdlPos.second;
+    rect.w = surface->w;
+    rect.h = surface->h;
+    SDL_RenderCopy(_CurrentWindowRenderer, texture, NULL, &rect);
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
 }
 
 Enum::libType LibrarySDL::GetLibType()
