@@ -28,6 +28,7 @@ protected:
     bool _is_ended;
     std::pair<int, int> _MapBorderStartPos  = std::make_pair(60, 15);
     std::pair<int, int> _MapBorderSize = std::make_pair(36, 30);
+    std::pair<int, int> _GhostSpawnAreaStartPos = std::make_pair(_MapBorderStartPos.first + _MapBorderSize.first / 2 - 6 / 2, _MapBorderStartPos.second + _MapBorderSize.second / 2 - 5 / 2);
     std::pair<int, int> _PacmanStartPos = std::make_pair(62, 17);
     std::pair<Enum::ObjectType, std::pair<int, int>> _Pacman;
     std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectsData;
@@ -40,7 +41,7 @@ protected:
 private:
     void concatDataMaps(void);
     void handlePacmanMovement(char key);
-    void checkPacmanCollision(void);
+    void checkPacmanCollision(char last_key);
     void createMapBorder(int start_x, int start_y, int width, int height);
     void createGhostSpawnArea(void);
     void createPacman(int x, int y);
