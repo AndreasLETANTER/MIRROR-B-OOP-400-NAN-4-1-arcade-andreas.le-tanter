@@ -9,6 +9,11 @@
 
 #include "../IGameEngine.hpp"
 
+#define MAX_X 160
+#define MAX_Y 50
+#define STEP_X 45
+#define STEP_Y 1
+
 class Snake : public IGameEngine {
     public:
         Snake();
