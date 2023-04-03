@@ -44,6 +44,7 @@ set(SNAKE
 )
 set(NIBBLER
     library/game_libraries/nibbler/Nibbler.cpp
+    library/game_libraries/nibbler/timer/Timer.cpp
 )
 
 ###############################COMPILATION MAIN PROGRAM##########################
