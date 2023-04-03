@@ -72,9 +72,9 @@ void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::p
     // wclear(_CurrentWindow);
     for (auto &it : _ObjectData) {
         float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _ObjectData[it.first].second);
-        std::pair<int, int> sfmlPos = std::pair<int, int>((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
-        rect.x = sfmlPos.first;
-        rect.y = sfmlPos.second;
+        std::pair<int, int> sdlPos = std::pair<int, int>((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
+        rect.x = sdlPos.first;
+        rect.y = sdlPos.second;
         SDL_SetRenderDrawColor(_CurrentWindowRenderer, 255, 255, 255, 255);
         SDL_RenderFillRect(_CurrentWindowRenderer, &rect);
         SDL_RenderDrawRect(_CurrentWindowRenderer, &rect);
