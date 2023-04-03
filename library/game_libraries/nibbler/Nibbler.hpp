@@ -7,6 +7,7 @@
 
 #pragma once
 #include "../IGameEngine.hpp"
+#include "timer/Timer.hpp"
 
 #define HEIGHT 25
 #define BOX_POS_X 80
@@ -14,6 +15,7 @@
 #define WIDTH 50
 #define PLAYER_INIT_Y 39
 #define PLAYER_INIT_X 107
+#define MAX_TIME 30
 
 enum DIRECTION {
     NORTH,
@@ -38,13 +40,17 @@ class Nibbler : public IGameEngine {
         bool _is_ended;
         int last_idx = 0;
         int last_player_idx = 0;
+        int last_timer_idx = 0;
         DIRECTION _currentDirection;
         char _last_key = 'd';
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PreviousPlayerData;
+        std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _TimerData;
         char _map[160][50];
         bool _is_stuck = false;
+        Timer _timer;
+
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
         void handlePlayerMovement(char key);
@@ -55,7 +61,9 @@ class Nibbler : public IGameEngine {
         void erase_element(int idx);
         void AddPlayerPart();
         void AddPlayerToGame();
+        void AddTimerToGame();
         void RemoveAllPlayerToGame();
+        void RemoveAllTimerToGame();
         bool CheckNibblerCollision(std::pair<int, int> player_pos);
         void MoveNibblerTail();
         void MoveWithLastKey();

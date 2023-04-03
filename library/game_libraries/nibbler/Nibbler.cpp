@@ -6,6 +6,8 @@
 */
 
 #include "Nibbler.hpp"
+#include <ostream>
+#include <iostream>
 
 /**
  * @brief Construct a new Nibbler:: Nibbler object
@@ -491,6 +493,8 @@ void Nibbler::UpdateGameEvent()
 {
     int _NbItems = 0;
     std::pair<int, int> player_pos = GetPlayerPos();
+    double _time = _timer.GetElapsedTime();
+
     for (int i = 0; i < last_idx; i++) {
         if (_ObjectData[i].first == Enum::ObjectType::ITEM) {
             _NbItems++;
@@ -505,6 +509,10 @@ void Nibbler::UpdateGameEvent()
     }
     if (_NbItems == 0) {
         PartialReset();
+    }
+    if (_time >= MAX_TIME) {
+        _is_ended = true;
+        _timer.ResetTimer();
     }
 }
 
@@ -582,6 +590,7 @@ void Nibbler::PartialReset()
     _is_ended = false;
     _ObjectData.clear();
     _PlayerData.clear();
+    _timer.ResetTimer();
     ResetMap();
     InitPlayer();
     GenerateRandomMap();
@@ -597,13 +606,14 @@ void Nibbler::PartialReset()
 */
 void Nibbler::handleUserInput(char key)
 {
+    _timer.StartTimer();
     if (key == 'r') {
         ResetGame();
         return;
     }
     handlePlayerMovement(key);
     UpdateGameEvent();
-    if (_is_ended == false) {  
+    if (_is_ended == false) {
         RemoveAllPlayerToGame();
         AddPlayerToGame();
     }
