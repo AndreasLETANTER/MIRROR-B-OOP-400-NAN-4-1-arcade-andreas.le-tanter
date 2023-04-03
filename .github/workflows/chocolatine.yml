@@ -3,7 +3,6 @@ env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-OOP-400-NAN-4-1-arcade-andreas.le-tanter.git
   EXECUTABLE: "arcade"
   UNWANTED_FILES: '^(.*\/)*((.*\.(([ao])|(so)|(gcno)|(gcda)|(gcov)))|(^.*\~)|(.*\/tmp\/.+)|(#.*\#))$'
-  SUMMARY: "test"
 
 on:
   push:
@@ -189,6 +188,10 @@ jobs:
     steps:
       - name: Print summary
         run: |
+          echo "## Summary of the workflow :rocket:"
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
           echo $SUMMARY_1 >> $GITHUB_STEP_SUMMARY
           echo $SUMMARY_2 >> $GITHUB_STEP_SUMMARY
           echo $SUMMARY_3 >> $GITHUB_STEP_SUMMARY
