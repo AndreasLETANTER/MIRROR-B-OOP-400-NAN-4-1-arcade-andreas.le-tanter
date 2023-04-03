@@ -9,6 +9,11 @@
 
 #include "../IGameEngine.hpp"
 
+#define MAX_X 160
+#define MAX_Y 50
+#define STEP_X 45
+#define STEP_Y 1
+
 class Snake : public IGameEngine {
     public:
         Snake();
@@ -18,7 +23,7 @@ class Snake : public IGameEngine {
         bool getStatus() override;
         Enum::libType GetLibType() override;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() override;
-        void ResetGame();
+        void ResetGame() override;
         
     protected:
         int _score;
