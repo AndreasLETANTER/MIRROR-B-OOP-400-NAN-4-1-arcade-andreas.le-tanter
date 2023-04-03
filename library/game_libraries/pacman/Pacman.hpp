@@ -41,11 +41,13 @@ protected:
 private:
     void concatDataMaps(void);
     void handlePacmanMovement(char key);
+    void handleGhostMovement(void);
     void checkPacmanCollision(char last_key);
     void createMapBorder(int start_x, int start_y, int width, int height);
     void createGhostSpawnArea(void);
     void createPacman(int x, int y);
     void createGhosts(void);
+    void moveGhostToSpawnAreaExit(int i);
     std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getMapBorderData(void);
     std::pair<int, int> getMapBorderStartPos(void);
     std::pair<int, int> getMapBorderSize(void);
