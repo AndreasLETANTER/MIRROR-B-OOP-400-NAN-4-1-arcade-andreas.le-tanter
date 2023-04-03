@@ -15,7 +15,7 @@
 #define WIDTH 50
 #define PLAYER_INIT_Y 39
 #define PLAYER_INIT_X 107
-#define MAX_TIME 15
+#define MAX_TIME 30
 
 enum DIRECTION {
     NORTH,
