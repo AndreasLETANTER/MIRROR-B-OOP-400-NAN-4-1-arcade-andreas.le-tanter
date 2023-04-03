@@ -75,12 +75,14 @@ void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
 bool Snake::CheckSnakeCollision(std::pair<int, int> player_pos)
 {
     for (int i = 0; i < last_player_idx; i++) {
-        if (_PlayerData[i].first == Enum::ObjectType::PLAYER_PART && (_PlayerData[i].second.first == player_pos.first && _PlayerData[i].second.second == player_pos.second)) {
+        if (_PlayerData[i].first == Enum::ObjectType::PLAYER_PART && ((_PlayerData[i].second.first == player_pos.first && _PlayerData[i].second.second == player_pos.second) || (_PlayerData[0].second.first == _ObjectData[i].second.first + 1 && _PlayerData[0].second.second == _ObjectData[i].second.second + 1))) {
             return true;
         }
     }
-    if (!(_PlayerData[0].second.second > 1 + 1 && _PlayerData[0].second.second < 50 + 1 - 1 && _PlayerData[0].second.first > 23 + 1 && _PlayerData[0].second.first < 160 + 23 - 1)) {
-        return true;
+    for (int i = 0; i <= last_idx; i++) {
+        if (_ObjectData[i].first == Enum::ObjectType::BORDER && 0) {
+            return true;
+        }
     }
     return false;
 }
