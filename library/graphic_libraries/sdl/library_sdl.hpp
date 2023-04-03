@@ -7,7 +7,7 @@
 
 #pragma once
 #include "../IDisplayModule.hpp"
-#include <iostream>
+#include <SDL2/SDL.h>
 
 class LibrarySDL : public IDisplayModule {
     public:
@@ -24,8 +24,7 @@ class LibrarySDL : public IDisplayModule {
         void display() override;
 
     protected:
-        int idx = 0;
-        WINDOW *_CurrentWindow;
-        std::map <Enum::Color, int> _ColorDefinition;
+        SDL_Window *_CurrentWindow;
+        SDL_Surface *_CurrentWindowSurface;
     private:
 };
