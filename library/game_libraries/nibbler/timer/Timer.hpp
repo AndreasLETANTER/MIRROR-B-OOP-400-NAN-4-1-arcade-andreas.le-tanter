@@ -14,6 +14,8 @@ class Timer {
         ~Timer() = default;
         void StartTimer();
         double GetElapsedTime();
+        double GetElapsedTimeInMilliSeconds();
+        double GetElapsedTimeInMicroSeconds();
         void ResetTimer();
         bool IsStarted() { return _is_started; };
 

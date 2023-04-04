@@ -19,6 +19,16 @@ double Timer::GetElapsedTime() {
     return std::chrono::duration_cast<std::chrono::seconds>(end - _start).count();
 }
 
+double Timer::GetElapsedTimeInMilliSeconds() {
+    std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(end - _start).count();
+}
+
+double Timer::GetElapsedTimeInMicroSeconds() {
+    std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - _start).count();
+}
+
 void Timer::ResetTimer() {
     _start = std::chrono::system_clock::now();
     _is_started = false;

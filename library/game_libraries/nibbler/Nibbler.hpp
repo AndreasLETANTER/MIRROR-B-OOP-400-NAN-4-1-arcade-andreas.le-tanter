@@ -50,6 +50,7 @@ class Nibbler : public IGameEngine {
         char _map[160][50];
         bool _is_stuck = false;
         Timer _timer;
+        Timer _InputTimer;
 
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
