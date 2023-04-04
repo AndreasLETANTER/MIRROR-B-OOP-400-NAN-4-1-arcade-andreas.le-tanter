@@ -7,6 +7,7 @@
 
 #include "Pacman.hpp"
 #include <iostream>
+#include <fstream>
 
 extern "C"
 {
@@ -22,12 +23,12 @@ Pacman::Pacman()
     _is_ended = false;
     createPacman(_PacmanStartPos.first, _PacmanStartPos.second);
     createGhosts();
+    createMaze();
 }
 
 void Pacman::handleUserInput(char key)
 {
     handlePacmanMovement(key);
-    createMapBorder(_MapBorderStartPos.first, _MapBorderStartPos.second, _MapBorderSize.first, _MapBorderSize.second);
     createGhostSpawnArea();
     handleGhostMovement();
     concatDataMaps();
@@ -84,6 +85,29 @@ void Pacman::createMapBorder(int start_x, int start_y, int width, int height)
         _MapBorderIndex++;
         _MapBorderData[_MapBorderIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(start_x + width, y));
         _MapBorderIndex++;
+    }
+}
+
+void Pacman::createMaze()
+{
+    std::string filename = "library/game_libraries/pacman/map_models/map_1.txt";
+    std::string line;
+    std::ifstream file(filename);
+    std::pair <int, int> pos = _MapBorderStartPos;
+    int lineCount = 0;
+
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open file " << filename << std::endl;
+        exit(84);
+    }
+    while (getline(file, line)) {
+        for (int i = 0; i < (int)line.length(); i++) {
+            if (line[i] == '#') {
+                _MazeData[_MazeIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(pos.first + i, pos.second + lineCount));
+                _MazeIndex++;
+            }
+        }
+        lineCount++;
     }
 }
 
