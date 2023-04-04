@@ -7,11 +7,17 @@
 
 #pragma once
 #include "../IDisplayModule.hpp"
-#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include "timer/Timer.hpp"
+
+#define CHAR_SIZE_X 9.18
+#define CHAR_SIZE_Y 19.7
+#define BACKGROUND_COLOR 128, 123, 232, 0
 
 class LibrarySDL : public IDisplayModule {
     public:
-        LibrarySDL() = default;
+        LibrarySDL();
         ~LibrarySDL() = default;
         void InitWindow() override;
         void FiniWindow() override;
@@ -24,8 +30,11 @@ class LibrarySDL : public IDisplayModule {
         void display() override;
 
     protected:
-        int idx = 0;
-        WINDOW *_CurrentWindow;
-        std::map <Enum::Color, int> _ColorDefinition;
+        SDL_Window *_CurrentWindow;
+        SDL_Renderer *_CurrentWindowRenderer;
+        TTF_Font *_Font;
+        std::map<Enum::Color, SDL_Color> _ColorDefinition;
+        std::map<Enum::ObjectType, SDL_Color> _ObjectDefinition;
+        Timer _timer;
     private:
 };
