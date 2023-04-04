@@ -91,7 +91,7 @@ std::pair<int, int> LibraryNcurses::GetWindowSize()
 
 char LibraryNcurses::getUserInput()
 {
-    halfdelay(1);
+    nodelay(_CurrentWindow, TRUE);
     return wgetch(_CurrentWindow);
 }
 
