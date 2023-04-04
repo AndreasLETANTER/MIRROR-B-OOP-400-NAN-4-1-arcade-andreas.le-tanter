@@ -504,6 +504,8 @@ void Nibbler::UpdateGameEvent()
                 AddPlayerPart();
                 _score += 10;
                 _NbItems--;
+                _timer.ResetTimer();
+                _timer.StartTimer();
             }
         }
     }
