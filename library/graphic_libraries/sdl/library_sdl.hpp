@@ -9,7 +9,6 @@
 #include "../IDisplayModule.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include "timer/Timer.hpp"
 
 #define CHAR_SIZE_X 9.18
 #define CHAR_SIZE_Y 19.7
@@ -35,6 +34,5 @@ class LibrarySDL : public IDisplayModule {
         TTF_Font *_Font;
         std::map<Enum::Color, SDL_Color> _ColorDefinition;
         std::map<Enum::ObjectType, SDL_Color> _ObjectDefinition;
-        Timer _timer;
     private:
 };

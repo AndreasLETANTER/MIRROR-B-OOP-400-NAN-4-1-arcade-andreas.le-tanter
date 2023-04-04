@@ -271,6 +271,11 @@ void Snake::ResetGame()
 */
 void Snake::handleUserInput(char key)
 {
+    _timer.StartTimer();
+    while (_timer.GetElapsedTimeInMilliSeconds() < 100 && key == -1) {
+        return;
+    }
+    _timer.ResetTimer();
     if (key == 'r') {
         ResetGame();
         return;

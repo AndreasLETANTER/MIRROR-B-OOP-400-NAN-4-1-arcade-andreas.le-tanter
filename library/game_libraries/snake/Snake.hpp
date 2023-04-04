@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../IGameEngine.hpp"
+#include "timer/Timer.hpp"
 
 #define MAX_X 160
 #define MAX_Y 50
@@ -33,6 +34,7 @@ class Snake : public IGameEngine {
         char _last_key = 'd';
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData;
         std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _PlayerData;
+        Timer _timer;
     private:
         void CreateBoxCase(int x, int y, int x_length, int y_length);
         void handlePlayerMovement(char key);

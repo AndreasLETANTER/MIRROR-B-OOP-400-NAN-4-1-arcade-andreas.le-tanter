@@ -149,13 +149,9 @@ char LibrarySDL::getUserInput()
 {
     SDL_Event e;
     
-    _timer.StartTimer();
-    while (_timer.GetElapsedTimeInMilliSeconds() < 100) {
-        if ((SDL_PollEvent(&e) > 0) && (e.type == SDL_KEYDOWN)) {
-            return e.key.keysym.sym;
-        }
+    if ((SDL_PollEvent(&e) > 0) && (e.type == SDL_KEYDOWN)) {
+        return e.key.keysym.sym;
     }
-    _timer.ResetTimer();
     return -1;
 }
 
