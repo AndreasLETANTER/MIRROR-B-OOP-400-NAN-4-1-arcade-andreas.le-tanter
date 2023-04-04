@@ -25,9 +25,10 @@ protected:
     int _score;
     int _MapBorderIndex = 0;
     int _ObjectIndex = 0;
+    int _MazeIndex = 0;
     bool _is_ended;
     std::pair<int, int> _MapBorderStartPos  = std::make_pair(60, 15);
-    std::pair<int, int> _MapBorderSize = std::make_pair(36, 30);
+    std::pair<int, int> _MapBorderSize = std::make_pair(37, 30);
     std::pair<int, int> _GhostSpawnAreaStartPos = std::make_pair(_MapBorderStartPos.first + _MapBorderSize.first / 2 - 6 / 2, _MapBorderStartPos.second + _MapBorderSize.second / 2 - 5 / 2);
     std::pair<int, int> _PacmanStartPos = std::make_pair(_GhostSpawnAreaStartPos.first + 3, _GhostSpawnAreaStartPos.second + 6);
     std::pair<Enum::ObjectType, std::pair<int, int>> _Pacman;
@@ -44,6 +45,7 @@ private:
     void handleGhostMovement(void);
     void checkPacmanCollision(char last_key);
     void createMapBorder(int start_x, int start_y, int width, int height);
+    void createMaze(void);
     void createGhostSpawnArea(void);
     void createPacman(int x, int y);
     void createGhosts(void);
