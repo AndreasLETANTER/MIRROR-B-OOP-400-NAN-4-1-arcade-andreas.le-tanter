@@ -16,7 +16,7 @@
 
 class LibrarySFML : public IDisplayModule {
     public:
-        LibrarySFML() = default;
+        LibrarySFML();
         ~LibrarySFML() = default;
         void InitWindow() override;
         void FiniWindow() override;

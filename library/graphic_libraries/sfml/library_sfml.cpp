@@ -11,6 +11,7 @@
 #include <SFML/System.hpp>
 #include <iostream>
 #include "library_sfml.hpp"
+#include "../../../src/ErrorClass/ErrorClass.hpp"
 
 extern "C"
 {
@@ -18,6 +19,13 @@ extern "C"
     {
         return new LibrarySFML();
     }
+}
+
+LibrarySFML::LibrarySFML()
+{
+    if (!_Font.loadFromFile("library/graphic_libraries/sfml/arial.ttf")) {
+        throw Error("Error: Font not found");
+    };
 }
 
 void LibrarySFML::InitWindow()
@@ -38,11 +46,6 @@ void LibrarySFML::InitWindow()
     _ObjectDefinition[Enum::ObjectType::ITEM] = sf::Color::Yellow;
     _ObjectDefinition[Enum::ObjectType::BORDER] = sf::Color::White;
     _ObjectDefinition[Enum::ObjectType::PLAYER_PART] = sf::Color::Blue;
-
-    if (!_Font.loadFromFile("library/graphic_libraries/sfml/arial.ttf")) {
-        std::cout << "Error loading font" << std::endl;
-        exit(84);
-    }
 
     _Text.setCharacterSize(28);
     _Text.setFont(_Font);
