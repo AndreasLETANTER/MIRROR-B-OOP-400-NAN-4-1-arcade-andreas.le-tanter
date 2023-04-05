@@ -132,17 +132,14 @@ void Pacman::createPacman(int x, int y)
 
 void Pacman::createGhosts()
 {
-    int ghostIndex = 0;
-    std::map<int, std::pair<int, int>> ghostSpawnPos = {
-            {0, std::make_pair(_GhostSpawnAreaStartPos.first + 2, _GhostSpawnAreaStartPos.second + 1)},
-            {1, std::make_pair(_GhostSpawnAreaStartPos.first + 2, _GhostSpawnAreaStartPos.second + 4)},
-            {2, std::make_pair(_GhostSpawnAreaStartPos.first + 4, _GhostSpawnAreaStartPos.second + 1)},
-            {3, std::make_pair(_GhostSpawnAreaStartPos.first + 4, _GhostSpawnAreaStartPos.second + 4)}
+    _GhostSpawnPos = {
+        {0, std::make_pair(_GhostSpawnAreaStartPos.first + 2, _GhostSpawnAreaStartPos.second + 1)},
+        {1, std::make_pair(_GhostSpawnAreaStartPos.first + 2, _GhostSpawnAreaStartPos.second + 4)},
+        {2, std::make_pair(_GhostSpawnAreaStartPos.first + 4, _GhostSpawnAreaStartPos.second + 1)},
+        {3, std::make_pair(_GhostSpawnAreaStartPos.first + 4, _GhostSpawnAreaStartPos.second + 4)}
     };
-
-    for (int i = 0; i < 4; i++) {
-        _GhostData[ghostIndex] = std::make_pair(Enum::ObjectType::ENEMY, ghostSpawnPos[i]);
-        ghostIndex++;
+    for (int ghostIndex = 0; ghostIndex < 4; ghostIndex++) {
+        _GhostData[ghostIndex] = std::make_pair(Enum::ObjectType::ENEMY, _GhostSpawnPos[ghostIndex]);
     }
 }
 
@@ -166,8 +163,10 @@ void Pacman::moveGhostToSpawnAreaExit(int i)
 
 void Pacman::handleGhostMovement()
 {
-    for (int i = 0; i < 4; i++) {
-        moveGhostToSpawnAreaExit(i);
+    if (std::chrono::system_clock::now() >= _GhostTimer) {
+        for (int i = 0; i < 4; i++) {
+            moveGhostToSpawnAreaExit(i);
+        }
     }
 }
 
