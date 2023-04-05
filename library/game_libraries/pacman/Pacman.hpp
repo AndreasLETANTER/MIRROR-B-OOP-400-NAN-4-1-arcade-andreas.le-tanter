@@ -44,6 +44,7 @@ protected:
     std::vector<std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>>> _DataArrays;
 private:
     void concatDataMaps(void);
+    void emptyObjectsData(void);
     void handlePacmanMovement(char key);
     void handlePacmanWallCollision(char last_key);
     void handlePacmanGhostsAreaCollision(void);
