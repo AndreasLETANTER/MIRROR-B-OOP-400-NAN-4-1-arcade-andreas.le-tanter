@@ -132,7 +132,9 @@ char LibrarySFML::getUserInput()
         return -1;
     }
     if (event.type == sf::Event::TextEntered) {
-        if (event.text.unicode < 128) {
+        if (event.text.unicode == 13) {
+            return 10;
+        } else if (event.text.unicode < 128) {
             return static_cast<char>(event.text.unicode);
         }
     }
