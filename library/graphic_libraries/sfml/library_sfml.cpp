@@ -12,6 +12,7 @@
 #include <iostream>
 #include "library_sfml.hpp"
 #include "../../../src/ErrorClass/ErrorClass.hpp"
+#include "arial.cpp"
 
 extern "C"
 {
@@ -23,7 +24,7 @@ extern "C"
 
 LibrarySFML::LibrarySFML()
 {
-    if (!_Font.loadFromFile("library/graphic_libraries/sfml/arial.ttf")) {
+    if (!_Font.loadFromMemory(arial_ttf, arial_ttf_len)) {
         throw Error("Error: Font not found");
     };
 }
