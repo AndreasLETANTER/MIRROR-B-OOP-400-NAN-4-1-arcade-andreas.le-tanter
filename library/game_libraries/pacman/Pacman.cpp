@@ -29,7 +29,6 @@ Pacman::Pacman()
 void Pacman::handleUserInput(char key)
 {
     handlePacmanMovement(key);
-    createGhostSpawnArea();
     handleGhostMovement();
     concatDataMaps();
 }
@@ -126,30 +125,6 @@ std::pair<int, int> Pacman::getMapBorderSize()
     return _MapBorderSize;
 }
 
-void Pacman::createGhostSpawnArea()
-{
-    int wallIndex = 0;
-    int width = 6;
-    int height = 5;
-    int x = _GhostSpawnAreaStartPos.first;
-    int y = _GhostSpawnAreaStartPos.second;
-
-    for (int i = x; i <= x + width; i++) {
-        if (i != x + width / 2) {
-            _WallData[wallIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(i, y));
-            wallIndex++;
-        }
-        _WallData[wallIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(i, y + height));
-        wallIndex++;
-    }
-    for (int i = y; i < y + height; i++) {
-        _WallData[wallIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(x, i));
-        wallIndex++;
-        _WallData[wallIndex] = std::make_pair(Enum::ObjectType::BORDER, std::make_pair(x + width, i));
-        wallIndex++;
-    }
-}
-
 void Pacman::createPacman(int x, int y)
 {
     _Pacman = std::make_pair(Enum::ObjectType::PLAYER, std::make_pair(x, y));
@@ -169,27 +144,6 @@ void Pacman::createGhosts()
         _GhostData[ghostIndex] = std::make_pair(Enum::ObjectType::ENEMY, ghostSpawnPos[i]);
         ghostIndex++;
     }
-}
-
-void Pacman::handlePacmanMovement(char key)
-{
-    switch (key) {
-        case 'z':
-            _Pacman.second.second -= 1;
-            break;
-        case 's':
-            _Pacman.second.second += 1;
-            break;
-        case 'q':
-            _Pacman.second.first -= 1;
-            break;
-        case 'd':
-            _Pacman.second.first += 1;
-            break;
-        default:
-            break;
-    }
-    checkPacmanCollision(key);
 }
 
 void Pacman::moveGhostToSpawnAreaExit(int i)
@@ -217,34 +171,69 @@ void Pacman::handleGhostMovement()
     }
 }
 
-void Pacman::checkPacmanCollision(char last_key) {
-    // collisions between pacman and map border
-    if (_Pacman.second.first > _MapBorderStartPos.first + _MapBorderSize.first - 1)
-        _Pacman.second.first = _MapBorderStartPos.first + 1;
-    if (_Pacman.second.first < _MapBorderStartPos.first + 1)
-        _Pacman.second.first = _MapBorderStartPos.first + _MapBorderSize.first - 1;
-    if (_Pacman.second.second > _MapBorderStartPos.second + _MapBorderSize.second - 1)
-        _Pacman.second.second = _MapBorderStartPos.second + 1;
-    if (_Pacman.second.second < _MapBorderStartPos.second + 1)
-        _Pacman.second.second = _MapBorderStartPos.second + _MapBorderSize.second - 1;
-    // collisions between pacman and ghosts spawn area
-    if (_Pacman.second.first > _GhostSpawnAreaStartPos.first - 1 && _Pacman.second.first < _GhostSpawnAreaStartPos.first + 6 + 1 &&
-    _Pacman.second.second > _GhostSpawnAreaStartPos.second - 1 && _Pacman.second.second < _GhostSpawnAreaStartPos.second + 5 + 1) {
-        switch (last_key) {
-            case 'z':
-                _Pacman.second.second += 1;
-                break;
-            case 's':
-                _Pacman.second.second -= 1;
-                break;
-            case 'd':
-                _Pacman.second.first -= 1;
-                break;
-            case 'q':
-                _Pacman.second.first += 1;
-                break;
-            default:
-                break;
+void Pacman::handlePacmanMovement(char key)
+{
+    switch (key) {
+        case 'z':
+            _Pacman.second.second -= 1;
+            break;
+        case 's':
+            _Pacman.second.second += 1;
+            break;
+        case 'q':
+            _Pacman.second.first -= 1;
+            break;
+        case 'd':
+            _Pacman.second.first += 1;
+            break;
+        default:
+            break;
+    }
+    checkPacmanCollision(key);
+}
+
+void Pacman::handlePacmanWallCollision(char last_key)
+{
+    for (int i = 0; i < (int)_MazeData.size(); i++) {
+        if (_Pacman.second.first == _MazeData[i].second.first && _Pacman.second.second == _MazeData[i].second.second) {
+            switch (last_key) {
+                case 'z':
+                    _Pacman.second.second += 1;
+                    break;
+                case 's':
+                    _Pacman.second.second -= 1;
+                    break;
+                case 'd':
+                    _Pacman.second.first -= 1;
+                    break;
+                case 'q':
+                    _Pacman.second.first += 1;
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+}
+
+void Pacman::handlePacmanGhostsAreaCollision(void)
+{
+    if (_Pacman.second.first == _GhostSpawnAreaStartPos.first + 3 && _Pacman.second.second == _GhostSpawnAreaStartPos.second) {
+        _Pacman.second.second -= 1;
+    }
+}
+
+void Pacman::checkPacmanCollision(char last_key) {
+    if (_Pacman.second.first > _MapBorderStartPos.first + (_MapBorderSize.first - 1) - 1) {
+        _Pacman.second.first = _MapBorderStartPos.first + 1;
+    } else if (_Pacman.second.first < _MapBorderStartPos.first + 1) {
+        _Pacman.second.first = _MapBorderStartPos.first + (_MapBorderSize.first - 1) - 1;
+    } else if (_Pacman.second.second > _MapBorderStartPos.second + (_MapBorderSize.second - 1) - 1) {
+        _Pacman.second.second = _MapBorderStartPos.second + 1;
+    } else if (_Pacman.second.second < _MapBorderStartPos.second + 1) {
+        _Pacman.second.second = _MapBorderStartPos.second + (_MapBorderSize.second - 1) - 1;
+    } else {
+        handlePacmanGhostsAreaCollision();
+        handlePacmanWallCollision(last_key);
     }
 }
