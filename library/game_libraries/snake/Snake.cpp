@@ -74,7 +74,7 @@ void Snake::CreateBoxCase(int x, int y, int x_length, int y_length)
 */
 bool Snake::CheckSnakeCollision(std::pair<int, int> player_pos)
 {
-    if (player_pos.first == STEP_X - 1 || player_pos.first == MAX_X + STEP_X - 1 || player_pos.second == STEP_Y + 1 || player_pos.second == MAX_Y + STEP_Y - 1)
+    if (player_pos.first == STEP_X  || player_pos.first == MAX_X + STEP_X || player_pos.second == STEP_Y || player_pos.second == MAX_Y + STEP_Y)
         return true;
     for (int i = 0; i < last_player_idx; i++) {
         if (_PlayerData[i].first == Enum::ObjectType::PLAYER_PART && ((_PlayerData[i].second.first == player_pos.first && _PlayerData[i].second.second == player_pos.second) || (_PlayerData[0].second.first == _ObjectData[i].second.first + 1 && _PlayerData[0].second.second == _ObjectData[i].second.second + 1))) {
@@ -104,16 +104,16 @@ void Snake::MoveSnakeTail()
 */
 void Snake::MoveWithLastKey()
 {
-    if (_last_key == 'z' && _PlayerData[0].second.second > STEP_Y + 1) {
+    if (_last_key == 'z') {
         MoveSnakeTail();
         _PlayerData[0].second.second -= 1;
-    } else if (_last_key == 's' && _PlayerData[0].second.second < MAX_Y + STEP_Y - 1) {
+    } else if (_last_key == 's') {
         MoveSnakeTail();
         _PlayerData[0].second.second += 1;
-    } else if(_last_key == 'q' && _PlayerData[0].second.first > STEP_X + 1) {
+    } else if(_last_key == 'q') {
         MoveSnakeTail();
         _PlayerData[0].second.first -= 1;
-    } else if (_last_key == 'd' && _PlayerData[0].second.first < MAX_X + STEP_X - 1) {
+    } else if (_last_key == 'd') {
         MoveSnakeTail();
         _PlayerData[0].second.first += 1;
     }
@@ -127,16 +127,16 @@ void Snake::handlePlayerMovement(char key)
 {
     bool keep_key = true;
 
-    if (key == 'z' && _last_key != 's' && _PlayerData[0].second.second > STEP_Y + 1) {
+    if (key == 'z' && _last_key != 's') {
         MoveSnakeTail();
         _PlayerData[0].second.second -= 1;
-    } else if (key == 's' && _last_key != 'z' && _PlayerData[0].second.second < MAX_Y + STEP_Y - 1) {
+    } else if (key == 's' && _last_key != 'z') {
         MoveSnakeTail();
         _PlayerData[0].second.second += 1;
-    } else if(key == 'q' && _last_key != 'd' && _PlayerData[0].second.first > STEP_X + 1) {
+    } else if(key == 'q' && _last_key != 'd') {
         MoveSnakeTail();
         _PlayerData[0].second.first -= 1;
-    } else if (key == 'd' && _last_key != 'q' && _PlayerData[0].second.first < MAX_X + STEP_X - 1) {
+    } else if (key == 'd' && _last_key != 'q') {
         MoveSnakeTail();
         _PlayerData[0].second.first += 1;
     } else if (key == -1) {
