@@ -1,0 +1,11 @@
+# The md file(s) you want to compile
+SOURCES = foo.md
+
+# Additionnal deps
+DEPS	= logo.png
+
+# Path to Epitech templates root (folder containing Makefile.LaTeX)
+RELPATH	= /path/to/epitech/templates
+
+# Do not remove
+include $(RELPATH)/Makefile.LaTeX

@@ -1,0 +1,35 @@
+*********************
+** COMPILER EN PDF **
+*********************
+
+1. Si vous êtes sous Windows, installer Ubuntu via Microsoft Store
+
+2. Dans Ubuntu, installer les librairies suivantes : gpp, pandoc, texlive-full
+depuis Ubuntu : sudo apt-get install gpp pandoc texlive-full
+
+3. Se connecter sur https://gitlab.com/Epitech-contenus/template et vérifier que vous avez les droits sur le dépôt.
+Si ce n'est pas le cas, les demander à CONTEX
+
+4. Si besoin, créer une clé SSH et renseigner la clé public sur Gitlab.com
+depuis Ubuntu, git bash ou autre : ssh-keygen -o -t rsa -C "your.email@epitech.eu" -b 4096
+cat ~/.ssh/id_rsa.pub | clip
+puis CTRL-v dans "Key" à l'adresse https://gitlab.com/profile/keys
+
+5. Cloner le dépôt en local
+depuis Ubuntu, git bash ou autre : git clone git@gitlab.com:Epitech-contenus/template.git
+
+6. Ajouter le path du template (xxxxxxx ci-dessous, ) dans l'env Ubuntu
+depuis Ubuntu : echo -e "\n#Add template path to the ENV\nexport PATH=\"xxxxxxx\":\$PATH" >> ~/.bashrc && source ~/.bashrc
+(en ce qui me concerne et à tire d'exemple, le répertoire est "/mnt/c/Users/Pierre Robert/Documents/GitLab/Epitech-contenus/template\")
+
+7. Compiler depuis le répertoire du fichier md
+depuis Ubuntu : Epitech_md-compilation.sh fichier.md
+
+8. Ne pas oublier de mettre les fichiers md à jour sur le dépôt du module concerné.
+
+
+ATTENTION : les répertoires contenant les clés SSH de Windows et Ubuntu ne sont pas les mêmes.
+Si vous êtes sous Windows, il faut donc soit : 
+- toujours utiliser git sous Ubuntu si les clés ont été créées sous Ubuntu
+- toujours utiliser git sous Windows si les clés ont été créées sous Windows
+- dupliquer les clés dans les 2 répertoires
