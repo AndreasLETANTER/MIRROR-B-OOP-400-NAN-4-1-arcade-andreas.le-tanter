@@ -10,7 +10,7 @@
 #include "../IGameEngine.hpp"
 #include "timer/Timer.hpp"
 
-#define MAX_X 160
+#define MAX_X 120
 #define MAX_Y 50
 #define STEP_X 45
 #define STEP_Y 1
