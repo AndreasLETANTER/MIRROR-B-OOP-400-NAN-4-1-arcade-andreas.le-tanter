@@ -53,8 +53,15 @@ std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> Pacman::getObjec
     return _ObjectsData;
 }
 
+void Pacman::emptyObjectsData()
+{
+    _ObjectsData.clear();
+    _ObjectIndex = 0;
+}
+
 void Pacman::concatDataMaps()
 {
+    emptyObjectsData();
     _DataArrays = {
             _GhostData,
             _GumData,
