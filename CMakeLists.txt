@@ -34,9 +34,11 @@ set(NCURSES
 )
 set(SFML
     library/graphic_libraries/sfml/library_sfml.cpp
+    src/ErrorClass/ErrorClass.cpp
 )
 set(SDL
     library/graphic_libraries/sdl/library_sdl.cpp
+    src/ErrorClass/ErrorClass.cpp
 )
 set(PACMAN
     library/game_libraries/pacman/Pacman.cpp
