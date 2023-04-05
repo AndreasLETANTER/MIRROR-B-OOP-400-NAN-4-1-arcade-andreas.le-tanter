@@ -7,6 +7,7 @@
 
 #include "library_sdl.hpp"
 #include "../../../src/ErrorClass/ErrorClass.hpp"
+#include "arial.cpp"
 
 extern "C"
 {
@@ -56,7 +57,11 @@ LibrarySDL::LibrarySDL()
     if (TTF_Init() < 0) {
         throw Error("Failed to initialize the SDL2_ttf library");
     }
-    _Font = TTF_OpenFont("library/graphic_libraries/sdl/arial.ttf", 28);
+    SDL_RWops* rw = SDL_RWFromMem((void*)arial_ttf, arial_ttf_len);
+    if (!rw) {
+        throw Error("Failed to initialize the font");
+    }
+    _Font = TTF_OpenFontRW(rw, 1, 28);
 }
 
 void LibrarySDL::FiniWindow()
@@ -149,13 +154,9 @@ char LibrarySDL::getUserInput()
 {
     SDL_Event e;
     
-    _timer.StartTimer();
-    while (_timer.GetElapsedTimeInMilliSeconds() < 100) {
-        if ((SDL_PollEvent(&e) > 0) && (e.type == SDL_KEYDOWN)) {
-            return e.key.keysym.sym;
-        }
+    if ((SDL_PollEvent(&e) > 0) && (e.type == SDL_KEYDOWN)) {
+        return e.key.keysym.sym;
     }
-    _timer.ResetTimer();
     return -1;
 }
 

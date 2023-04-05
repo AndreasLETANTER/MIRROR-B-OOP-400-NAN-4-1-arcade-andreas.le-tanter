@@ -36,13 +36,13 @@ set(SFML
 )
 set(SDL
     library/graphic_libraries/sdl/library_sdl.cpp
-    library/graphic_libraries/sdl/timer/Timer.cpp
 )
 set(PACMAN
     library/game_libraries/pacman/Pacman.cpp
 )
 set(SNAKE
-    library/game_libraries/snake/Snake.cpp    
+    library/game_libraries/snake/Snake.cpp 
+    library/game_libraries/snake/timer/Timer.cpp   
 )
 set(NIBBLER
     library/game_libraries/nibbler/Nibbler.cpp

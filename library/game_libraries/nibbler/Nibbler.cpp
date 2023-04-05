@@ -609,6 +609,11 @@ void Nibbler::PartialReset()
 void Nibbler::handleUserInput(char key)
 {
     _timer.StartTimer();
+    _InputTimer.StartTimer();
+    while (_InputTimer.GetElapsedTimeInMilliSeconds() < 100 && key == -1) {
+        return;
+    }
+    _InputTimer.ResetTimer();
     if (key == 'r') {
         ResetGame();
         return;

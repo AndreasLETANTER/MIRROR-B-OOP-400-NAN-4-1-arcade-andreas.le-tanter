@@ -12,6 +12,7 @@
 #include <iostream>
 #include "library_sfml.hpp"
 #include "../../../src/ErrorClass/ErrorClass.hpp"
+#include "arial.cpp"
 
 extern "C"
 {
@@ -23,7 +24,7 @@ extern "C"
 
 LibrarySFML::LibrarySFML()
 {
-    if (!_Font.loadFromFile("library/graphic_libraries/sfml/arial.ttf")) {
+    if (!_Font.loadFromMemory(arial_ttf, arial_ttf_len)) {
         throw Error("Error: Font not found");
     };
 }
@@ -124,18 +125,15 @@ std::pair<int, int> LibrarySFML::GetWindowSize()
 char LibrarySFML::getUserInput()
 {
     sf::Event event;
-    sf::Clock clock;
 
-    while (clock.getElapsedTime().asMilliseconds() < 100) {
-        _CurrentWindow.pollEvent(event);
-        if (event.type == sf::Event::Closed) {
-            _CurrentWindow.close();
-            return -1;
-        }
-        if (event.type == sf::Event::TextEntered) {
-            if (event.text.unicode < 128) {
-                return static_cast<char>(event.text.unicode);
-            }
+    _CurrentWindow.pollEvent(event);
+    if (event.type == sf::Event::Closed) {
+        _CurrentWindow.close();
+        return -1;
+    }
+    if (event.type == sf::Event::TextEntered) {
+        if (event.text.unicode < 128) {
+            return static_cast<char>(event.text.unicode);
         }
     }
     return -1;
