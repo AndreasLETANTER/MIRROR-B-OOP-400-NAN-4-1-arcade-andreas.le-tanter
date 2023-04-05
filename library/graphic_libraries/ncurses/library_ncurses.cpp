@@ -68,13 +68,11 @@ void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, 
         wattron(_CurrentWindow, COLOR_PAIR(idx));
         mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
         wattroff(_CurrentWindow, COLOR_PAIR(idx));
-        wrefresh(_CurrentWindow);
         _KnownColors[std::pair<Enum::Color, Enum::Color>(FrontFont, BackFont)] = idx;
         idx++;
     } else {
         wattron(_CurrentWindow, COLOR_PAIR(custom_idx));
         mvwprintw(_CurrentWindow, _Pos.second, _Pos.first, "%s", _String.c_str());
-        wrefresh(_CurrentWindow);
         wattroff(_CurrentWindow, COLOR_PAIR(custom_idx));
     }
 }
