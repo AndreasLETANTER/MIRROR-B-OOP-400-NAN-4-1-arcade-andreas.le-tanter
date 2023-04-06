@@ -24,6 +24,7 @@ Pacman::Pacman()
     createPacman(_PacmanStartPos.first, _PacmanStartPos.second);
     createGhosts();
     createMaze();
+    createGums();
 }
 
 void Pacman::handleUserInput(char key)
@@ -246,4 +247,28 @@ void Pacman::checkPacmanCollision(char last_key) {
         handlePacmanGhostsAreaCollision();
         handlePacmanWallCollision(last_key);
     }
+}
+
+void Pacman::createGums()
+{
+    int _GumIndex = 0;
+
+    for (int y = _MapBorderStartPos.second; y < _MapBorderStartPos.second + _MapBorderSize.second; y++) {
+        for (int x = _MapBorderStartPos.first; x < _MapBorderStartPos.first + _MapBorderSize.first; x++) {
+            if (isEmptySpace(x, y)) {
+                _GumData[_GumIndex] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(x, y));
+                _GumIndex++;
+            }
+        }
+    }
+}
+
+bool Pacman::isEmptySpace(int x, int y)
+{
+    for (int i = 0; i < (int)_MazeData.size(); i++) {
+        if (_MazeData[i].second.first == x && _MazeData[i].second.second == y) {
+            return false;
+        }
+    }
+    return true;
 }
