@@ -19,7 +19,7 @@ extern "C"
 
 Pacman::Pacman()
 {
-    _score = 0;
+    _Score = 0;
     _is_ended = false;
     createPacman(_PacmanStartPos.first, _PacmanStartPos.second);
     createGhosts();
@@ -36,7 +36,7 @@ void Pacman::handleUserInput(char key)
 
 int Pacman::getScore()
 {
-    return 0;
+    return _Score;
 }
 
 bool Pacman::getStatus()
@@ -234,6 +234,16 @@ void Pacman::handlePacmanGhostsAreaCollision(void)
     }
 }
 
+void Pacman::handlePacmanGumCollision()
+{
+    for (int i = 0; i < (int)_GumData.size(); i++) {
+        if (_Pacman.second.first == _GumData[i].second.first && _Pacman.second.second == _GumData[i].second.second) {
+            _GumData.erase(i);
+            _Score += 10;
+        }
+    }
+}
+
 void Pacman::checkPacmanCollision(char last_key) {
     if (_Pacman.second.first > _MapBorderStartPos.first + (_MapBorderSize.first - 1) - 1) {
         _Pacman.second.first = _MapBorderStartPos.first + 1;
@@ -246,6 +256,7 @@ void Pacman::checkPacmanCollision(char last_key) {
     } else {
         handlePacmanGhostsAreaCollision();
         handlePacmanWallCollision(last_key);
+        handlePacmanGumCollision();
     }
 }
 
