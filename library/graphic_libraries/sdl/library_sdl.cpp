@@ -80,27 +80,11 @@ LibrarySDL::LibrarySDL()
 */
 void LibrarySDL::FiniWindow()
 {
+    TTF_CloseFont(_Font);
+    TTF_Quit();
+    SDL_DestroyWindow(_CurrentWindow);
+    SDL_DestroyRenderer(_CurrentWindowRenderer);
     SDL_Quit();
-}
-
-/**
- * @brief update the scale factor
- * @param _ScaleFactor
- * @param _WindowSize
- * @param _MapSize
- * @return float
-*/
-float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std::pair<int, int> _MapSize)
-{
-    float scaleFactor = _ScaleFactor;
-
-    if (_MapSize.first * CHAR_SIZE_X * scaleFactor > _WindowSize.first) {
-        scaleFactor = _WindowSize.first / (_MapSize.first * CHAR_SIZE_X);
-    }
-    if (_MapSize.second * CHAR_SIZE_Y * scaleFactor > _WindowSize.second) {
-        scaleFactor = _WindowSize.second / (_MapSize.second * CHAR_SIZE_Y);
-    }
-    return scaleFactor;
 }
 
 /**
@@ -118,8 +102,7 @@ void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::p
     rect.w = CHAR_SIZE_X;
     rect.h = CHAR_SIZE_Y;
     for (auto &it : _ObjectData) {
-        float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _ObjectData[it.first].second);
-        std::pair<int, int> sdlPos = std::pair<int, int>((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
+        std::pair<int, int> sdlPos = std::pair<int, int>((_ObjectData[it.first].second.first * CHAR_SIZE_X), (_ObjectData[it.first].second.second * CHAR_SIZE_Y));
         rect.x = sdlPos.first;
         rect.y = sdlPos.second;
         color = _ObjectDefinition[_ObjectData[it.first].first];
@@ -152,8 +135,7 @@ void LibrarySDL::displayScore(int _Score, int x, int y)
 */
 void LibrarySDL::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(_Pos.first, _Pos.second));
-    std::pair<int, int> sdlPos = std::pair<int, int>((_Pos.first * CHAR_SIZE_X * scaleFactor), (_Pos.second * CHAR_SIZE_Y * scaleFactor));
+    std::pair<int, int> sdlPos = std::pair<int, int>((_Pos.first * CHAR_SIZE_X), (_Pos.second * CHAR_SIZE_Y));
     SDL_Color frontColor = _ColorDefinition[FrontFont];
     SDL_Color backColor;
     SDL_Surface *surface;
