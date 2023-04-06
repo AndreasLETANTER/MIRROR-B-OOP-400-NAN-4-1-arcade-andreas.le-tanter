@@ -23,7 +23,7 @@ public:
     std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getObjects() override;
     
 protected:
-    int _score;
+    int _Score;
     int _MapBorderIndex = 0;
     int _ObjectIndex = 0;
     int _MazeIndex = 0;
@@ -49,6 +49,7 @@ private:
     void handlePacmanMovement(char key);
     void handlePacmanWallCollision(char last_key);
     void handlePacmanGhostsAreaCollision(void);
+    void handlePacmanGumCollision(void);
     void handleGhostMovement(void);
     void checkPacmanCollision(char last_key);
     void createMapBorder(int start_x, int start_y, int width, int height);
