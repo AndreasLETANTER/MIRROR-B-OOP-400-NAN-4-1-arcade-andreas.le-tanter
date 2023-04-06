@@ -16,8 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       summary: ${{ steps.check_unwanted_files.outputs.summary }}
-      start_time: ${{ steps.check_unwanted_files.outputs.start_time }}
-      end_time: ${{ steps.check_unwanted_files.outputs.end_time }}
+      result: ${{ steps.check_unwanted_files.outputs.result }}
     steps:
       - name: Fetch repository
         uses: actions/checkout@v3
@@ -26,7 +25,7 @@ jobs:
       - id: check_unwanted_files
         name: Check unwanted files
         run: |
-          echo "start_time= $(date +%s)" >> $GITHUB_OUTPUT
+          echo "summary=| Check unwanted files " >> $GITHUB_OUTPUT
           error=0
           for file in $(git ls-files); do
             if [[ $file =~ $UNWANTED_FILES ]]; then
@@ -35,17 +34,17 @@ jobs:
             fi
           done
           if [ $error -eq 1 ]; then
-            echo "summary=| Check unwanted files | :x: |" >> $GITHUB_OUTPUT
+            echo "result=| :x: |" >> $GITHUB_OUTPUT
             exit 1
           fi
-          echo "summary=| Check unwanted files | :white_check_mark: |" >> $GITHUB_OUTPUT
-          echo "end_time= $(date +%s)" >> $GITHUB_OUTPUT
+          echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
 
   check_program_compilation:
     runs-on: ubuntu-latest
     needs: [check_repository_cleanliness]
     outputs:
       summary: ${{ steps.check_if_executable_exists.outputs.summary }}
+      result: ${{ steps.check_if_executable_exists.outputs.result }}
     container:
       image: epitechcontent/epitest-docker
     steps:
@@ -62,11 +61,12 @@ jobs:
       - id: check_if_executable_exists
         name: Check if executable exists
         run: |
-          echo "summary=| Check if executable exists | :white_check_mark: |" >> $GITHUB_OUTPUT
+          echo "summary=| Check if executable exists " >> $GITHUB_OUTPUT
           if [ -f $EXECUTABLE ]; then
-            echo "lousdif"
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           else
             echo "::error title=Executable not found::The executable $EXECUTABLE was not found."
+            echo "result=| :x: |" >> $GITHUB_OUTPUT
             exit 1
           fi
 
@@ -75,6 +75,7 @@ jobs:
     needs: [check_repository_cleanliness]
     outputs:
       summary: ${{ steps.check_if_unit_tests_exists.outputs.summary }}
+      result: ${{ steps.check_if_unit_tests_exists.outputs.result}}
     container:
       image: epitechcontent/epitest-docker
     steps:
@@ -88,12 +89,13 @@ jobs:
       - id: check_if_unit_tests_exists
         name: Compile and run unit tests
         run: |
-          echo "summary=| Compile and run unit tests | :white_check_mark: |" >> $GITHUB_OUTPUT
+          echo "summary=| Compile and run unit tests " >> $GITHUB_OUTPUT
           make tests_run
           if [ $? -eq 0 ]; then
-            echo "louis"
+            echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
           else
             echo "::error title=Unit tests failed::The unit tests failed."
+            echo "result=| :x: |" >> $GITHUB_OUTPUT
             exit 1
           fi
 
@@ -102,6 +104,7 @@ jobs:
     needs: [check_repository_cleanliness]
     outputs:
       summary: ${{ steps.run_functionals_tests.outputs.summary }}
+      result: ${{ steps.run_functionals_tests.outputs.result }}
     container:
       image: epitechcontent/epitest-docker
     steps:
@@ -118,12 +121,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: Atomot/ftest
-      - name: Go to ftest directory
-        run: |
-          ls -la
-      - name: install ftest
-        run: |
-          cargo build --release -p ftest
       - name: Build project
         run: |
           echo "cmake CMakeLists.txt"
@@ -133,35 +130,16 @@ jobs:
       - id: run_functionals_tests
         name: Run functinals tests
         run: |
-          echo "summary=| Run functinals tests | :white_check_mark: |" >> $GITHUB_OUTPUT
-          if [ $? -eq 0 ]; then
-            echo "dlou"
-          else
-            echo "::error title=Functionals tests failed::The functionals tests failed."
-            exit 1
-          fi
-
-  create_release:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    needs: [check_program_compilation, run_units_tests, run_functionals_tests]
-    outputs:
-      summary: ${{ steps.create_release.outputs.summary }}
-    steps:
-      - name: Fetch repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - id: create_release
-        name: Create release
-        run: |
-          echo "summary=| Create release | :white_check_mark: |" >> $GITHUB_OUTPUT
+          dnf install ftest-0.1.0.rpm
+          echo "summary=| Run functinals tests " >> $GITHUB_OUTPUT
+          echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
 
   create_doxygen:
     runs-on: ubuntu-latest
     needs: [check_program_compilation, run_units_tests, run_functionals_tests]
     outputs:
       summary: ${{ steps.create_doxygen.outputs.summary }}
+      result: ${{ steps.create_doxygen.outputs.result }}
     steps:
       - name : Fetch repository
         uses: actions/checkout@v3
@@ -176,20 +154,22 @@ jobs:
       - id: create_doxygen
         name: Add doxygen to release
         run: |
-          echo "summary=| Create doxygen | :white_check_mark: |" >> $GITHUB_OUTPUT
+          echo "summary=| Create doxygen " >> $GITHUB_OUTPUT
+          echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
 
 
   print_summary:
     runs-on: ubuntu-latest
-    needs: [check_repository_cleanliness, check_program_compilation, run_units_tests, run_functionals_tests, create_release, create_doxygen]
+    needs: [check_repository_cleanliness, check_program_compilation, run_units_tests, run_functionals_tests, create_doxygen]
     env:
       check_repository_cleanliness: ${{ needs.check_repository_cleanliness.outputs.summary }}
-      check_repository_cleanliness_start_time: ${{ needs.check_repository_cleanliness.outputs.start_time }}
-      check_repository_cleanliness_end_time: ${{ needs.check_repository_cleanliness.outputs.end_time }}
+      check_repository_cleanliness_result: ${{ needs.check_repository_cleanliness.outputs.result }}
       check_program_compilation: ${{ needs.check_program_compilation.outputs.summary }}
+      check_program_compilation_result: ${{ needs.check_program_compilation.outputs.result }}
       run_units_tests: ${{ needs.run_units_tests.outputs.summary }}
+      run_units_tests_result: ${{ needs.run_units_tests.outputs.result }}
       run_functionals_tests: ${{ needs.run_functionals_tests.outputs.summary }}
-      create_release: ${{ needs.create_release.outputs.summary }}
+      run_functionals_tests_result: ${{ needs.run_functionals_tests.outputs.result }}
       create_doxygen: ${{ needs.create_doxygen.outputs.summary }}
     steps:
       - name: Print summary
@@ -198,18 +178,18 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Step | Status | start time | end time |" >> $GITHUB_STEP_SUMMARY
           echo "| ---- | ------ | ---------- | -------- |" >> $GITHUB_STEP_SUMMARY
-          echo "$check_repository_cleanliness | $check_repository_cleanliness_start_time | $check_repository_cleanliness_end_time |" >> $GITHUB_STEP_SUMMARY
-          echo $check_program_compilation >> $GITHUB_STEP_SUMMARY
-          echo $run_units_tests >> $GITHUB_STEP_SUMMARY
-          echo $run_functionals_tests >> $GITHUB_STEP_SUMMARY
-          echo $create_release >> $GITHUB_STEP_SUMMARY
-          echo $create_doxygen >> $GITHUB_STEP_SUMMARY
+          echo "$check_repository_cleanliness $check_repository_cleanliness_result" >> $GITHUB_STEP_SUMMARY
+          echo "$check_program_compilation $check_program_compilation_result" >> $GITHUB_STEP_SUMMARY
+          echo "$run_units_tests $run_units_tests_result" >> $GITHUB_STEP_SUMMARY
+          echo "$run_functionals_tests $run_functionals_tests_result" >> $GITHUB_STEP_SUMMARY
+          echo "$create_doxygen $create_doxygen_result" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
 
   push_to_mirror:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: [create_release, create_doxygen]
+    needs: [create_doxygen]
     steps:
       - name: Fetch repository
         uses: actions/checkout@v3
