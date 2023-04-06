@@ -134,13 +134,14 @@ jobs:
       run_units_tests: ${{ needs.run_units_tests.outputs.summary }}
       run_units_tests_result: ${{ needs.run_units_tests.outputs.result }}
       create_doxygen: ${{ needs.create_doxygen.outputs.summary }}
+      create_doxygen_result: ${{ needs.create_doxygen.outputs.result }}
     steps:
       - name: Print summary
         run: |
           echo "## Summary of the workflow :rocket:"
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Step | Status | start time | end time |" >> $GITHUB_STEP_SUMMARY
-          echo "| ---- | ------ | ---------- | -------- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---- | ------ |" >> $GITHUB_STEP_SUMMARY
           echo "$check_repository_cleanliness $check_repository_cleanliness_result" >> $GITHUB_STEP_SUMMARY
           echo "$check_program_compilation $check_program_compilation_result" >> $GITHUB_STEP_SUMMARY
           echo "$run_units_tests $run_units_tests_result" >> $GITHUB_STEP_SUMMARY
