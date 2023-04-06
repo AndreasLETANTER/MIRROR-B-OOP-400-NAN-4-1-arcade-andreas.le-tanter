@@ -12,6 +12,9 @@
 #include <map>
 #include "../ILibrary.hpp"
 
+/**
+ * @brief Interface for the display module
+*/
 class IDisplayModule : public ILibrary {
     public:
         virtual ~IDisplayModule() = default;

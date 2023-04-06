@@ -17,6 +17,10 @@
 #define PLAYER_INIT_X 107
 #define MAX_TIME 10
 
+/**
+ * @brief Direction enum
+ * @details Enum for the direction of the player
+*/
 enum DIRECTION {
     NORTH,
     WEST,
@@ -24,6 +28,9 @@ enum DIRECTION {
     SOUTH
 };
 
+/**
+ * @brief Nibbler game class
+*/
 class Nibbler : public IGameEngine {
     public:
         Nibbler();

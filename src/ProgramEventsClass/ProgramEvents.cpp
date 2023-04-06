@@ -30,6 +30,10 @@ ProgramEvents::ProgramEvents()
     _currentState = MENU;
 }
 
+/**
+ * @brief load the library asked by the user
+ * @param libPath
+*/
 void ProgramEvents::loadLibraryAsked(std::string libPath)
 {
     DLLoader<IDisplayModule> *tempInstanceGraphic;
@@ -52,6 +56,11 @@ void ProgramEvents::loadLibraryAsked(std::string libPath)
         }
 }
 
+/**
+ * @brief Construct a new Program Events object
+ * @details load the library asked by the user
+ * @param libPath
+*/
 ProgramEvents::ProgramEvents(std::string libPath)
 {
     _Init = new Init("lib/");

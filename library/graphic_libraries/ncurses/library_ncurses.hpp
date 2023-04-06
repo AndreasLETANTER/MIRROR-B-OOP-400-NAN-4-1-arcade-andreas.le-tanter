@@ -9,6 +9,9 @@
 #include "../IDisplayModule.hpp"
 #include <iostream>
 
+/**
+ * @brief Ncurses library
+*/
 class LibraryNcurses : public IDisplayModule {
     public:
         LibraryNcurses() = default;

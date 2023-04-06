@@ -14,6 +14,9 @@
 #include "../../../src/ErrorClass/ErrorClass.hpp"
 #include "arial.cpp"
 
+/**
+ * @brief Entry point of the library
+*/
 extern "C"
 {
     IDisplayModule *entryPoint()
@@ -22,6 +25,9 @@ extern "C"
     }
 }
 
+/**
+ * @brief constructor of the library
+*/
 LibrarySFML::LibrarySFML()
 {
     if (!_Font.loadFromMemory(arial_ttf, arial_ttf_len)) {
@@ -29,6 +35,9 @@ LibrarySFML::LibrarySFML()
     };
 }
 
+/**
+ * @brief Init the window
+*/
 void LibrarySFML::InitWindow()
 {
     _CurrentWindow.create(sf::VideoMode(1920, 1080), "Arcade", sf::Style::Fullscreen);
@@ -52,6 +61,9 @@ void LibrarySFML::InitWindow()
     _Text.setFont(_Font);
 }
 
+/**
+ * @brief fini the window
+*/
 void LibrarySFML::FiniWindow()
 {
     _ObjectDefinition.clear();
@@ -59,6 +71,9 @@ void LibrarySFML::FiniWindow()
     _CurrentWindow.close();
 }
 
+/**
+ * @brief update the scale factor
+*/
 float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std::pair<int, int> _MapSize)
 {
     float scaleFactor = _ScaleFactor;
@@ -72,6 +87,11 @@ float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std
     return scaleFactor;
 }
 
+/**
+ * @brief display the objects
+ * @details display the objects on the screen
+ * @param _ObjectData
+*/
 void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
     _CurrentWindow.clear(sf::Color(44, 102, 110, 255));
@@ -86,6 +106,13 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
     }
 }
 
+/**
+ * @brief display the score
+ * @details display the score on the screen
+ * @param _Score
+ * @param x
+ * @param y
+*/
 void LibrarySFML::displayScore(int _Score, int x, int y)
 {
     float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(x, y));
@@ -98,6 +125,14 @@ void LibrarySFML::displayScore(int _Score, int x, int y)
     _CurrentWindow.draw(_Text);
 }
 
+/**
+ * @brief display the text
+ * @details display the text on the screen
+ * @param _String
+ * @param _Pos
+ * @param FrontFont
+ * @param BackFont
+*/
 void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
     float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _Pos);
@@ -110,11 +145,20 @@ void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enu
     _CurrentWindow.draw(_Text);
 }
 
+/**
+ * @brief get the lib type
+ * @details get the lib type (graphic or game)
+ * @return Enum::libType
+*/
 Enum::libType LibrarySFML::GetLibType()
 {
     return Enum::libType::GRAPHIC;
 }
 
+/**
+ * @brief get the window size
+ * @return std::pair<int, int>
+*/
 std::pair<int, int> LibrarySFML::GetWindowSize()
 {
     sf::Vector2u size = _CurrentWindow.getSize();
@@ -122,6 +166,11 @@ std::pair<int, int> LibrarySFML::GetWindowSize()
     return (std::pair<int, int>(size.x, size.y));
 }
 
+/**
+ * @brief get the user input
+ * @details get the user input
+ * @return char
+*/
 char LibrarySFML::getUserInput()
 {
     sf::Event event;
@@ -141,6 +190,9 @@ char LibrarySFML::getUserInput()
     return -1;
 }
 
+/**
+ * @brief display the window
+*/
 void LibrarySFML::display()
 {
     _CurrentWindow.display();

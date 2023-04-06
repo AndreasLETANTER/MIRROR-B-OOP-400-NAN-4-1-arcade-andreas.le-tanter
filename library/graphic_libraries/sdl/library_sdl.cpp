@@ -9,6 +9,9 @@
 #include "../../../src/ErrorClass/ErrorClass.hpp"
 #include "arial.cpp"
 
+/**
+ * @brief Entry point of the library
+*/
 extern "C"
 {
     IDisplayModule *entryPoint()
@@ -17,6 +20,10 @@ extern "C"
     }
 }
 
+/**
+ * @brief Init the window
+ * @return void
+*/
 void LibrarySDL::InitWindow()
 {
     _CurrentWindow = SDL_CreateWindow("Arcade",
@@ -49,6 +56,9 @@ void LibrarySDL::InitWindow()
     SDL_RenderClear(_CurrentWindowRenderer);
 }
 
+/**
+ * @brief constructor of the library
+*/
 LibrarySDL::LibrarySDL()
 {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -64,11 +74,22 @@ LibrarySDL::LibrarySDL()
     _Font = TTF_OpenFontRW(rw, 1, 28);
 }
 
+/**
+ * @brief fini the window
+ * @return void
+*/
 void LibrarySDL::FiniWindow()
 {
     SDL_Quit();
 }
 
+/**
+ * @brief update the scale factor
+ * @param _ScaleFactor
+ * @param _WindowSize
+ * @param _MapSize
+ * @return float
+*/
 float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std::pair<int, int> _MapSize)
 {
     float scaleFactor = _ScaleFactor;
@@ -82,6 +103,12 @@ float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std
     return scaleFactor;
 }
 
+/**
+ * @brief display the objects
+ * @details display the objects on the window
+ * @param _ObjectData
+ * @return void
+*/
 void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
     SDL_RenderClear(_CurrentWindowRenderer);
@@ -103,11 +130,26 @@ void LibrarySDL::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::p
     SDL_SetRenderDrawColor(_CurrentWindowRenderer, BACKGROUND_COLOR);
 }
 
+/**
+ * @brief display the score
+ * @param _Score
+ * @param x
+ * @param y
+ * @return void
+*/
 void LibrarySDL::displayScore(int _Score, int x, int y)
 {
     displayText("Score: " + std::to_string(_Score), std::pair<int, int>(x, y), Enum::Color::WHITE, Enum::Color::BLACK);
 }
 
+/**
+ * @brief display the text
+ * @param _String
+ * @param _Pos
+ * @param FrontFont
+ * @param BackFont
+ * @return void
+*/
 void LibrarySDL::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
     float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(_Pos.first, _Pos.second));
@@ -134,6 +176,11 @@ void LibrarySDL::displayText(std::string _String, std::pair<int, int> _Pos, Enum
     SDL_DestroyTexture(texture);
 }
 
+/**
+ * @brief get the lib type
+ * @return Enum::libType
+ * @details return the type of the library
+*/
 Enum::libType LibrarySDL::GetLibType()
 {
     return Enum::GRAPHIC;
@@ -148,8 +195,11 @@ std::pair<int, int> LibrarySDL::GetWindowSize()
     return (std::pair<int, int>(x, y));
 }
 
-#include <iostream>
-
+/**
+ * @brief get the user input
+ * @return char
+ * @details return the user input
+*/
 char LibrarySDL::getUserInput()
 {
     SDL_Event e;
@@ -163,6 +213,9 @@ char LibrarySDL::getUserInput()
     return -1;
 }
 
+/**
+ * @brief display the window
+*/
 void LibrarySDL::display()
 {
     SDL_RenderPresent(_CurrentWindowRenderer);

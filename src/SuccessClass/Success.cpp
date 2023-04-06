@@ -7,6 +7,9 @@
 
 #include "Success.hpp"
 
+/**
+ * @brief Return the success message
+ */
 const char *Success::what() const noexcept
 {
     return this->_message.c_str();

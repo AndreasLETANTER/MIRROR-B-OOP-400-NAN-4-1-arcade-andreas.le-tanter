@@ -8,6 +8,9 @@
 #pragma once
 #include <chrono>
 
+/**
+ * @brief Timer class
+*/
 class Timer {
     public:
         Timer() = default;
