@@ -56,6 +56,8 @@ private:
     void createPacman(int x, int y);
     void createGhosts(void);
     void moveGhostToSpawnAreaExit(int i);
+    void createGums(void);
+    bool isEmptySpace(int x, int y);
     std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> getMapBorderData(void);
     std::pair<int, int> getMapBorderStartPos(void);
     std::pair<int, int> getMapBorderSize(void);
