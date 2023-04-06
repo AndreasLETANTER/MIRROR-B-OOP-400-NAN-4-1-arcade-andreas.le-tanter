@@ -1,8 +1,9 @@
 ###############################BASE INFORMATION####################################
-cmake_minimum_required(VERSION 3.1  )
+cmake_minimum_required(VERSION 3.17.0)
 project("arcade" VERSION 0.1.0 LANGUAGES CXX)
 
 ###############################COMPILATION VARIABLES###############################
+set(CMAKE_CXX_STANDARD 20)
 set(NAME "arcade")
 set(TEST_NAME "unit_tests")
 set(GAMES_FLAGS -Wall -Werror -fpic --shared -g)
@@ -33,9 +34,11 @@ set(NCURSES
 )
 set(SFML
     library/graphic_libraries/sfml/library_sfml.cpp
+    src/ErrorClass/ErrorClass.cpp
 )
 set(SDL
     library/graphic_libraries/sdl/library_sdl.cpp
+    src/ErrorClass/ErrorClass.cpp
 )
 set(PACMAN
     library/game_libraries/pacman/Pacman.cpp

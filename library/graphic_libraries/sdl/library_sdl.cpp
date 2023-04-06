@@ -155,6 +155,9 @@ char LibrarySDL::getUserInput()
     SDL_Event e;
     
     if ((SDL_PollEvent(&e) > 0) && (e.type == SDL_KEYDOWN)) {
+        if (e.key.keysym.sym == SDLK_RETURN) {
+            return (10);
+        }
         return e.key.keysym.sym;
     }
     return -1;
