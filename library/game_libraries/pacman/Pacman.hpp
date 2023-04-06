@@ -28,6 +28,7 @@ protected:
     int _ObjectIndex = 0;
     int _MazeIndex = 0;
     bool _is_ended;
+    char _LastKey;
     std::chrono::time_point<std::chrono::system_clock> _GhostTimer = std::chrono::system_clock::now() + std::chrono::seconds(10);
     std::pair<int, int> _MapBorderStartPos  = std::make_pair(60, 15);
     std::pair<int, int> _MapBorderSize = std::make_pair(37, 30);
