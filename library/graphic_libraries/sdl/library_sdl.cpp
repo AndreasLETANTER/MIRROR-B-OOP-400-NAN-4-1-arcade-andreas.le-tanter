@@ -7,7 +7,7 @@
 
 #include "library_sdl.hpp"
 #include "../../../src/ErrorClass/ErrorClass.hpp"
-#include "arial.cpp"
+#include "arial.hpp"
 
 /**
  * @brief Entry point of the library

@@ -12,7 +12,7 @@
 #include <iostream>
 #include "library_sfml.hpp"
 #include "../../../src/ErrorClass/ErrorClass.hpp"
-#include "arial.cpp"
+#include "arial.hpp"
 
 /**
  * @brief Entry point of the library
