@@ -158,7 +158,6 @@ jobs:
           echo "summary=| Create doxygen " >> $GITHUB_OUTPUT
           echo "result=| :white_check_mark: |" >> $GITHUB_OUTPUT
 
-
   print_summary:
     runs-on: ubuntu-latest
     needs: [check_repository_cleanliness, check_program_compilation, run_units_tests, run_functionals_tests, create_doxygen]
