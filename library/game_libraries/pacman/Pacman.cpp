@@ -264,9 +264,10 @@ void Pacman::createGums()
 {
     int _GumIndex = 0;
 
-    for (int y = _MapBorderStartPos.second; y < _MapBorderStartPos.second + _MapBorderSize.second; y++) {
-        for (int x = _MapBorderStartPos.first; x < _MapBorderStartPos.first + _MapBorderSize.first; x++) {
-            if (isEmptySpace(x, y)) {
+    for (int y = _MapBorderStartPos.second + 2; y < _MapBorderStartPos.second + _MapBorderSize.second - 2; y++) {
+        for (int x = _MapBorderStartPos.first + 2; x < _MapBorderStartPos.first + _MapBorderSize.first - 2; x++) {
+            if (isEmptySpace(x, y) && ((x < _GhostSpawnAreaStartPos.first || x > _GhostSpawnAreaStartPos.first + 6)
+            || (y < _GhostSpawnAreaStartPos.second || y > _GhostSpawnAreaStartPos.second + 5))) {
                 _GumData[_GumIndex] = std::make_pair(Enum::ObjectType::ITEM, std::make_pair(x, y));
                 _GumIndex++;
             }
