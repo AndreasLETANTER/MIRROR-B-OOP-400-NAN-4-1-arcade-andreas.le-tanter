@@ -15,6 +15,9 @@
 #define STEP_X 45
 #define STEP_Y 2
 
+/**
+ * @brief Snake class
+*/
 class Snake : public IGameEngine {
     public:
         Snake();

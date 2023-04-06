@@ -14,6 +14,9 @@
 #define CHAR_SIZE_X 9.18
 #define CHAR_SIZE_Y 19.7
 
+/**
+ * @brief SFML library
+*/
 class LibrarySFML : public IDisplayModule {
     public:
         LibrarySFML();

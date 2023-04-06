@@ -9,6 +9,9 @@
 #include <map>
 #include "../graphic_libraries/IDisplayModule.hpp"
 
+/**
+ * @brief Game Engine interface
+*/
 class IGameEngine : public ILibrary {
     public:
         virtual ~IGameEngine() = default;

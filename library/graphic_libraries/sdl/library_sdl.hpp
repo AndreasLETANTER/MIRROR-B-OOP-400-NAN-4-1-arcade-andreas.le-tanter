@@ -14,6 +14,9 @@
 #define CHAR_SIZE_Y 19.7
 #define BACKGROUND_COLOR 128, 123, 232, 0
 
+/**
+ * @brief SDL library
+*/
 class LibrarySDL : public IDisplayModule {
     public:
         LibrarySDL();

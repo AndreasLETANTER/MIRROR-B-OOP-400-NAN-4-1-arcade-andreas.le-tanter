@@ -215,6 +215,10 @@ bool Nibbler::CheckObjectPosition(Enum::ObjectType _type, std::pair<int, int> _p
     return false;
 }
 
+/**
+ * @brief Restore the player data
+ * @details Restore the player data from the previous player data (used for undo)
+*/
 void Nibbler::RestorePlayerData()
 {
     for (int i = 0; i < last_player_idx; i++) {
@@ -222,6 +226,10 @@ void Nibbler::RestorePlayerData()
     }
 }
 
+/**
+ * @brief Copy the player data
+ * @details Copy the player data to the previous player data (used for undo)
+*/
 void Nibbler::CopyPlayerData()
 {
     for (int i = 0; i < last_player_idx; i++) {

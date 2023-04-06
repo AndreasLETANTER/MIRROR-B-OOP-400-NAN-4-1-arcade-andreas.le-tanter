@@ -8,6 +8,9 @@
 #include <unistd.h>
 #include "library_ncurses.hpp"
 
+/**
+ * @brief Entry point of the library
+*/
 extern "C"
 {
     IDisplayModule *entryPoint()
@@ -16,6 +19,10 @@ extern "C"
     }
 }
 
+/**
+ * @brief Init the window
+ * @return void
+*/
 void LibraryNcurses::InitWindow()
 {
     initscr();
@@ -32,12 +39,22 @@ void LibraryNcurses::InitWindow()
     start_color();
 }
 
+/**
+ * @brief fini the window
+ * @return void
+*/
 void LibraryNcurses::FiniWindow()
 {
     delwin(_CurrentWindow);
     endwin();
 }
 
+/**
+ * @brief display the objects
+ * @details display the objects on the screen
+ * @param _ObjectData
+ * @return void
+*/
 void LibraryNcurses::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::pair<int, int>>> _ObjectData)
 {
     std::map<Enum::ObjectType, std::string> _ObjectTypeDefinition;
@@ -53,11 +70,28 @@ void LibraryNcurses::displayObjects(std::map<int, std::pair<Enum::ObjectType, st
     }
 }
 
+/**
+ * @brief display the score
+ * @details display the score on the screen
+ * @param _Score
+ * @param x
+ * @param y
+ * @return void
+*/
 void LibraryNcurses::displayScore(int _Score, int x, int y)
 {
     mvwprintw(_CurrentWindow, y, x, "Score: %d", _Score);
 }
 
+/**
+ * @brief display the text
+ * @details display the text on the screen
+ * @param _String
+ * @param _Pos
+ * @param FrontFont
+ * @param BackFont
+ * @return void
+*/
 void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
     int contains = _KnownColors.count(std::pair<Enum::Color, Enum::Color>(FrontFont, BackFont));
@@ -79,22 +113,34 @@ void LibraryNcurses::displayText(std::string _String, std::pair<int, int> _Pos, 
     }
 }
 
+/**
+ * @brief get the lib type
+*/
 Enum::libType LibraryNcurses::GetLibType() 
 {
     return Enum::libType::GRAPHIC;
 }
 
+/**
+ * @brief get the window size
+*/
 std::pair<int, int> LibraryNcurses::GetWindowSize()
 {
     return (std::pair<int, int>(_CurrentWindow->_maxx, _CurrentWindow->_maxy));
 }
 
+/**
+ * @brief get the user input
+*/
 char LibraryNcurses::getUserInput()
 {
     nodelay(_CurrentWindow, TRUE);
     return wgetch(_CurrentWindow);
 }
 
+/**
+ * @brief display the window
+*/
 void LibraryNcurses::display()
 {
     wrefresh(_CurrentWindow);

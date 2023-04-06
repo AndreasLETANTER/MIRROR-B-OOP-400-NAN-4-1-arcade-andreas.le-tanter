@@ -9,6 +9,9 @@
 
 #include "../IGameEngine.hpp"
 
+/**
+ * @brief Pacman class
+*/
 class Pacman : public IGameEngine {
 public:
     Pacman() = default;

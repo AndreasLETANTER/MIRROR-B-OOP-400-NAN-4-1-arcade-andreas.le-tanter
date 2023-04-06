@@ -7,6 +7,9 @@
 
 #include "ErrorClass.hpp"
 
+/**
+ * @brief Return the error message
+*/
 const char *Error::what() const noexcept
 {
     return this->_message.c_str();

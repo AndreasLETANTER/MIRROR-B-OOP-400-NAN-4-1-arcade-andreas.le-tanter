@@ -7,6 +7,9 @@
 
 #pragma once
 
+/**
+ * @brief Enum class for the different object types
+*/
 namespace Enum {
     enum class ObjectType {
         PLAYER,
@@ -31,6 +34,9 @@ namespace Enum {
     };
 }
 
+/**
+ * @brief Interface class for the different libraries
+*/
 class ILibrary {
     public:
         virtual ~ILibrary() = default;
