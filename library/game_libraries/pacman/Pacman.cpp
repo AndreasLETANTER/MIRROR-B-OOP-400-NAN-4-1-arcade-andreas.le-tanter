@@ -192,10 +192,14 @@ void Pacman::handlePacmanMovement(char key)
         case 'd':
             _Pacman.second.first += 1;
             break;
+        case -1:
+            handlePacmanMovement(_LastKey);
+            return;
         default:
             break;
     }
     checkPacmanCollision(key);
+    _LastKey = key;
 }
 
 void Pacman::handlePacmanWallCollision(char last_key)
