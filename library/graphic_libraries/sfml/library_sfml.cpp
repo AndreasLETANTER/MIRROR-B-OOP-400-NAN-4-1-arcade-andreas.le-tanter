@@ -157,10 +157,6 @@ char LibrarySFML::getUserInput()
     sf::Event event;
 
     _CurrentWindow.pollEvent(event);
-    if (event.type == sf::Event::Closed) {
-        _CurrentWindow.close();
-        return -1;
-    }
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode == 13) {
             return 10;
