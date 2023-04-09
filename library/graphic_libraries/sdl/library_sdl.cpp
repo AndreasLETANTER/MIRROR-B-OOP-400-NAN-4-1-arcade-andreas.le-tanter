@@ -26,6 +26,17 @@ extern "C"
 */
 void LibrarySDL::InitWindow()
 {
+    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+        throw Error("Failed to initialize the SDL2 library");
+    }
+    if (TTF_Init() < 0) {
+        throw Error("Failed to initialize the SDL2_ttf library");
+    }
+    SDL_RWops* rw = SDL_RWFromMem((void*)arial_ttf, arial_ttf_len);
+    if (!rw) {
+        throw Error("Failed to initialize the font");
+    }
+    _Font = TTF_OpenFontRW(rw, 1, 28);
     _CurrentWindow = SDL_CreateWindow("Arcade",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
@@ -61,17 +72,6 @@ void LibrarySDL::InitWindow()
 */
 LibrarySDL::LibrarySDL()
 {
-    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
-        throw Error("Failed to initialize the SDL2 library");
-    }
-    if (TTF_Init() < 0) {
-        throw Error("Failed to initialize the SDL2_ttf library");
-    }
-    SDL_RWops* rw = SDL_RWFromMem((void*)arial_ttf, arial_ttf_len);
-    if (!rw) {
-        throw Error("Failed to initialize the font");
-    }
-    _Font = TTF_OpenFontRW(rw, 1, 28);
 }
 
 /**
