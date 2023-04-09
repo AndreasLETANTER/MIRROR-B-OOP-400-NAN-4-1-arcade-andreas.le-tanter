@@ -12,7 +12,7 @@
 #include <iostream>
 #include "library_sfml.hpp"
 #include "../../../src/ErrorClass/ErrorClass.hpp"
-#include "arial.cpp"
+#include "arial.hpp"
 
 /**
  * @brief Entry point of the library
@@ -72,22 +72,6 @@ void LibrarySFML::FiniWindow()
 }
 
 /**
- * @brief update the scale factor
-*/
-float UpdateScaleFactor(float _ScaleFactor, std::pair<int, int> _WindowSize, std::pair<int, int> _MapSize)
-{
-    float scaleFactor = _ScaleFactor;
-
-    if (_MapSize.first * CHAR_SIZE_X * scaleFactor > _WindowSize.first) {
-        scaleFactor = _WindowSize.first / (_MapSize.first * CHAR_SIZE_X);
-    }
-    if (_MapSize.second * CHAR_SIZE_Y * scaleFactor > _WindowSize.second) {
-        scaleFactor = _WindowSize.second / (_MapSize.second * CHAR_SIZE_Y);
-    }
-    return scaleFactor;
-}
-
-/**
  * @brief display the objects
  * @details display the objects on the screen
  * @param _ObjectData
@@ -98,8 +82,7 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
 
     for (auto &it : _ObjectData) {
         sf::RectangleShape rectangle(sf::Vector2f(CHAR_SIZE_X, CHAR_SIZE_Y));
-        float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _ObjectData[it.first].second);
-        sf::Vector2f sfmlPos = sf::Vector2f((_ObjectData[it.first].second.first * CHAR_SIZE_X * scaleFactor), (_ObjectData[it.first].second.second * CHAR_SIZE_Y * scaleFactor));
+        sf::Vector2f sfmlPos = sf::Vector2f((_ObjectData[it.first].second.first * CHAR_SIZE_X), (_ObjectData[it.first].second.second * CHAR_SIZE_Y));
         rectangle.setFillColor(_ObjectDefinition[_ObjectData[it.first].first]);
         rectangle.setPosition(sfmlPos.x, sfmlPos.y);
         _CurrentWindow.draw(rectangle);
@@ -115,8 +98,7 @@ void LibrarySFML::displayObjects(std::map<int, std::pair<Enum::ObjectType, std::
 */
 void LibrarySFML::displayScore(int _Score, int x, int y)
 {
-    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), std::pair<int, int>(x, y));
-    sf::Vector2f sfmlPos = sf::Vector2f(x * CHAR_SIZE_X * scaleFactor, y * CHAR_SIZE_Y * scaleFactor);
+    sf::Vector2f sfmlPos = sf::Vector2f(x * CHAR_SIZE_X, y * CHAR_SIZE_Y);
     _Text.setString("Score: " + std::to_string(_Score));
     _Text.setPosition(sfmlPos.x, sfmlPos.y);
     _Text.setFillColor(_ColorDefinition[Enum::Color::WHITE]);
@@ -135,8 +117,7 @@ void LibrarySFML::displayScore(int _Score, int x, int y)
 */
 void LibrarySFML::displayText(std::string _String, std::pair<int, int> _Pos, Enum::Color FrontFont, Enum::Color BackFont)
 {
-    float scaleFactor = UpdateScaleFactor(1, GetWindowSize(), _Pos);
-    sf::Vector2f sfmlPos = sf::Vector2f(_Pos.first * CHAR_SIZE_X * scaleFactor, _Pos.second * CHAR_SIZE_Y * scaleFactor);
+    sf::Vector2f sfmlPos = sf::Vector2f(_Pos.first * CHAR_SIZE_X, _Pos.second * CHAR_SIZE_Y);
     _Text.setString(_String);
     _Text.setPosition(sfmlPos.x, sfmlPos.y);
     _Text.setFillColor(_ColorDefinition[FrontFont]);
@@ -176,10 +157,6 @@ char LibrarySFML::getUserInput()
     sf::Event event;
 
     _CurrentWindow.pollEvent(event);
-    if (event.type == sf::Event::Closed) {
-        _CurrentWindow.close();
-        return -1;
-    }
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode == 13) {
             return 10;

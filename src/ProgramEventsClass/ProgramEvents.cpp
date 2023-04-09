@@ -49,10 +49,14 @@ void ProgramEvents::loadLibraryAsked(std::string libPath)
             currentGraphicLibrary = tempInstanceGraphic;
         } else if (module->GetLibType() == Enum::GAME) {
             delete tempInstanceGame;
-            std::cout << "This library is not a game library" << std::endl;
+            std::cout << "This library is not a graphic library" << std::endl;
             std::cout << "Swapping to the next library..." << std::endl;
             sleep(1);
-            currentGraphicLibrary = _Init->getGraphicalInstances()[0];
+            if (_Init->getGraphicalInstances().size() > 0) {
+                currentGraphicLibrary = _Init->getGraphicalInstances()[0];
+            } else {
+                throw Error("Error: No graphical library found");
+            }
         }
 }
 
