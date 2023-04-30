@@ -1,1 +1,1 @@
-
+Arcade est un projet gérant plusieurs jeux et plusieurs bibliothèques graphiques chargées dynamiquement. Le programme vous permet de changer de jeu ou de graphisme en cours d'exécution, tous les jeux et graphismes disposent d'une documentation vous permettant de créer vos propres jeux et graphismes.
