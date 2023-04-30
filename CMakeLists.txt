@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.17.0)
 project("arcade" VERSION 0.1.0 LANGUAGES CXX)
 
 ###############################COMPILATION VARIABLES###############################
-set(CMAKE_CXX_STANDARD 20)
 set(NAME "arcade")
 set(TEST_NAME "unit_tests")
 set(GAMES_FLAGS -Wall -Werror -fpic --shared -g)
